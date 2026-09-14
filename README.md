@@ -15,10 +15,14 @@ happyfishagent/
     │   └── automation-playbook.md       ← 通用技术手册（跨活动复用）
     ├── scripts/
     │   ├── grab.py                      ← adb 截图（规避中文路径坑）
-    │   └── zoom.py                      ← 局部裁剪放大
+    │   ├── zoom.py                      ← 局部裁剪放大
+    │   ├── piece_identify.py            ← 按模板识别棋盘每格是空位还是哪块拼图
+    │   └── line_shift_solver.py         ← 整行/整列循环平移棋盘的 BFS 求解器
     └── activities/                      ← 子技能：一个活动一个
-        └── romance-house/
-            └── SKILL.md                 ← 浪漫满屋 · 约会日历
+        ├── romance-house/
+        │   └── SKILL.md                 ← 浪漫满屋 · 约会日历
+        └── daily-magic-puzzle/
+            └── SKILL.md                 ← 每日魔幻拼图 · 4x4 环面滑动拼图
 ```
 
 **设计约定：主技能管「怎么干」（通用流程 / 环境 / 红线），子技能管「这个活动是什么」（界面 / 规则 / 坐标）。**
@@ -41,6 +45,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | 活动 | 类型 | 状态 |
 |---|---|---|
 | [浪漫满屋](happyfish-activity-automation/activities/romance-house/SKILL.md) | 常驻 · 约会日历拼图（每日限次） | ✅ 已破解，10/10 全清 |
+| [每日魔幻拼图](happyfish-activity-automation/activities/daily-magic-puzzle/SKILL.md) | 每日 · 4x4 环面滑动拼图（4 块） | ✅ 已破解，5 步通关，开心宝消耗 0 |
 | 课间十分钟 | 限时 · 金币棋盘 | ⏳ 待整理为子技能 |
 
 ## 三条硬红线
