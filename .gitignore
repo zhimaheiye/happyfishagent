@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# 临时产物
+*.log
+*.tmp
+
+# 截图与调试产物（技能里不放图，避免仓库膨胀）
+shots/
+_vgtmp/
+*.shot.png
