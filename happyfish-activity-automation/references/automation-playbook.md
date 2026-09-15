@@ -72,3 +72,35 @@ ADB="D:/MuMuPlayer/nx_device/15.0/shell/adb.exe"; DEV="127.0.0.1:7555"
 | X / 取消 | 关闭弹窗 | 点前必须重新截图确认 |
 
 拿不准含义的按钮 → 先放大读文字；读不清就停下来问人。
+
+## 六、异常行为取证（界面「自己变了」怎么办）
+
+**先怀疑环境，别怀疑自己。** 2026-09-15 实战：拼图素材做完后盘面变成了另一局，
+第一反应是「模拟器备份恢复把游戏重启了」——**猜错了**。真因是游戏自己的定时器
+（`MiniGameController::tryToRandNewGame()`，每 60 秒重随机一次）。取证顺序：
+
+| 步 | 命令 | 回答什么 |
+|---|---|---|
+| 1 | `adb shell uptime` | 模拟器有没有重启过（uptime 短 = 刚重启） |
+| 2 | `adb shell ps -A -o PID,ELAPSED,NAME` | 目标 App 有没有重启（ELAPSED ≈ 开机时长 → 开机自启，全程没重启过） |
+| 3 | `adb shell "dumpsys window \| grep -E 'mCurrentFocus\|mFocusedApp'"` | 现在到底在哪个 Activity |
+| 4 | `adb shell "logcat -d -v threadtime -t 6000"` → 存文件再读 | 场景切换 / 定时器 / 自动重随机等**真实原因** |
+
+**读 logcat 的方法（关键）**：原始 log 九成是噪声（音频、GC、每分钟自动存档）。
+写个小脚本按时间窗过滤，再把数字归一化成 `#` 做**「形态去重」**（同一形态只留首次出现）——
+一眼看出这段窗口里冒出来的「新事情」。就是靠这招抓到上面那个 60 秒定时器的。
+
+**宿主侧取证**（区分「模拟器坏了」还是「游戏在动」）：
+
+```powershell
+(Get-CimInstance Win32_OperatingSystem).LastBootUpTime        # Windows 有没有重启
+Get-Process | ? { $_.ProcessName -match "MuMu|Nemu" } | Select ProcessName,Id,StartTime
+```
+
+- `D:\MuMuPlayer\vms\<实例>\logs\`：`VBox.log*`（VM 一重启就轮转）、`shell.log`。
+- `D:\MuMuPlayer\nx_device\15.0\shell\cef-crash-files\restart-guard\`：**每多一个 `rg-*.txt` = 一次前端崩溃自愈**。
+  本机实测积了 **~180 个**（2026-08-30 起）→ **MuMu 会周期性地崩一下再自愈重启，是常态**，
+  别把它误判成「用户操作过」或「备份恢复」。
+
+**⚠️ 头条纪律：截图有时效。** 界面元素会被游戏自己的定时器改写（实测拼图盘面 **60 秒**重随机一次）。
+凡「截图 → 慢分析 → 再执行」的流程，先问一句：**这张图还有效吗？** 执行前一律**重新截图复核**。
