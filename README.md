@@ -17,6 +17,7 @@ happyfishagent/
     │   ├── grab.py                      ← adb 截图（规避中文路径坑）
     │   ├── zoom.py                      ← 局部裁剪放大
     │   ├── piece_identify.py            ← 按模板识别棋盘每格是空位还是哪块拼图
+    │   ├── piece_numbering.py           ← 用「未开始帧」反推正确排布，编号并导出 MAA 模板
     │   └── line_shift_solver.py         ← 整行/整列循环平移棋盘的 BFS 求解器
     └── activities/                      ← 子技能：一个活动一个
         ├── romance-house/
