@@ -3,16 +3,27 @@
 
 思路（2026-09-15 实测有效，NCC 0.93 vs 次佳 0.53）：
   1) 「未开始帧」的中央 2x2 就是正确排布，但正中压着金色 ▶ 圆钮 -> 用圆形掩膜挖掉
-  2) 打乱后帧里逐格按饱和度找出 4 块拼块
+  2) 打乱后帧里逐格判「是拼块还是灰格」
   3) 枚举 24 种排布，与未开始帧做**归一化互相关(NCC)**（自带亮度/对比度归一化，
      能吃掉两帧之间的明暗差异；纯 MAE 会被亮度差淹没，不可用）
   4) 最优排布按「左→右、上→下」编号 1~4，从打乱后帧裁出即得干净模板
+
+判空判据（2026-09-16 修正）：
+  灰格是**中性灰遮罩**（几乎无彩色像素、纹理平坦）；拼块是彩色图像。故取
+      score = frac(sat>40) + 灰度std/100
+  实测「星空鱼」：拼块 1.39~1.70，灰格 0.17~0.35，断层极大。
+  ⚠️ 早期用「饱和度均值」判空，会被**深蓝星空**这种「均值不高但彩色像素很多」的
+  拼块骗过（自动阈值 86.2 只找到 2/4 块）——别退回那个判据。
 
 用法:
   python piece_numbering.py --idle idle.png --shuffled shuf.png \
       --xs 431,570,709,847 --ys 150,288,427,565 --cell 138 \
       --btn 639.5,357.5 --btn-r 95 \
-      --out-dir "D:/.../拼块模板/蛋糕鱼_20260915" --prefix 蛋糕鱼
+      --out-dir "D:/.../拼块模板/蛋糕鱼_20260915" --prefix 蛋糕鱼 --label 蛋糕鱼
+
+自动判块失灵时（打印 diagnostic 表后仍不对）：
+  --cells "r1c2,r1c3,r3c4,r4c4"   手动指定 4 块所在格
+  --sat 45                        退回旧的 sat 均值阈值模式
 """
 import argparse
 import itertools
@@ -22,42 +33,57 @@ import sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-EMPTY_SAT_GAP_MIN = 12.0   # 灰格与拼块的饱和度至少要拉开这么多才认
+MIN_TOP4_GAP = 0.30   # top-4 与第 5 名的分差下限，低于此值提示人工核对
 
 
 def load_rgb(p):
     return np.asarray(Image.open(p).convert("RGB")).astype(float)
 
 
-def find_blocks(shuf, xs, ys, cell, sat_thr=None):
-    """逐格判空：灰底反光 sat 明显低，拼块 sat 明显高。阈值自动取最大间隙中点。"""
+def cell_score(cel):
+    """判「拼块 vs 灰格」：彩色像素占比 + 灰度标准差/100。
+
+    灰格 = 中性灰遮罩 -> 两项都低；拼块 = 彩色图像 -> 至少一项高。
+    单看 sat 均值会漏掉深蓝星空（均值低、彩像素多）。
+    """
+    sat = cel.max(axis=2) - cel.min(axis=2)
+    frac = float((sat > 40).mean())
+    gray = cel.mean(axis=2)
+    return frac + float(gray.std()) / 100.0
+
+
+def find_blocks(shuf, xs, ys, cell, sat_thr=None, cells=None):
     items = []
     for r in range(len(ys)):
         for c in range(len(xs)):
             x0, y0 = int(xs[c] - cell / 2), int(ys[r] - cell / 2)
             cel = shuf[y0:y0 + cell, x0:x0 + cell]
-            sat = float((cel.max(axis=2) - cel.min(axis=2)).mean())
-            items.append(((r + 1, c + 1), sat, cel))
+            sat = cel.max(axis=2) - cel.min(axis=2)
+            items.append(((r + 1, c + 1), cell_score(cel), float(sat.mean()), cel))
 
-    if sat_thr is None:
-        vals = sorted(i[1] for i in items)
-        gap, idx = -1.0, -1
-        for k in range(len(vals) - 1):
-            if vals[k + 1] - vals[k] > gap:
-                gap, idx = vals[k + 1] - vals[k], k
-        if gap < EMPTY_SAT_GAP_MIN:
-            raise SystemExit("饱和度没有明显断层（最大间隙 %.1f），拼块位置判不出来，请手动看 p*_cells 图后传 --sat"
-                             % gap)
-        sat_thr = (vals[idx] + vals[idx + 1]) / 2
-        print("自动阈值 sat > %.1f（断层 %.1f）" % (sat_thr, gap))
+    if cells:
+        want = {s.strip() for s in cells.split(",")}
+        blocks = {"r%dc%d" % pos: cel
+                  for pos, sc, sm, cel in items if "r%dc%d" % pos in want}
+        print("（手动指定）拼块 %d 块：%s" % (len(blocks), list(blocks.keys())))
+    elif sat_thr is not None:
+        blocks = {"r%dc%d" % pos: cel
+                  for pos, sc, sm, cel in items if sm > sat_thr}
+        print("（旧判据 sat 均值 > %.1f）拼块 %d 块：%s"
+              % (sat_thr, len(blocks), list(blocks.keys())))
+    else:
+        print("=== 逐格判分（score = 彩色像素占比 + 灰度std/100）===")
+        for pos, sc, sm, cel in sorted(items):
+            print("  r%dc%d  score=%5.3f  satMean=%5.1f" % (pos[0], pos[1], sc, sm))
+        srt = sorted(items, key=lambda t: -t[1])
+        gap = srt[3][1] - srt[4][1]
+        print("top4 切分间隙 = %.3f%s"
+              % (gap, "（干净）" if gap >= MIN_TOP4_GAP else "  ⚠️ 偏小，务必人工核对！"))
+        blocks = {"r%dc%d" % pos: cel for pos, sc, sm, cel in srt[:4]}
+        print("自动判定拼块 4 块：%s" % list(blocks.keys()))
 
-    blocks = {}
-    for pos, sat, cel in items:
-        if sat > sat_thr:
-            blocks["r%dc%d" % pos] = cel
-    print("拼块 %d 块：%s" % (len(blocks), list(blocks.keys())))
     if len(blocks) != 4:
-        print("⚠️ 不是 4 块，请人工确认（其余可能是灰底反光/被遮挡）")
+        print("⚠️ 不是 4 块（%d），请人工核对；可用 --cells 手动指定。" % len(blocks))
     return blocks
 
 
@@ -91,7 +117,8 @@ def main():
     ap.add_argument("--cell", type=int, default=138)
     ap.add_argument("--btn", default="639.5,357.5", help="▶ 圆钮中心 x,y")
     ap.add_argument("--btn-r", type=float, default=95.0, help="▶ 掩膜半径")
-    ap.add_argument("--sat", type=float, default=None, help="手动指定饱和度阈值")
+    ap.add_argument("--cells", default=None, help="手动指定 4 块所在格，如 r1c2,r1c3,r3c4,r4c4")
+    ap.add_argument("--sat", type=float, default=None, help="退回旧判据：sat 均值阈值")
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--prefix", default="piece")
     ap.add_argument("--label", default="", help="示意图上的中文标题，如「蛋糕鱼」")
@@ -103,7 +130,9 @@ def main():
     bx, by = [float(v) for v in a.btn.split(",")]
 
     idle, shuf = load_rgb(a.idle), load_rgb(a.shuffled)
-    blocks = find_blocks(shuf, xs, ys, cell, a.sat)
+    blocks = find_blocks(shuf, xs, ys, cell, a.sat, a.cells)
+    if len(blocks) != 4:
+        raise SystemExit("拼块数不是 4，停手（请看上面的逐格判分表，用 --cells 指定）")
     names = sorted(blocks.keys())
 
     # 未开始帧的中央 2x2 = 正确排布；挖掉 ▶ 圆

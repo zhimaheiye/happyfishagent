@@ -46,7 +46,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | 活动 | 类型 | 状态 |
 |---|---|---|
 | [浪漫满屋](happyfish-activity-automation/activities/romance-house/SKILL.md) | 常驻 · 约会日历拼图（每日限次） | ✅ 已破解，10/10 全清 |
-| [每日魔幻拼图](happyfish-activity-automation/activities/daily-magic-puzzle/SKILL.md) | 每日 · 4x4 环面滑动拼图（4 块） | ✅ 已破解，5 步通关，开心宝消耗 0 |
+| [每日魔幻拼图](happyfish-activity-automation/activities/daily-magic-puzzle/SKILL.md) | 每日 · 环面滑动拼图（2x2/3x3/4x4 三档，棋盘固定 4×4） | ✅ **全流程自动化**（主界面→游乐园→魔方→选难度→拼完），开心宝消耗 0；每天 4:00 刷新；通关即停不代领 |
 | 课间十分钟 | 限时 · 金币棋盘 | ⏳ 待整理为子技能 |
 
 ## 三条硬红线
