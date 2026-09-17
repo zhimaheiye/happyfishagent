@@ -210,6 +210,7 @@ agent_created: true
 - `scripts/calib_calendar.py` — **日历网格自动标定**（浪漫满屋）：一条命令输出 4 个行中心，并校验 7 个列锚点。**坐标别再手推了，跑它。**
 - `tools/mumu_dev.py` — **★ 实例号 → adb 设备串**（走 MuMuManager 的 `adb_port`）。**别再各自 `pick_device()` 取「第一个」**
 - `tools/mfa_guard.py` — **★ 挂机守护**：每 1 h 体检 模拟器/adb/游戏进程/MFA 队列，只有硬异常才自动恢复（四条安全阀）
+  > 队列恢复两条路：环境刚修过 → 跑整队列；环境本来就好 → **右键失败任务「单独运行」→ 跑完 → 点「开始任务」**（第七节 7.2.1）
   > 上面两个在**项目根目录** `D:\开心水族箱活动经验\tools\` 下（不在本技能的 `scripts/` 里）。
 - `references/automation-playbook.md` — 环境、双通道连接、兜底命令、读界面纪律、红线表、**挂机运维与守护（第七节）**
 - `activities/<活动>/SKILL.md` — 各活动玩法事实
