@@ -8,12 +8,36 @@
 |---|---|
 | 模拟器 | MuMu Player，分辨率 **1280×720** |
 | adb | `D:\MuMuPlayer\nx_device\15.0\shell\adb.exe`（MuMu 自带） |
-| 设备 | `127.0.0.1:7555` |
+| **MuMu 命令行** | `D:\MuMuPlayer\nx_main\MuMuManager.exe`（查实例状态 / 启停实例，见下） |
+| **挂机实例** | **实例 1** = `MuMu安卓设备-1` → 设备串 **`127.0.0.1:16416`**（同一个口也叫 `emulator-5556`） |
 | 截图中转目录 | `C:\Users\Administrator\.workbuddy\_vgtmp`（**必须是 ASCII 路径**） |
-| Python（带 Pillow 的隔离 venv） | `C:\Users\Administrator\.workbuddy\binaries\python\envs\default\Scripts\python.exe` |
+| Python（带 Pillow） | `C:\Users\Administrator\.workbuddy\binaries\python\envs\default\Scripts\python.exe` |
+
+**★ 实例号 ↔ 设备串（2026-09-17 实测，别再猜端口）**
+
+| 关系 | 公式 | 实例 1 的值 |
+|---|---|---|
+| adb 串口 | `16384 + 32n` | `127.0.0.1:16416` |
+| emulator 控制台口 | `5554 + 2n` | `emulator-5556` |
+| 实例名 | `MuMu安卓设备-<n>`（n=0 无后缀） | `MuMu安卓设备-1` |
+
+```bash
+MGR="D:/MuMuPlayer/nx_main/MuMuManager.exe"
+"$MGR" info -v all           # JSON：is_process_started / is_android_started / player_state / adb_port
+"$MGR" control -v 1 launch   # 拉起实例（另有 shutdown / restart）
+"$MGR" control -v 1 app -h   # 控制实例内 App
+```
+
+- ✅ **统一用 `tools/mumu_dev.py` 解析设备**（`pick_device()` / `vm_info()` / `vm_serial()`）：
+  它走 MuMuManager 的 `adb_port`，**不猜、不取「第一个」**。
+- ⚠️ **`adb devices` 会同时挂着多个设备，且列表顺序每次都在变** —— 实测同时出现
+  `127.0.0.1:16416`（挂机那台）+ `emulator-5554`（**别的实例**）+ `emulator-5556`（16416 的 emulator 口）。
+  **「取第一个」会跑到别的实例上，点下去毫无反应、还不报错。**
 
 **坑**：
-- ⚠️ **端口会变（实测见过 `7555` / `16416` / `emulator-5556`）** → 每次开工先 `adb devices` 看实际端口，**别写死**。
+- ⚠️ **端口会变（实测见过 `7555` / `16416` / `emulator-5556`）** → 别写死，按上面的实例公式或 `mumu_dev.vm_serial()` 取。
+- ⚠️ **`uiautomation` / `comtypes` 只装在 venv 里**（`envs\default`），系统 Python 和 `versions\3.13.12\python.exe` **都没有** →
+  **凡是要动 Windows 桌面窗口（MFA 任务管理器）的脚本，必须用 venv 那个解释器跑**，否则 `ImportError`。
 - ⚠️ adb **不认中文路径** → pull 目标必须是纯 ASCII 目录。
 - ⚠️⚠️ **本机沙箱会在每条 Bash 命令结束时砍掉整棵进程树**，adb daemon 跟着死 → 下一条命令里的设备列表是**空的**。
   - **规矩：`connect` + 操作 + 截图 + pull 必须写在同一条 Bash 命令里。**
@@ -118,3 +142,63 @@ Get-Process | ? { $_.ProcessName -match "MuMu|Nemu" } | Select ProcessName,Id,St
 
 **⚠️ 头条纪律：截图有时效。** 界面元素会被游戏自己的定时器改写（实测拼图盘面 **60 秒**重随机一次）。
 凡「截图 → 慢分析 → 再执行」的流程，先问一句：**这张图还有效吗？** 执行前一律**重新截图复核**。
+
+## 七、挂机运维：MFA 任务队列与闪退守护（2026-09-17 新增）
+
+挂机本身不是活动玩法，但它**随时会把模拟器抢走**（MFA 跑队列时你再拿 adb 去点 = 跟它抢界面）。
+动手做活动前，先确认挂机状态。
+
+### 7.1 MFA 是什么、怎么判它在跑
+
+- 程序：`D:\happyfishgame\client_avalonia\MaaHappyFish.exe`（MFAAvalonia + 开心水族箱小助手）
+- 游戏包名：**`com.happyelements.happyfishandroidcns`**
+- 挂机队列实测 **6 项**：`启动游戏 / 收鱼产物（双缸轮换） / 开贝壳 / 海獭摸宝 / 日常收尾（零点） / 日常收尾（四点）`
+
+**★ 判「在跑 / 跑完 / 挂了」一律读 MFA 自己的日志** `logs\log-YYYYMMDD.log`，**别用按钮文字轮询**：
+
+| 标记 | 含义 |
+|---|---|
+| `准备执行任务队列：任务数量=N` | 队列启动（N=6 = 挂机全队列；N=1 = 右键「单独运行」） |
+| `任务已全部完成！` | 队列正常跑完 |
+| `已放弃本次任务` | 被中止 —— ⚠️ **可能是用户自己点的停止**，别当成"跑完"去自动恢复 |
+| `任务运行失败！` / `任务失败：xxx` | 真失败 |
+| `截图超时，已断开连接` + `连接状态变更：未连接` | 模拟器/游戏崩了 |
+
+### 7.2 挂机守护 `tools/mfa_guard.py`
+
+每 1 小时体检：模拟器进程/安卓 → adb → 游戏进程 → MFA 队列 → 日志指纹。
+**健康就纯只读退出；硬异常才动手**：拉起模拟器 → `adb connect` → `monkey` 启动游戏 → 点「开始任务」→ 用日志正向验证。
+
+```bash
+PYV="C:/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python.exe"
+"$PYV" tools/mfa_guard.py --check    # 只体检，绝不动手
+"$PYV" tools/mfa_guard.py            # 体检 + 异常自动恢复
+```
+
+结果看 `tools/guard_status.txt`（`result`：healthy / fixed / fix_failed / skipped_user_active / fix_suppressed / problems_check_only）。
+
+**四条安全阀（全是踩出来的）**：
+
+1. **环境正常但队列空闲 → 不动**。那是队列正常跑完，不是闪退。
+2. **MFA 窗口在前台 → 跳过**（`skipped_user_active`）：用户操作时绝不抢界面。
+3. **熔断**：3 小时内已自动恢复 2 次仍异常 → 停手只报警（`fix_suppressed`）。
+4. **绝不为了"让队列跑起来"去点游戏内的任何按钮。**
+
+### 7.3 ⚠️ 挂机断线的大头其实是「游戏内弹窗」，不是闪退
+
+2026-09-17 实测：模拟器好好的（`player_state=start_finished`），挂机却反复失败 ——
+根因是游戏卡在一个**需要人拍板的弹窗**上：
+
+> 驯鹿鱼送收礼物 · 「您太受欢迎啦！当前剩余礼物不够回赠所有好友哦，是否直接赠送部分好友呢？」
+> 【直接赠送】(橙)　【返回】(绿)
+
+MFA 的「收鱼产物」任务进到该界面后被卡住 → `页面门禁未通过，已安全停止且未继续点击`
+→ 队列其余 5 项接连失败（**只有「启动游戏」成功**）。
+
+**纪律**：
+
+- 这类弹窗涉及「**送不送 / 花不花 / 领不领**」的决策 → **一律停下来问用户**，绝不代点
+  （送礼物是对**外**行为，更不许自作主张）。
+- ✅ 好消息：MFA 自带**门禁保护** —— 遇到不认识的界面会「安全停止且未继续点击」，**不会乱点付费/赠送按钮**。
+- ⚠️ 所以「**模拟器没崩、但挂机一直失败**」这种情形，重启模拟器毫无用处 ——
+  **第一步永远是截图看游戏当前在哪个界面**。

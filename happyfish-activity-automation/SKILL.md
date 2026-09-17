@@ -90,6 +90,10 @@ agent_created: true
 
 ## 主循环（每一轮都走）
 
+0. **先确认挂机状态**（2026-09-17 新增）：挂机（MFA 任务队列）随时会把模拟器抢走 ——
+   做事前先看 `tools/guard_status.txt` 或 MFA 日志，**挂机在跑时别拿 adb 去点活动**，两边会打架。
+   另：挂机"断线"多半是**游戏卡在需要人拍板的弹窗**上，不是模拟器崩了 → 第一步截图看当前界面。
+   详见 `references/automation-playbook.md` **第七节**。
 1. **连设备** → maa-mcp `find_adb_device_list` → `connect_adb_device`，拿到 `controller_id`。MCP 返回空/`false` 时立刻改走 adb 兜底（见 `references/automation-playbook.md`）。
    - MCP 若一直是 `Still connecting`（未就绪），**不要干等**，直接走 adb 兜底；adb 通道全程够用。
 2. **截图** → 一张全屏定位，再按关键区域截若干张。
@@ -204,7 +208,10 @@ agent_created: true
 - `scripts/detect_pool.py` — **卡池槽位测位**（浪漫满屋右侧 3 槽）：扫描饱和天蓝底，输出每张卡片的 y 区间与图标中心坐标，免目测换算
 - `scripts/diff_cells.py` — **两帧逐格差分**（默认浪漫满屋 28 格）：精确列出哪几格真的变了，未变格 = 0.0
 - `scripts/calib_calendar.py` — **日历网格自动标定**（浪漫满屋）：一条命令输出 4 个行中心，并校验 7 个列锚点。**坐标别再手推了，跑它。**
-- `references/automation-playbook.md` — 环境、双通道连接、兜底命令、读界面纪律、红线表
+- `tools/mumu_dev.py` — **★ 实例号 → adb 设备串**（走 MuMuManager 的 `adb_port`）。**别再各自 `pick_device()` 取「第一个」**
+- `tools/mfa_guard.py` — **★ 挂机守护**：每 1 h 体检 模拟器/adb/游戏进程/MFA 队列，只有硬异常才自动恢复（四条安全阀）
+  > 上面两个在**项目根目录** `D:\开心水族箱活动经验\tools\` 下（不在本技能的 `scripts/` 里）。
+- `references/automation-playbook.md` — 环境、双通道连接、兜底命令、读界面纪律、红线表、**挂机运维与守护（第七节）**
 - `activities/<活动>/SKILL.md` — 各活动玩法事实
 
 > ⚠️ MCP 通道不稳定（可能连上后 `screencap`/`swipe` 返回空或 `false`），**adb 兜底命令必须放在同一条命令里**（`connect` + 操作），否则 daemon 重启会丢连接。
