@@ -9,6 +9,8 @@
 
 ```
 happyfishagent/
+├── assets/                              ← 二进制素材库（供其它项目取用，**不随技能安装**）
+│   └── daily-magic-puzzle/              ← 每日魔幻拼图：拼块模板 / 导航图 / 参考帧
 └── happyfish-activity-automation/       ← 主技能（umbrella，总入口）
     ├── SKILL.md                         ← 红线 + 主循环 + 进/出导航 + 子技能路由
     ├── references/
@@ -58,6 +60,19 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | [鱼宝乐园（养鱼宝宝）](happyfish-activity-automation/activities/fish-baby-hatch/SKILL.md) | 常驻 · 养成（喂食+玩耍+喂奶三步） | ✅ 已收录，含入口导航与三步流程 |
 | 深海寻鱼（深海地图） | 分层迷宫 · 潜艇下潜 | ⏳ 待整理为子技能（档案见 `活动档案/深海地图.md`） |
 | 课间十分钟 | 限时 · 金币棋盘 | ⏳ 待整理为子技能（档案见 `活动档案/课间十分钟.md`） |
+
+## 素材库（`assets/`）
+
+可远程获取的**二进制素材**，给需要拼块模板 / 参考帧的其它项目用。
+
+| 目录 | 内容 |
+|---|---|
+| [`assets/daily-magic-puzzle/`](assets/daily-magic-puzzle/README.md) | 每日魔幻拼图：5 套拼块模板（蛋糕鱼 / 炮弹鱼(绿) / 紫衣锦鲤 / 巧克力鱼(绿) / 首日未定名）、进·出导航图、参考帧 |
+
+**MAA 直接用**：模板为 **138×138 RGB PNG（无 alpha）**，按正确排布「左→右、上→下」编号 1~4；
+要求同分辨率 **1280×720**，`roi` 建议 `[346,82,920,654]`，阈值 0.8 起。详见该目录 `README.md`。
+
+> 素材放在技能包外，所以 `cp -r happyfish-activity-automation ~/.workbuddy/skills/` 安装技能时**不会**连带搬运。
 
 ## 三条硬红线
 
