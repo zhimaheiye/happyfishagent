@@ -51,6 +51,17 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 
 主技能会被自动加载；子技能由主技能按活动名路由读取，不需要单独安装。
 
+## 更新与同步（改完技能文件后的固定收尾）
+
+技能文件有**两份生效副本**：本仓库 + WorkBuddy 用户级技能目录 `~/.workbuddy/skills/`（WorkBuddy 实际加载的是后者）。只改一份，下次加载的还是旧经验。改完任何技能文件后按这个闭环收尾，缺一不可：
+
+1. **commit + push** 本仓库；
+2. **校验远程已到位**：`git ls-remote origin refs/heads/main` 确认指向新 commit —— push 完不校验等于没 push（09-17 出现过一轮「本地已改、技能目录已同步、仓库却还没 push」的半截状态）；
+3. **同步回技能目录**：`cp -r happyfish-activity-automation ~/.workbuddy/skills/`（本机 Windows 实际用 robocopy）；
+4. **逐一校验一致**：改过的文件（最好全量）用 diff / md5 对比仓库与技能目录，确认两边真是同一版。
+
+> 实践记录：09-16 收尾「4 个文件逐一校验一致，远程 `refs/heads/main` 已确认指向 `673a65f`」；09-18 全量核对 21/21 文件 md5 一致。
+
 ## 已收录活动
 
 | 活动 | 类型 | 状态 |
