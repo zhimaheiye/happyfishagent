@@ -10,7 +10,8 @@
 ```
 happyfishagent/
 ├── assets/                              ← 二进制素材库（供其它项目取用，**不随技能安装**）
-│   └── daily-magic-puzzle/              ← 每日魔幻拼图：拼块模板 / 导航图 / 参考帧
+│   ├── daily-magic-puzzle/              ← 每日魔幻拼图：拼块模板 / 导航图 / 参考帧
+│   └── mijing-gate/                     ← 秘境之门：入口导航图 / 参考帧 / 采集样本
 └── happyfish-activity-automation/       ← 主技能（umbrella，总入口）
     ├── SKILL.md                         ← 红线 + 主循环 + 进/出导航 + 子技能路由
     ├── references/
@@ -32,8 +33,12 @@ happyfishagent/
         │   └── SKILL.md                 ← 浪漫满屋 · 约会日历
         ├── daily-magic-puzzle/
         │   └── SKILL.md                 ← 每日魔幻拼图 · 4x4 环面滑动拼图
-        └── fish-baby-hatch/
-            └── SKILL.md                 ← 鱼宝乐园 · 养鱼宝宝
+        ├── tailor-shop/
+        │   └── SKILL.md                 ← 巧手裁缝铺 · 精选布料 / 细密针脚
+        ├── fish-baby-hatch/
+        │   └── SKILL.md                 ← 鱼宝乐园 · 养鱼宝宝
+        └── mijing-gate/
+            └── SKILL.md                 ← 秘境之门 · 送鱼任务
 ```
 
 **设计约定：主技能管「怎么干」（通用流程 / 环境 / 红线），子技能管「这个活动是什么」（界面 / 规则 / 坐标 / 进·出导航）。**
@@ -69,6 +74,8 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | [浪漫满屋](happyfish-activity-automation/activities/romance-house/SKILL.md) | 常驻 · 约会日历拼图（每日限次） | ✅ **全流程自动化**（珊瑚→气泡→大厅→约会→通关→X 退出），三轮均 10/10，开心宝消耗 0 |
 | [每日魔幻拼图](happyfish-activity-automation/activities/daily-magic-puzzle/SKILL.md) | 每日 · 环面滑动拼图（2x2/3x3/4x4 三档，棋盘固定 4×4） | ✅ **全流程自动化**（主界面→游乐园→魔方→选难度→拼完），开心宝消耗 0；每天 4:00 刷新；通关即停不代领 |
 | [鱼宝乐园（养鱼宝宝）](happyfish-activity-automation/activities/fish-baby-hatch/SKILL.md) | 常驻 · 养成（喂食+玩耍+喂奶三步） | ✅ 已收录，含入口导航与三步流程 |
+| [巧手裁缝铺](happyfish-activity-automation/activities/tailor-shop/SKILL.md) | 限时（2026.09.18-09.28）· 剪布料 / 纽扣连线 | ✅ 已收录，含主活动与副活动玩法、⭐5 个付费陷阱 |
+| [秘境之门（送鱼任务）](happyfish-activity-automation/activities/mijing-gate/SKILL.md) | 常驻 · 送鱼苗换魔力水晶（3 个订单槽） | ✅ 已收录（玩法 + 入口导航 + 全坐标 + 红线）；含只读采集器 |
 | 深海寻鱼（深海地图） | 分层迷宫 · 潜艇下潜 | ⏳ 待整理为子技能（档案见 `活动档案/深海地图.md`） |
 | 课间十分钟 | 限时 · 金币棋盘 | ⏳ 待整理为子技能（档案见 `活动档案/课间十分钟.md`） |
 
@@ -79,6 +86,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | 目录 | 内容 |
 |---|---|
 | [`assets/daily-magic-puzzle/`](assets/daily-magic-puzzle/README.md) | 每日魔幻拼图：5 套拼块模板（蛋糕鱼 / 炮弹鱼(绿) / 紫衣锦鲤 / 巧克力鱼(绿) / 首日未定名）、进·出导航图、参考帧 |
+| [`assets/mijing-gate/`](assets/mijing-gate/README.md) | 秘境之门：进·出导航图（宝箱把手 / 紫门）、活动界面与各弹窗参考帧、锁定态订单、采集样本与 `采集记录.csv` |
 
 **MAA 直接用**：模板为 **138×138 RGB PNG（无 alpha）**，按正确排布「左→右、上→下」编号 1~4；
 要求同分辨率 **1280×720**，`roi` 建议 `[346,82,920,654]`，阈值 0.8 起。详见该目录 `README.md`。
