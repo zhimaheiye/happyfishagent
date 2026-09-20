@@ -31,7 +31,18 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from calib_calendar import DEFAULT_COLS, find_rows  # noqa: E402
+from calib_calendar import DEFAULT_COLS, DEFAULT_ROWS  # noqa: E402
+
+
+def find_rows(_a, _cols):
+    """兼容垫片（2026-09-21 修复）。
+
+    09-19 起 calib_calendar 推翻"按最靠上蓝卡顶推行"的旧法、改成**固定锚点**
+    （182/296/410/524），于是不再导出 find_rows —— 但本题照旧 import 它，
+    **导致 element_chart.py 从 09-19 起一直是 ImportError 死脚本**。
+    行本来就是固定的，这里直接返回 DEFAULT_ROWS，并保留原返回签名 (rows, 来源)。
+    """
+    return list(DEFAULT_ROWS), "固定锚点(calib_calendar.DEFAULT_ROWS)"
 
 # 需求列 3 张黄卡的中心（09-17 实测，间距 118；相对界面固定）
 NEED_X = 137

@@ -28,6 +28,12 @@ happyfishagent/
     │   ├── piece_numbering.py           ← 用「未开始帧」反推正确排布，编号并导出 MAA 模板
     │   ├── line_shift_solver.py         ← 整行/整列循环平移棋盘的 BFS 求解器
     │   ├── detect_pool.py               ← 卡池槽位测位（浪漫满屋右侧 3 槽）
+    │   ├── calib_calendar.py            ← 约会日历棋盘行 / 列锚点标定（固定锚点版）
+    │   ├── cell_xy.py                   ← 格号 ↔ 屏幕坐标互算
+    │   ├── count_empty.py               ← 数空格数 E + 空格格号清单 + 各空格的 4 邻格号
+    │   ├── count_hearts.py              ← 数鱼宝乐园心串的红心个数
+    │   ├── count_icons.py               ← 逐格数「图标个数」（≠ 颜色种类；09-21 新增）
+    │   ├── element_chart.py             ← 把需求列 + 盘面元素裁成带中文标注的并排对照图
     │   └── diff_cells.py                ← 两帧逐格差分，精确列出哪几格真的变了
     └── activities/                      ← 子技能：一个活动一个
         ├── romance-house/
@@ -74,7 +80,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 
 | 活动 | 类型 | 状态 |
 |---|---|---|
-| [浪漫满屋](happyfish-activity-automation/activities/romance-house/SKILL.md) | 常驻 · 约会日历拼图（每日限次） | ✅ **全流程自动化**（珊瑚→气泡→大厅→约会→通关→X 退出），三轮均 10/10，开心宝消耗 0 |
+| [浪漫满屋](happyfish-activity-automation/activities/romance-house/SKILL.md) | 常驻 · 约会日历拼图（每日限次） | ✅ **全流程自动化**（珊瑚→气泡→大厅→约会→通关→X 退出），三轮均 10/10，开心宝消耗 0。09-21 五轮：接手 5/10 → 遇「分数锁死」+ 倒计时归零结束（正常局面）；新增「颜色分拣」机制与 `count_icons.py` |
 | [每日魔幻拼图](happyfish-activity-automation/activities/daily-magic-puzzle/SKILL.md) | 每日 · 环面滑动拼图（2x2/3x3/4x4 三档，棋盘固定 4×4） | ✅ **全流程自动化**（主界面→游乐园→魔方→选难度→拼完），开心宝消耗 0；每天 4:00 刷新；通关即停不代领 |
 | [鱼宝乐园（养鱼宝宝）](happyfish-activity-automation/activities/fish-baby-hatch/SKILL.md) | 常驻 · 养成（喂食+玩耍+喂奶三步） | ✅ 已收录，含入口导航与三步流程 |
 | [巧手裁缝铺](happyfish-activity-automation/activities/tailor-shop/SKILL.md) | 限时（2026.09.18-09.28）· 剪布料 / 纽扣连线 | ✅ 已收录，含主活动与副活动玩法、⭐5 个付费陷阱 |
@@ -111,7 +117,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 **入口和出口都是「坐标知识」**，和解法同等重要：
 
 - 每日魔幻拼图：主界面左下「游乐园」(58,505) → 「魔方」(515,452) → 2x2 卡 (469,335)
-- 浪漫满屋：主鱼缸右下「珊瑚」(905,593) → 气泡中间那个 (910,417) → 大厅「一起约会吧！」(1069,581) → 通关确定 (640,440) → 右上角心形 X (1199,52) 直接回鱼缸
+- 浪漫满屋：主鱼缸右下「珊瑚」(905,593) → 气泡中间那个 (910,417) → 大厅「一起约会吧！」(1069,564) → 通关确定 (640,440) → 右上角心形 X (1199,52) 直接回鱼缸
 
 ```bash
 # 盲连击示例（间隔 0.5s，中途不截图）
@@ -128,7 +134,7 @@ adb shell "input tap 905 593; sleep 0.5; input tap 910 417"
 |---|---|
 | 模拟器 | MuMu Player，分辨率 1280×720 |
 | adb | MuMu 自带（见 `references/automation-playbook.md`） |
-| 设备 | `127.0.0.1:7555` |
+| 设备 | 实例 n ↔ `127.0.0.1:(16384 + 32n)`；**开心水族箱 = 实例 1 → `127.0.0.1:16416`**（端口动态读，别硬编码） |
 | 通道 | maa-mcp 首选，adb 兜底 |
 
 ## 说明
