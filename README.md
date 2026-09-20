@@ -11,7 +11,8 @@
 happyfishagent/
 ├── assets/                              ← 二进制素材库（供其它项目取用，**不随技能安装**）
 │   ├── daily-magic-puzzle/              ← 每日魔幻拼图：拼块模板 / 导航图 / 参考帧
-│   └── mijing-gate/                     ← 秘境之门：入口导航图 / 参考帧 / 采集样本
+│   ├── mijing-gate/                     ← 秘境之门：入口导航图 / 参考帧 / 采集样本
+│   └── class-break-10min/               ← 课间十分钟：进·出导航图 / 三大副玩法参考帧 / 付费陷阱帧
 └── happyfish-activity-automation/       ← 主技能（umbrella，总入口）
     ├── SKILL.md                         ← 红线 + 主循环 + 进/出导航 + 子技能路由
     ├── references/
@@ -37,8 +38,10 @@ happyfishagent/
         │   └── SKILL.md                 ← 巧手裁缝铺 · 精选布料 / 细密针脚
         ├── fish-baby-hatch/
         │   └── SKILL.md                 ← 鱼宝乐园 · 养鱼宝宝
-        └── mijing-gate/
-            └── SKILL.md                 ← 秘境之门 · 送鱼任务
+        ├── mijing-gate/
+        │   └── SKILL.md                 ← 秘境之门 · 送鱼任务
+        └── class-break-10min/
+            └── SKILL.md                 ← 课间十分钟 · 课桌比拼 / 课间休息 / 操场锻炼
 ```
 
 **设计约定：主技能管「怎么干」（通用流程 / 环境 / 红线），子技能管「这个活动是什么」（界面 / 规则 / 坐标 / 进·出导航）。**
@@ -77,7 +80,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 | [巧手裁缝铺](happyfish-activity-automation/activities/tailor-shop/SKILL.md) | 限时（2026.09.18-09.28）· 剪布料 / 纽扣连线 | ✅ 已收录，含主活动与副活动玩法、⭐5 个付费陷阱 |
 | [秘境之门（送鱼任务）](happyfish-activity-automation/activities/mijing-gate/SKILL.md) | 常驻 · 送鱼苗换魔力水晶（3 个订单槽） | ✅ 已收录（玩法 + 入口导航 + 全坐标 + 红线）；含只读采集器 |
 | 深海寻鱼（深海地图） | 分层迷宫 · 潜艇下潜 | ⏳ 待整理为子技能（档案见 `活动档案/深海地图.md`） |
-| 课间十分钟 | 限时 · 金币棋盘 | ⏳ 待整理为子技能（档案见 `活动档案/课间十分钟.md`） |
+| [课间十分钟](happyfish-activity-automation/activities/class-break-10min/SKILL.md) | 限时（2026.09.11-09.21）· 课桌比拼下棋 / 课间休息翻望远镜 / 操场锻炼跑圈 | ✅ 已收录（主鱼缸直接入口 + 大厅兜底入口 + 退出回上级、9×5 棋盘公式、⭐紫笔收币四邻格自动补✗、全付费陷阱清单）；⚠️ 「纸币」= 开心宝 |
 
 ## 素材库（`assets/`）
 
@@ -87,6 +90,7 @@ cp -r happyfish-activity-automation ~/.workbuddy/skills/
 |---|---|
 | [`assets/daily-magic-puzzle/`](assets/daily-magic-puzzle/README.md) | 每日魔幻拼图：5 套拼块模板（蛋糕鱼 / 炮弹鱼(绿) / 紫衣锦鲤 / 巧克力鱼(绿) / 首日未定名）、进·出导航图、参考帧 |
 | [`assets/mijing-gate/`](assets/mijing-gate/README.md) | 秘境之门：进·出导航图（宝箱把手 / 紫门）、活动界面与各弹窗参考帧、锁定态订单、采集样本与 `采集记录.csv` |
+| [`assets/class-break-10min/`](assets/class-break-10min/README.md) | 课间十分钟：进·出导航图（主鱼缸「课间时刻」/ 大厅卡片）、课桌比拼棋盘、三大副玩法与领奖处参考帧、5 张付费陷阱帧 |
 
 **MAA 直接用**：模板为 **138×138 RGB PNG（无 alpha）**，按正确排布「左→右、上→下」编号 1~4；
 要求同分辨率 **1280×720**，`roi` 建议 `[346,82,920,654]`，阈值 0.8 起。详见该目录 `README.md`。
