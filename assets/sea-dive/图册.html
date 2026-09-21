@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>深海地图 · 攻略图册</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --line:#e3e7ee;
+    --ink:#1f2329; --ink2:#5c6672; --ink3:#8a94a0;
+    --deep:#0f2f4f; --accent:#2f7fbf; --warn:#c2410c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:28px 24px 64px;
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{max-width:1180px;margin:0 auto 22px;}
+  h1{margin:0 0 6px;font-size:26px;letter-spacing:.5px;color:var(--deep);}
+  .sub{color:var(--ink2);font-size:13px;line-height:1.7;}
+  .sub b{color:var(--deep);}
+  .warn{
+    display:inline-block;margin-top:10px;padding:5px 11px;border-radius:6px;
+    background:#fff4ec;border:1px solid #ffd9c2;color:var(--warn);
+    font-size:12.5px;font-weight:600;
+  }
+  nav{
+    max-width:1180px;margin:18px auto 0;display:flex;gap:8px;flex-wrap:wrap;
+    position:sticky;top:0;z-index:20;padding:10px 0;background:linear-gradient(var(--bg) 70%,transparent);
+  }
+  nav a{
+    padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+    color:var(--ink2);text-decoration:none;font-size:13px;font-weight:600;
+  }
+  nav a:hover{border-color:var(--accent);color:var(--accent);}
+  section{max-width:1180px;margin:0 auto 34px;scroll-margin-top:64px;}
+  h2{
+    font-size:16px;margin:0 0 14px;color:var(--deep);
+    display:flex;align-items:center;gap:10px;
+  }
+  h2 .band{
+    font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;
+    background:var(--deep);color:#fff;padding:3px 10px;border-radius:6px;letter-spacing:1px;
+  }
+  h2 .cnt{font-size:12px;font-weight:500;color:var(--ink3);}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr;}}
+  figure{
+    margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    overflow:hidden;box-shadow:0 1px 3px rgba(15,47,79,.06);transition:.18s;
+  }
+  figure:hover{box-shadow:0 6px 18px rgba(15,47,79,.13);transform:translateY(-2px);}
+  figure img{display:block;width:100%;height:auto;cursor:zoom-in;background:#0d1220;}
+  figcaption{padding:10px 12px 11px;}
+  .name{font-size:14px;font-weight:700;color:var(--deep);}
+  .tip{font-size:12px;color:var(--warn);margin-top:3px;}
+  .tip.plain{color:var(--ink3);}
+  footer{max-width:1180px;margin:0 auto;color:var(--ink3);font-size:12px;line-height:1.9;border-top:1px solid var(--line);padding-top:16px;}
+  #lb{
+    position:fixed;inset:0;background:rgba(10,14,22,.9);display:none;
+    align-items:center;justify-content:center;z-index:100;padding:24px;cursor:zoom-out;
+  }
+  #lb.on{display:flex;}
+  #lb img{max-width:96vw;max-height:92vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+  #lb .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#e8eef5;font-size:13px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>深海地图 · 攻略图册</h1>
+  <div class="sub">
+    来源：小红书博主 <b>叫我奈奈就好</b>（2025 版），共 4 张拼图 / <b>20 张地图</b>。<br>
+    分页规则：100-200 → 200-300 → 300-400 → 400-500。
+  </div>
+  <div class="warn">⚠️ 博主原注：速通路线 = 只开金箱。全部内容未经实机验证，仅供参考。</div>
+</header>
+
+<nav>
+  <a href="#b1">100-200</a>
+  <a href="#b2">200-300</a>
+  <a href="#b3">300-400</a>
+  <a href="#b4">400-500</a>
+  <a href="攻略原图-100-200.png" target="_blank">原图·100-200</a>
+  <a href="攻略原图-200-300.jpg" target="_blank">原图·200-300</a>
+  <a href="攻略原图-300-400.png" target="_blank">原图·300-400</a>
+  <a href="攻略原图-400-500.png" target="_blank">原图·400-500</a>
+</nav>
+
+<section id="b1">
+  <h2><span class="band">100-200</span><span class="cnt">5 张</span></h2>
+  <div class="grid" id="g1"></div>
+</section>
+<section id="b2">
+  <h2><span class="band">200-300</span><span class="cnt">5 张</span></h2>
+  <div class="grid" id="g2"></div>
+</section>
+<section id="b3">
+  <h2><span class="band">300-400</span><span class="cnt">5 张</span></h2>
+  <div class="grid" id="g3"></div>
+</section>
+<section id="b4">
+  <h2><span class="band">400-500</span><span class="cnt">5 张</span></h2>
+  <div class="grid" id="g4"></div>
+</section>
+
+<footer>
+  单图由 <code>_split_maps.py</code> 切自原图（2 倍放大），原图变动后重跑脚本即可。<br>
+  红线：本活动全程不消耗开心宝；不可逆操作先刹车；到终点不代选奖励、不代领。
+</footer>
+
+<div id="lb"><img alt=""><div class="cap"></div></div>
+
+<script>
+const DATA = {
+  g1: [["初始之地","奈奈提示：宜贝币全清"],["弹弹乐",""],["海草海",""],
+       ["海胆之家","奈奈提示：宜贝币全清"],["心海",""]],
+  g2: [["冰天雪地",""],["层层海",""],["电电之谷",""],["星光点点",""],["摇篮",""]],
+  g3: [["刻型之路",""],["气泡海",""],["熔岩谷",""],["小迷宫",""],["灼热之海",""]],
+  g4: [["博雅台",""],["玲珑灯",""],["六角亭",""],["平衡之塔",""],["曲折之径",""]]
+};
+const BAND = {g1:"100-200", g2:"200-300", g3:"300-400", g4:"400-500"};
+for (const gid in DATA){
+  const box = document.getElementById(gid);
+  DATA[gid].forEach(([name, tip]) => {
+    const src = "maps/" + BAND[gid] + "_" + name + ".png";
+    const fig = document.createElement("figure");
+    fig.innerHTML =
+      '<img src="' + src + '" alt="' + name + '" loading="lazy" ' +
+      'onclick="zoom(this.src,\'' + name + '\')">' +
+      '<figcaption><div class="name">' + name + '</div>' +
+      '<div class="tip' + (tip ? '' : ' plain') + '">' + (tip || '无博主提示') + '</div></figcaption>';
+    box.appendChild(fig);
+  });
+}
+const lb = document.getElementById("lb");
+function zoom(src, name){
+  lb.querySelector("img").src = src;
+  lb.querySelector(".cap").textContent = name;
+  lb.classList.add("on");
+}
+lb.addEventListener("click", () => lb.classList.remove("on"));
+document.addEventListener("keydown", e => { if(e.key === "Escape") lb.classList.remove("on"); });
+</script>
+</body>
+</html>
