@@ -45,6 +45,12 @@ agent_created: true
 - ✅ **每个动作 = 一次点击 + 一张截图 + 记下坐标**。跑完把这套流水整理给芝麻。
 - ✅ 产出格式：**按步编号的动作表（操作 / 坐标 / 截图文件名）** + 截图归档到 `活动档案/<活动>/`。
 - 理由：芝麻要拿这些素材**自己做自动化工具**；过程不透明，他就没法接。
+- ✅ **探索时的点击 / 滑动走 Recorder，不要再裸调用 `adb shell input tap`**：
+  ```bash
+  python happyfish-activity-automation/scripts/record_action.py --event <event> init
+  python happyfish-activity-automation/scripts/record_action.py --event <event> --safety nav --reason "为什么这下是安全的" tap <x> <y>
+  ```
+  它会留下 before / after、设备坐标和 1280×720 坐标、帧差和 `trace.jsonl`。`--safety` 不是 `nav` / `close` / `tab` / `readonly` / `confirmed_safe` 时不会真正点击。已经确认的状态才编译成临时 Maa Pipeline。现场和下一只活动怎么接，先读仓库 `docs/handoff-current.md`，再读 `docs/activity-ai-maa-handoff.md`。不要把临时活动写进 MaaHappyFish 的正式 feature、DailyRoutine 或 Release。
 
 ## ★ 探索未知界面时的默认纪律：探索 ≠ 零成本（2026-09-21 血泪，芝麻当场指出）
 
@@ -169,7 +175,6 @@ agent_created: true
 | 浪漫满屋 | 浪漫满屋 / 约会 / 日历 / 完成日程 | `activities/romance-house/SKILL.md` |
 | 每日魔幻拼图 | 拼图 / 魔幻拼图 / 每日拼图 | `activities/daily-magic-puzzle/SKILL.md` |
 | **巧手裁缝铺** | 巧手裁缝铺 / 裁缝铺 / 精选布料 / 细密针脚 / 接单 / 量体做新衣 | `activities/tailor-shop/SKILL.md` |
-| **鱼宝乐园（养鱼宝宝）** | 鱼宝乐园 / 养鱼宝宝 / 鱼宝宝 / 孵化 / 摸头 | `activities/fish-baby-hatch/SKILL.md` |
 | **秘境之门（送鱼任务）** | 秘境之门 / 送鱼 / 送鱼任务 / 神秘海域 / 魔力水晶 | `activities/mijing-gate/SKILL.md` |
 | **深海寻鱼（深海地图）** | 深海 / 深海地图 / 深海寻鱼 / 下潜 / 潜艇 / 刷次数 | `activities/sea-dive/SKILL.md`（**入口只在鱼缸 3**；「x12 深海寻鱼」= 开心宝）|
 | **课间十分钟** | 课间十分钟 / 课桌比拼 / 课间休息 / 操场锻炼 / 领奖处 / 记忆碎片 / 课间时刻 | `activities/class-break-10min/SKILL.md`（**纸币 = 开心宝**）|

@@ -1,0 +1,340 @@
+{
+  "schema": "happyfish.action_recorder.v0",
+  "exploration_task": "mid-autumn-brew",
+  "task": "做月饼双轮对比实验 Round B frozen flow（仅确定性外壳；StageB=proposed→frontier）",
+  "session_id": "ai-vs-hybrid-20260925-1618",
+  "created_at": "2026-09-25T16:18:00+08:00",
+  "start_state": "S_A00_MAIN_FRESH",
+  "goal_state": "S_C30_MAIN_BACK",
+  "status_legend": {
+    "observed": "记录器写下的原始事实。recognition 仍为空，不能交给 Maa。",
+    "proposed": "AI 或人工提议。不是已确认规则。",
+    "confirmed": "已经确认的规则，但还没有编译成 Pipeline。",
+    "maa_ready": "已确认，并且允许映射成 Maa 节点。"
+  },
+  "notes": "实验专用 frozen flow。所有坐标/OCR 来自 2026-09-25 实机验证（S0021-S0072）：做月饼入口(640,637)、StageA 翻盘 6 盘(第1-2行)、去下一步骤(187,581)、丢弃确认确定(900,575)、烤制✕(1231,81)、结束游戏(900,575)、开心收下(638,607)。StageB 配花=proposed(AI region)→编译为 knowledge_frontier takeover。Round A 完成后不得修改本 frozen（实验公平性）。",
+  "states": [
+    {
+      "state": "S_A00_MAIN_FRESH",
+      "name": "活动主页-做月饼入口",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "做月饼",
+        "recommended_roi": [500, 600, 790, 680]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [640, 637],
+        "coord_space": "720p",
+        "reason": "实验授权:Round B 消耗最后1点体力新开做月饼局",
+        "safety": {"level": "confirmed_safe", "reason": "实验授权消耗1体力(2局各1点),非付费操作"}
+      },
+      "result_candidates": ["S_A10_STAGE_A"],
+      "timing": {"action_to_stable_ms": 1500},
+      "notes": "做月饼=新开局消耗1体力,实验授权内"
+    },
+    {
+      "state": "S_A10_STAGE_A",
+      "name": "阶段A-查看馅料(翻盘)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "确认进入阶段A游戏页"
+      },
+      "result_candidates": ["S_A11_FLIP_1"],
+      "timing": {"action_to_stable_ms": 800}
+    },
+    {
+      "state": "S_A11_FLIP_1",
+      "name": "翻盘1(左上)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [577, 193],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A12_FLIP_2"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A12_FLIP_2",
+      "name": "翻盘2(上中)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [850, 193],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A13_FLIP_3"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A13_FLIP_3",
+      "name": "翻盘3(右上)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [1123, 193],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A14_FLIP_4"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A14_FLIP_4",
+      "name": "翻盘4(左中)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [577, 340],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A15_FLIP_5"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A15_FLIP_5",
+      "name": "翻盘5(中中)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [850, 340],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A16_FLIP_6"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A16_FLIP_6",
+      "name": "翻盘6(右中)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [120, 15, 880, 145]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [1123, 340],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {"level": "confirmed_safe", "reason": "小手=局内免费道具,非付费"}
+      },
+      "result_candidates": ["S_A20_A_NEXT"],
+      "timing": {"action_to_stable_ms": 1200}
+    },
+    {
+      "state": "S_A20_A_NEXT",
+      "name": "阶段A-去下一步骤",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "去下一步骤",
+        "recommended_roi": [100, 560, 250, 600]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [187, 581],
+        "coord_space": "720p",
+        "reason": "去下一步骤,触发未吃馅料盘丢弃确认(免费规则)",
+        "safety": {"level": "confirmed_safe", "reason": "丢弃未翻盘为游戏免费规则,非付费"}
+      },
+      "result_candidates": ["S_A21_A_CONFIRM"],
+      "timing": {"action_to_stable_ms": 1500}
+    },
+    {
+      "state": "S_A21_A_CONFIRM",
+      "name": "阶段A-丢弃确认(确定)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "未吃到馅料的月饼",
+        "recommended_roi": [120, 150, 880, 280]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [900, 575],
+        "coord_space": "720p",
+        "reason": "确定继续:未翻盘按免费规则丢弃,带已翻盘进入配花阶段",
+        "safety": {"level": "confirmed_safe", "reason": "丢弃为免费规则,非付费"}
+      },
+      "result_candidates": ["S_B00_STAGE_B"],
+      "timing": {"action_to_stable_ms": 2000}
+    },
+    {
+      "state": "S_B00_STAGE_B",
+      "name": "阶段B-配花(AI region)",
+      "status": "proposed",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "点击月饼,为它配好鲜花",
+        "recommended_roi": [120, 30, 910, 130]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "AI region:配花需视觉判断PERFECT/喜好,AI接管"
+      },
+      "result_candidates": [],
+      "notes": "proposed: 配花盲配+PERFECT判定需AI;完成后由AI执行去下一步骤+确定进入StageC再交还Maa"
+    },
+    {
+      "state": "S_C00_STAGE_C",
+      "name": "阶段C-开烤",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开烤",
+        "recommended_roi": [120, 45, 880, 160]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "确认进入烤制阶段(烤好月饼有收益,0未烤好=complete)"
+      },
+      "result_candidates": ["S_C05_CLOSE"],
+      "timing": {"action_to_stable_ms": 800}
+    },
+    {
+      "state": "S_C05_CLOSE",
+      "name": "阶段C-关闭游戏页",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开烤",
+        "recommended_roi": [120, 45, 880, 160]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [1231, 81],
+        "coord_space": "720p",
+        "reason": "关闭烤制页,触发退出确认框(complete→结束游戏路由)",
+        "safety": {"level": "close", "reason": "关闭页面按钮,无消耗"}
+      },
+      "result_candidates": ["S_C10_EXIT"],
+      "timing": {"action_to_stable_ms": 1500}
+    },
+    {
+      "state": "S_C10_EXIT",
+      "name": "退出确认框-结束游戏",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "确定现在结束游戏吗",
+        "recommended_roi": [380, 130, 900, 300]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [900, 575],
+        "coord_space": "720p",
+        "reason": "round_complete(烤制完成)路由:结束游戏进入结算",
+        "safety": {"level": "confirmed_safe", "reason": "complete信号(0未烤好+无未完美警告)已确认,非付费"}
+      },
+      "result_candidates": ["S_C20_SETTLE"],
+      "timing": {"action_to_stable_ms": 2500}
+    },
+    {
+      "state": "S_C20_SETTLE",
+      "name": "结算-开心收下",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "恭喜您完成本轮烤月饼",
+        "recommended_roi": [300, 140, 700, 230]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [638, 607],
+        "coord_space": "720p",
+        "reason": "开心收下本轮奖励(免费无选择)",
+        "safety": {"level": "confirmed_safe", "reason": "免费结算确认,无选择无付费"}
+      },
+      "result_candidates": ["S_C30_MAIN_BACK"],
+      "timing": {"action_to_stable_ms": 2500}
+    },
+    {
+      "state": "S_C30_MAIN_BACK",
+      "name": "活动主页-做月饼恢复(终点)",
+      "status": "maa_ready",
+      "resolution": [1280, 720],
+      "recognition": {
+        "type": "OCR",
+        "expected": "做月饼",
+        "recommended_roi": [500, 600, 790, 680]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "验收:继续游戏消失、做月饼恢复=本轮真正结束"
+      },
+      "result_candidates": [],
+      "timing": {"action_to_stable_ms": 800},
+      "notes": "终点:体力应为0,不再点击做月饼"
+    }
+  ]
+}

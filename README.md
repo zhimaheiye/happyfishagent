@@ -81,6 +81,33 @@ happyfishagent/
 **MAA 模板规格**：模板为 **138×138 RGB PNG（无 alpha）**，按正确排布「左→右、上→下」编号 1~4；
 要求同分辨率 **1280×720**，`roi` 建议 `[346,82,920,654]`，阈值 0.8 起。详见各目录 `README.md`。
 
+## AI Action Recorder（V0）
+
+首轮探索不要直接 `adb shell input tap`。用 `happyfish-activity-automation/scripts/record_action.py` 点，同一次动作会留下以后写 Maa Pipeline 要用的证据。
+
+```bash
+python happyfish-activity-automation/scripts/record_action.py --event <event> init
+python happyfish-activity-automation/scripts/record_action.py --event <event> shot
+python happyfish-activity-automation/scripts/record_action.py --event <event> --safety nav --reason "打开入口" tap 100 200
+```
+
+证据在 `happyfish-activity-automation/activities/<event>/sessions/<时间戳>/`（`flow.json`、`trace.jsonl`、`screenshots/`、`diffs/`、`takeover/`）。这个目录被 gitignore，旧 session 不会被新的覆盖。
+
+坐标默认是设备像素；看的是工具存下来的 1280×720 图时加 `--coord-space 720p`。两种坐标都会写入 trace。设备串只认 `HAPPYFISH_ADB_DEV` / `ADB_DEV`、现有的 `tools/mumu_dev.py`，或当前唯一在线的 adb 设备，不写死历史端口。
+
+`--safety` 缺省是 `unknown`，不会点击。文案里出现「修复 / 复活 / 补充 / 加速 / 解锁 / 开心宝 / 广告」也会拒绝。AI 猜的 ROI 用 `annotate` 记成 `proposed`，不会自动变成 `confirmed`。
+
+离线测试：
+
+```bash
+python happyfish-activity-automation/scripts/recorder/test_recorder_offline.py
+python happyfish-activity-automation/scripts/recorder/test_flow_to_maa.py
+```
+
+`maa_ready` 且已经写上 `recognition` 的状态，可以用 `scripts/flow_to_maa.py` 编译到该 session 的 `generated/pipeline.json`。`observed` / `proposed` / `confirmed` 不会进入 Pipeline。这是临时探索产物，不写入 MaaHappyFish 的正式 feature。
+
+当前实现、三种 takeover，以及下一只真实活动怎么接，见 [docs/activity-ai-maa-handoff.md](docs/activity-ai-maa-handoff.md)。现场状态见 [docs/handoff-current.md](docs/handoff-current.md)。
+
 ## 三条硬红线
 
 1. **绝不点付费按钮** —— 开心宝（付费货币）相关的任何按钮一律不碰。⚠️ 形态不是判据，新出现的浮空框/道具一律先当付费；「修复 / 补充 / 续命 / 复活 / 加速」默认全是开心宝；**货币别名要核实**（如课间休息把开心宝叫「纸币」）。

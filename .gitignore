@@ -20,4 +20,7 @@ shots/
 _vgtmp/
 *.shot.png
 
+# Action Recorder 的原始 session。每次新建，不覆盖，也不入库。
+happyfish-activity-automation/activities/*/sessions/
+
 # 注：assets/ 下的素材是**有意入库**的（供其它项目取用），不要加进忽略列表。

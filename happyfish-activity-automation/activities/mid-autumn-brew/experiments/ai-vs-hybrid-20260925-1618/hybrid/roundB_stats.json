@@ -1,0 +1,99 @@
+{
+  "round": "B",
+  "mode": "hybrid_ai_to_maa",
+  "start": {"page": "ActivityMainFresh", "stamina": 1, "unfinished_round": false},
+  "end": {"page": "ActivityMainFresh(做月饼恢复)", "stamina": 0, "continue_game": false},
+  "frozen_pipeline_sha": "54963b3a05a799b2",
+  "maa_segment": {
+    "route": "StartRouter→MAIN_FRESH(OCR做月饼,Click)→STAGE_A→FLIP_1..6(Click×6)→S_A20_A_NEXT(OCR去下一步骤→recognition_failed)",
+    "maa_game_actions": 7,
+    "note": "FLIP_1..6 中仅 4 次点击生效(小手6→2),2 次因动画时序无效;S_A20_A_NEXT 识别失败未点击"
+  },
+  "takeover": {
+    "count": 1,
+    "reason": "recognition_failed",
+    "source_state": "S_A20_A_NEXT",
+    "package": "frozen/takeover/20260925-171457-804506_recognition_failed_S_A20_A_NEXT",
+    "note": "当前画面=StageA部分翻盘(4盘已翻,小手x2,存档中)"
+  },
+  "ai_segment": {
+    "route": "StageA补翻2盘(小手2→0)→去下一步骤→丢弃确认→确定→StageB配花(点月饼6+点花7[含误点1],5PERFECT+1错[下左],扭转心意付费不点)→去下一步骤→未完美弹窗(还有2颗)→确定→StageC(2PERFECT+2SOSO+1未烤好)→再加把火→付费弹窗(5开心宝补火苗)→取消(2次被拒+1次成功)→不加热→✕→确认框(还有1未烤好,无丢弃警告)→结束游戏→结算(月饼x1x7)→开心收下→主页",
+    "ai_judgments": 23,
+    "ai_game_actions_total": 26,
+    "ai_game_actions_normal": 24,
+    "ai_game_actions_compensation": 2,
+    "ai_game_actions_rejected": 2,
+    "action_split": {
+      "note": "trace 精确口径(20260925-143348/trace.jsonl, AI段=接管后28次tap, 2次被recorder红线词拒): 总26 = 正常24 + 失败补偿2",
+      "compensation_actions": [
+        {"pos": [577, 340], "why": "补翻D盘(Maa FLIP_4未生效, 盖叶盘)"},
+        {"pos": [850, 193], "why": "补翻B盘(Maa FLIP_2未生效, 盖叶盘)"}
+      ],
+      "shell_normal_actions": [
+        {"pos": [187, 581], "why": "去下一步骤"},
+        {"pos": [187, 581], "why": "重试去下一步骤(未弹窗)"},
+        {"pos": [898, 574], "why": "确定丢弃盖叶盘"},
+        {"pos": [898, 574], "why": "重试确定丢弃"},
+        {"pos": [637, 645], "why": "免费火苗加热未烤好(免费资源)"},
+        {"pos": [386, 585], "why": "关闭补齐火苗付费确认弹窗(不消费)"},
+        {"pos": [1232, 81], "why": "关闭烤制页触发退出确认"},
+        {"pos": [901, 573], "why": "结束游戏(round可结算,免费策略)"},
+        {"pos": [638, 601], "why": "开心收下结算奖励(免费无选择)"}
+      ],
+      "stageb_actions": [
+        {"pos": [515, 200], "why": "点月饼配花"},
+        {"pos": [750, 202], "why": "盲配点黄花(误点)"},
+        {"pos": [510, 152], "why": "盲配点黄花"},
+        {"pos": [755, 200], "why": "点月饼2出面板"},
+        {"pos": [763, 150], "why": "盲配点黄花"},
+        {"pos": [510, 360], "why": "点中左月饼"},
+        {"pos": [500, 300], "why": "盲配点黄花"},
+        {"pos": [750, 360], "why": "点中中月饼"},
+        {"pos": [750, 280], "why": "盲配点黄花"},
+        {"pos": [515, 523], "why": "点下左月饼"},
+        {"pos": [545, 437], "why": "盲配点黄花"},
+        {"pos": [990, 360], "why": "点中右绿月饼"},
+        {"pos": [1009, 277], "why": "盲配点黄花"},
+        {"pos": [187, 581], "why": "StageB去下一步骤(过渡)"},
+        {"pos": [909, 580], "why": "确定丢弃未完美(过渡)"}
+      ],
+      "counts": {
+        "compensation": 2,
+        "shell_normal": 9,
+        "stageb": 15,
+        "normal_total": 24,
+        "grand_total": 26
+      }
+    },
+    "note": "trace 28 tap - 2 次被 recorder 拒绝的取消(红线词拒绝)=26 实际执行;配花15次(点月饼6+点花7+误点1+过渡2);PERFECT=5;奖励=月饼x8(1+7)"
+  },
+  "metrics": {
+    "ai_judgment_count": 23,
+    "ai_game_action_count": 26,
+    "maa_game_action_count": 7,
+    "takeover_count": 1,
+    "recognition_failed": 1,
+    "start_router_unmatched": 0,
+    "knowledge_frontier": 0,
+    "ai_repeated_known_state": 5,
+    "paid_wall_encounters": 1,
+    "perfect_mooncake": 5,
+    "final_reward": "月饼x8(1+7)",
+    "unexpected_states": [],
+    "note": "去下一步骤重试1+确定重试1+取消失败重试2+配花误点纠正1=5;Maa翻盘2次无效点击是时序摩擦"
+  },
+  "deterministic_shell": {
+    "ai_judgments": 7,
+    "ai_actions_normal": 9,
+    "ai_actions_compensation": 2,
+    "ai_actions_total": 11,
+    "note": "口径澄清(trace 实证, 替代原 12/8 歧义): shell 总11 = 正常9(去下一步骤1+重试1+确定丢弃1+重试1+免费加热1+关闭付费弹窗1+✕1+结束1+收下1) + 失败补偿2(补翻Maa未生效的B/D两盘); MAIN起点由Maa承担(做月饼1+翻盘6)不在AI shell内; 原'17→8(含补偿12)'表述作废, 以本字段为准"
+  },
+  "stageB": {
+    "ai_judgments": 17,
+    "ai_actions": 15,
+    "perfect": 5,
+    "paid_wall_visible": ["扭转心意(下左)", "一键帮我选", "探索心愿", "一键扭转"],
+    "note": "口径澄清(trace 实证, 替代原14): StageB动作15 = 点月饼6 + 点花7[含误点1] + 去下一步骤1(过渡) + 确定丢弃1(过渡); judgments 17条含逐月饼判断(decisions.jsonl)"
+  }
+}

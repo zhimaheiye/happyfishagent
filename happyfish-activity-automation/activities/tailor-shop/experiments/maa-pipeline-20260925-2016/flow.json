@@ -1,0 +1,343 @@
+{
+  "schema": "happyfish.action_recorder.v0",
+  "exploration_task": "tailor-shop",
+  "task": "巧手裁缝铺主活动精选布料 Maa pipeline（2026-09-25 第二局）：主界面→免费剪刀档→剪布循环(OCR动态定位,规避每关堆数/位置变化)→完成本关→结算→遭遇弹窗frontier(B型TemplateMatch+AC型OCR)→AI决策；剪刀0→frontier；退出确认→主界面终点",
+  "session_id": "20260925-195917",
+  "states": [
+    {
+      "state": "S_X10_EVENT_B",
+      "name": "遭遇事件弹窗B型(免费档提示)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\btype_title.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          100,
+          100,
+          1180,
+          650
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "B型弹窗标题「布料堆里藏了不少好东西」为艺术字rapidocr漏读,改用标题模板(实测1.0 vs 其余0.16);弹窗一律不自动点,交还AI决策(只点免费档或关闭)"
+      },
+      "result_candidates": [
+        "AI_DECISION_EVENT_B"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "modal优先(StartRouter顺序第1);B型三档=免费(黄x2)/宝石x20/钞票x12,只点免费档,绝不点付费档"
+    },
+    {
+      "state": "S_X11_EVENT_AC",
+      "name": "遭遇事件弹窗AC型(C型兑换商店/A型开心宝)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "得鱼概率|压箱底",
+        "expected_mode": "regex",
+        "recommended_roi": [
+          100,
+          100,
+          1150,
+          700
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "C型兑换商店(得鱼概率)与A型(压箱底)弹窗,六档全要资源/开心宝,一律不自动点,交还AI整页关闭"
+      },
+      "result_candidates": [
+        "AI_DECISION_EVENT_AC"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "C型六档全要布料或付费货币,整页X关闭一档不点;A型开心宝x8,X关闭"
+    },
+    {
+      "state": "S_A40_EXIT",
+      "name": "退出确认(确定现在结束游戏吗)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "确定现在结束游戏吗",
+        "recommended_roi": [
+          450,
+          125,
+          810,
+          185
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "target_center_720p": [
+          362,
+          573
+        ],
+        "reason": "剪刀用尽或体力用完时点击确认结束本局,布料奖励已入账无需保留;不点暂时离开(剪刀残留无价值)"
+      },
+      "result_candidates": [
+        "S_A50_MAIN_BACK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2500
+      },
+      "notes": "退出确认框两按钮:确认=结束本局(选这个),暂时离开=保留残局(不选,副活动踩过坑)"
+    },
+    {
+      "state": "S_A30_SETTLE",
+      "name": "本关结算(开心收下)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开心收下",
+        "recommended_roi": [
+          500,
+          570,
+          800,
+          650
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "target_center_720p": [
+          633,
+          609
+        ],
+        "reason": "点击开心收下领取本关奖励,纯奖励结算无付费"
+      },
+      "result_candidates": [
+        "S_X10_EVENT_B",
+        "S_X11_EVENT_AC",
+        "S_A20_CUT"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2000
+      },
+      "notes": "2026-09-26修复(像素ROI):MaaOCR把艺术字标题'恭喜您获得了：'误读为'添喜恐状侍了'(score0.447)→改用普通字体按钮'开心收下'(OCR稳定,结算页必有,像素(553,585)-(726,626));旧ROI(450,95,750,165)像素切标题顶部2px+误读双重失败;无弹窗时回A20继续下一关(同局不扣体力)"
+    },
+    {
+      "state": "S_A25_NO_SCISSORS",
+      "name": "剪刀用尽(0)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\scissors_digit0.png",
+        "threshold": 0.8,
+        "recommended_roi": [
+          400,
+          590,
+          700,
+          730
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "剪布页底部剪刀计数命中纯数字0模板(阈值0.8),判定剪刀0,停止自动裁剪交还AI(退出本局或判断完成本关),绝不点一键剪裁补剪刀"
+      },
+      "result_candidates": [
+        "AI_DECISION_NO_SCISSORS"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26凌晨实机复盘:①MaaOCR读不出x0小字(把x0读成V score0.253)→OCR方案漏判,剪刀0时A20死循环点裁剪;②TemplateMatch纯数字0模板:本地稠密匹配x0=0.855/x6=0.696/x10=0.781,x6帧Maa实测0.772/x10帧0.781(含0圆圈误命中),x8=0.719;③阈值提到0.80:期望x0(Maa侧应>0.85)命中、x6(0.772)/x10(0.781)切断;④若Maa侧x0帧打分<0.80(漏判)→下一步改用OCR expected=V方案;⑤剪刀0时裁剪按钮仍在(S0068实测),拦截必须保留"
+    },
+    {
+      "state": "S_A00_MAIN",
+      "name": "活动主界面(精选布料入口)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "精选布料",
+        "recommended_roi": [
+          500,
+          550,
+          810,
+          680
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "target_center_720p": [
+          644,
+          623
+        ],
+        "reason": "进入主活动精选布料,消耗1点每日体力,发放12免费小剪刀,全程只走免费档"
+      },
+      "result_candidates": [
+        "S_A10_SCISSORS"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2500
+      },
+      "notes": "入口带体力角标;有未结束局时按钮变继续选布料(本flow仅处理fresh主界面)"
+    },
+    {
+      "state": "S_A10_SCISSORS",
+      "name": "剪刀档位页(选免费)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "趁手小剪刀",
+        "recommended_roi": [
+          150,
+          280,
+          360,
+          350
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "target_center_720p": [
+          258,
+          504
+        ],
+        "reason": "选择免费档趁手小剪刀x12,该档位标注免费,不消耗付费货币,其余两档(宝石/钞票)一律不选"
+      },
+      "result_candidates": [
+        "S_A20_CUT"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2500
+      },
+      "notes": "锋利小剪刀=宝石x20,神之一剪=付费货币x6,均不点;免费档位置实测(258,504)"
+    },
+    {
+      "state": "S_A20_CUT",
+      "name": "剪布循环(OCR动态定位最左堆)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "裁剪",
+        "recommended_roi": [
+          280,
+          330,
+          1100,
+          590
+        ]
+      },
+      "action": {
+        "type": "ClickRecognitionResult",
+        "reason": "点当前最左的x1裁剪按钮(rapidocr结果按从左到右排序),剪完一堆后按钮重排,动态定位规避堆数/位置变化;一键剪裁在ROI下方不会被误点"
+      },
+      "recognition_fail_next": "S_A21_COMPLETE",
+      "result_candidates": [
+        "S_A25_NO_SCISSORS",
+        "S_A20_CUT"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2500
+      },
+      "notes": "自循环:每剪一堆后2500ms动画稳定再识别下一堆;全部堆剪完无裁剪按钮→fail_next落完成本关;剪刀0由S_A25先拦截"
+    },
+    {
+      "state": "S_A21_COMPLETE",
+      "name": "完成本关",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "完成本关",
+        "recommended_roi": [
+          990,
+          600,
+          1240,
+          700
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "target_center_720p": [
+          1115,
+          654
+        ],
+        "reason": "本关所有布料堆已裁剪完毕,点击完成本关进入结算"
+      },
+      "result_candidates": [
+        "S_A30_SETTLE"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 2500
+      },
+      "notes": "剪布页完成本关按钮常驻但灰色;S_A20_CUT的fail_next在全部剪完后才落到这里(此时可点)"
+    },
+    {
+      "state": "S_A50_MAIN_BACK",
+      "name": "回到活动主界面(终点)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "巧手裁缝铺",
+        "recommended_roi": [
+          420,
+          25,
+          870,
+          135
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "已回到活动主界面,本局结束,不再点击(不开始下一局)"
+      },
+      "result_candidates": [],
+      "timing": {
+        "recognition_timeout_ms": 4000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "终点状态;识别活动标题确认回主界面;体力角标已-1"
+    }
+  ]
+}

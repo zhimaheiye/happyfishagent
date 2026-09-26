@@ -1,0 +1,23 @@
+{
+  "event": "tailor-shop",
+  "session": "20260925-195917",
+  "timestamp": "2026-09-26T00:26:00",
+  "source_state": "S_X11_EVENT_AC",
+  "reason": "knowledge_frontier",
+  "pipeline_node": "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverFrontier",
+  "expected": "得鱼概率|压箱底",
+  "roi": [
+    100,
+    100,
+    1150,
+    700
+  ],
+  "result_candidates": [
+    "AI_DECISION_EVENT_AC"
+  ],
+  "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+  "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+  "trace_status": "unavailable",
+  "log_status": "ok",
+  "screenshot_status": "ok"
+}

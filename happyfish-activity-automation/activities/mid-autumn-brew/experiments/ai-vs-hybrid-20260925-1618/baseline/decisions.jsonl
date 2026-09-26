@@ -1,0 +1,16 @@
+﻿{"round":"A","index":1,"state":"ActivityMainFresh","reason":"确认主页为做月饼态、体力2、无未完成局（S0072_observe_03）","decision":"点击做月饼(640,637)新开局,授权消耗1体力"}
+{"round":"A","index":2,"state":"MooncakeStageA","reason":"确认进入游戏页:规则行+9盘盖叶+小手x6(新局自动重发免费小手-新事实),体力仅在主页显示(游戏页无角标)","decision":"执行翻盘策略:翻前两行6盘(每盘1小手)"}
+{"round":"A","index":3,"state":"MooncakeStageA","reason":"确认6盘已翻、小手x6→x0(S0079)","decision":"点击去下一步骤(187,581),触发未翻盘丢弃确认"}
+{"round":"A","index":4,"state":"MooncakeStageA-ExitConfirm","reason":"确认弹窗为免费丢弃规则:未吃到馅料的月饼将被丢失确定继续(S0080),非付费弹窗","decision":"点击确定(900,575),丢弃3个未翻盘,带6盘进入配花阶段"}
+{"round":"A","index":5,"state":"MooncakeStageB","reason":"确认配花阶段:6枚月饼+规则行+探索心愿/一键帮我选(付费墙,不点)(S0081)","decision":"第1枚:点左上月饼(489,251)查看喜好卡片"}
+{"round":"A","index":6,"state":"MooncakeStageB","reason":"三花卡片已出(粉玫瑰/黄小花/白绿花苞),免费盲配策略:任选一朵","decision":"第1枚点黄小花(560,158)配左上月饼"}
+{"round":"A","index":7,"state":"MooncakeStageB","reason":"第1枚(左上)配黄小花:无PERFECT(OCR仅1个扭转心意)=配错,免费策略不付费纠错保留错花","decision":"第2枚:点(748,251)上中月饼查看卡片"}
+{"round":"A","index":8,"state":"MooncakeStageB","reason":"点(759,218)上中月饼后PERFECT出现(OCR@757,195)=第2枚配花成功(机制:点月饼命中花图标自动配对或已配)","decision":"第3枚:点右上月饼(1021,248)"}
+{"round":"A","index":9,"state":"MooncakeStageB","reason":"点右上(1016,217)后2个扭转按钮(左上+右上),右上无PERFECT=配错;当前左上✗上中✓右上✗","decision":"第4枚:点左下月饼(485,470)"}
+{"round":"A","index":10,"state":"MooncakeStageB","reason":"本轮实为5枚月饼(翻6盘但配花阶段5枚,右下无);已配:左上✗上中✓右上✗;绿色月饼定位(562,409)(826,408)","decision":"第5枚:点左下绿月饼(562,409)"}
+{"round":"A","index":11,"state":"MooncakeStageB","reason":"点(562,409)后PERFECT@(500,406)=左下绿配成功;已:左上✗上中✓右上✗左下✓","decision":"最后1枚:点中下绿月饼(826,408)"}
+{"round":"A","index":12,"state":"MooncakeStageB","reason":"中下绿月饼15次点击均未命中(浮动动画+点击延迟),按免费策略放弃配花;最终:上中✓左下✓左上✗右上✗中下✗","decision":"点击去下一步骤(187,581),未完美按免费规则丢弃,带2枚PERFECT进烤制"}
+{"round":"A","index":13,"state":"MooncakeStageB-ExitConfirm","reason":"触发弹窗:还有3颗月饼没有完美哦(左上/右上/中下),免费策略确定丢弃,带2枚PERFECT进烤制(S0112)","decision":"点击确定(890,574)"}
+{"round":"A","index":14,"state":"MooncakeStageC","reason":"烤制页:2枚月饼均有收益(SOSO×1),还有0个未烤好=complete信号①;一键挽救/一键完美=付费墙不点(S0113)","decision":"点击✕(1232,81)关闭烤制页触发退出确认框"}
+{"round":"A","index":15,"state":"MooncakeExitConfirm","reason":"round_status=complete(还有0个未烤好+确认框无未完美警告);complete→结束游戏(S0114)","decision":"点击结束游戏(907,580)进入结算"}
+{"round":"A","index":16,"state":"Settlement","reason":"结算弹窗:恭喜完成本轮+获得月饼x1x1(免费无选择)(S0115)","decision":"点击开心收下(639,604)"}

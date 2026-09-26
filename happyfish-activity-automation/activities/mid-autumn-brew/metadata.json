@@ -1,0 +1,256 @@
+{
+  "event": "mid-autumn-brew",
+  "updated": "2026-09-25",
+  "description": "做月饼消耗型入口分支建模 + 局内阶段机制实测。核心：做月饼入口 = resource_consuming；配花阶段（Stage B）推进手段全部为开心宝付费，免费路径仅限盲配。",
+  "resources": {
+    "activity_stamina": {
+      "label": "活动体力",
+      "detect": {
+        "type": "badge_template",
+        "script": "stamina_detect.py",
+        "roi_720p": [
+          670,
+          520,
+          830,
+          660
+        ],
+        "templates_dir": "templates",
+        "known_digits": [
+          "0",
+          "2",
+          "3"
+        ],
+        "unknown_digits": [
+          "1",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10+"
+        ],
+        "note": "红底白边圆角标，白字数字。模板法；未知数字返回 unknown → 门禁停止，AI 采集补模板。"
+      },
+      "cost_on": [
+        "ActivityMainFresh",
+        "MooncakeStart"
+      ],
+      "cost_per_entry": 1,
+      "default_permission": false,
+      "permission_grant": "仅用户明确授权可改为 true（CLI --allow-resource activity_stamina）",
+      "no_double_charge": {
+        "rule": "从 ActivityMainResume 点「继续游戏」恢复现有局 ≠ 新消耗，不得再扣体力；恢复前后体力读数应不变",
+        "evidence": "实验记录：新开一局体力 3→2；两次暂时离开后继续游戏变体体力仍 2"
+      }
+    },
+    "small_hand_tool": {
+      "label": "小手道具（局内查看馅料）",
+      "note": "游戏页显示拥有 x6；翻盘消耗 1 个/盘。局内资源，默认不可自动消耗。",
+      "default_permission": false
+    },
+    "magnifier": {
+      "label": "放大镜（查看月饼喜好）",
+      "note": "帮助规则称放大镜可帮助知道月饼喜好；探索心愿=付费使用。免费获得途径未验证。",
+      "default_permission": false
+    }
+  },
+  "paywall_traps": {
+    "StageA_one_click_flip": {
+      "button": "一键翻开",
+      "center_720p": [
+        1165,
+        638
+      ],
+      "cost": "6 开心宝补足小手一键翻开",
+      "evidence": "S0025：点后弹窗「确定花费6开心宝补足小手一键翻开吗?」→ 取消(320,578)"
+    },
+    "StageB_explore_wish": {
+      "button": "探索心愿",
+      "center_720p": [
+        534,
+        649
+      ],
+      "cost": "2 开心宝/次",
+      "evidence": "S0038：弹窗「确定花费2开心宝探索一枚月饼的鲜花心愿吗?」→ 取消(320,578)"
+    },
+    "StageB_one_click_choose": {
+      "button": "一键帮我选",
+      "center_720p": [
+        947,
+        646
+      ],
+      "cost": "12 开心宝",
+      "evidence": "S0042：弹窗「确定花12开心宝一键帮我选吗?」→ 取消(320,578)"
+    },
+    "StageB_turn_heart": {
+      "button": "扭转心意",
+      "center_720p": [
+        763,
+        311
+      ],
+      "cost": "3 开心宝/次",
+      "evidence": "S0046：弹窗「确定花费3开心宝扭转心意嘛?」→ 取消(320,578)；点击后配花可换花"
+    },
+    "StageB_one_click_turn": {
+      "button": "一键扭转",
+      "center_720p": [
+        1165,
+        646
+      ],
+      "cost": "疑似付费（未点击验证，与一键帮我选同布局）",
+      "evidence": "S0048 出现；未实测"
+    },
+    "cancel_button": {
+      "center_720p": [
+        320,
+        578
+      ],
+      "note": "所有付费弹窗统一取消按钮位置；确定≈(900,575)"
+    }
+  },
+  "states": {
+    "ActivityMainFresh": {
+      "label": "活动主页面-新局可用",
+      "recognition": [
+        "OCR 酿月食香",
+        "按钮「做月饼」",
+        "体力角标数字"
+      ],
+      "action": "做月饼入口 = resource_consuming(activity_stamina x1)，未授权禁止点击",
+      "next": [
+        "MooncakeStageA"
+      ]
+    },
+    "ActivityMainResume": {
+      "label": "活动主页面-有未完成局",
+      "recognition": [
+        "OCR 酿月食香",
+        "按钮「继续游戏」",
+        "体力角标数字"
+      ],
+      "action": "继续游戏 = 恢复现有局，零消耗；不是新开一局，不得视为新消费",
+      "next": [
+        "MooncakeStageA"
+      ]
+    },
+    "MooncakeStageA": {
+      "label": "做月饼游戏页-阶段A查看馅料（翻盘）",
+      "recognition": [
+        "规则行「查看盘子中的馅料需要消耗一个小手道具…」",
+        "9 盘 3×3 网格（默认盖绿叶）",
+        "去下一步骤(187,581) / 一键翻开(1165,638) / 拥有 x6"
+      ],
+      "round_status": "in_progress（存在未包馅的盘）",
+      "mechanics": {
+        "flip_cost": "1 小手/盘；翻盘后叶子掀开露馅料（点盘中心/馅料无动作，包馅不是直接点击）",
+        "partial_advance": "「去下一步骤」→ 弹窗「未吃到馅料的月饼，将被丢失，不能陪你去下一步骤哦，确定继续吗?」确定(900,575) → 丢弃未翻盘，带已翻盘进入阶段B。实测 6/9 翻 → 带 6 枚月饼进入配花阶段",
+        "flip_grid_720p": "cols=[577,850,1123] rows=[193,340,487]；实测已翻 6 盘=左上/上中/右上/左中/中中/右中"
+      },
+      "completion_signal": "阶段A完成信号=所有月饼都吃到馅料（帮助规则：可获得勋章和放大镜）；实测非必须全翻（可带部分盘推进）",
+      "exit": [
+        "MooncakeExitConfirm",
+        "MooncakeStageB"
+      ]
+    },
+    "MooncakeStageB": {
+      "label": "做月饼游戏页-阶段B配花",
+      "recognition": [
+        "规则行「点击月饼,为它配好鲜花,就可以开烤啦…满足所有喜好可获得银勋章和小火苗」",
+        "6 枚月饼（上3下3 或散落布局）",
+        "按钮: 去下一步骤(187,581)/探索心愿(534,649)/一键帮我选(947,646)/一键扭转(1165,646)"
+      ],
+      "round_status": "in_progress（月饼未全部满足喜好）",
+      "mechanics": {
+        "manual_flower": "点月饼 → 弹出喜好卡片（玫瑰/桂花/茉莉 3 候选）→ 点卡片内花可免费配花（实测点卡片第3朵花(835,170)生效，月饼叠上花图案）；配错后修正需付费扭转",
+        "free_path": "仅盲配（无放大镜无法确定喜好）；6 枚全对概率低且配错无免费纠错",
+        "completion": "帮助规则：满足所有喜好 → 银勋章+小火苗 → 开蒸/最后环节。完成画面未实机验证",
+        "mooncake_positions_720p": "上排 [(489,251),(748,251),(1007,251)] 下排 [(489,464),(748,464),(1007,464)]（S0037 裁剪推算，实机为准）"
+      },
+      "completion_signal": "单枚配对信号=月饼上方出现 PERFECT（实测：黄桂花配左上、粉玫瑰配右上/右下）；未完美月饼点「去下一步骤」→ 弹窗「还有X颗月饼没有完美哦！未完美的月饼不能陪您去下一步骤」→ 确定(900,575) 丢弃未完美、带完美月饼进入阶段C。全对（满足所有喜好）可得银勋章+小火苗，未实机验证",
+      "exit": [
+        "MooncakeExitConfirm",
+        "MooncakeStageC"
+      ]
+    },
+    "MooncakeExitConfirm": {
+      "label": "退出确认框",
+      "recognition": [
+        "OCR 确定现在结束游戏吗?",
+        "三按钮 OCR: 去下一步骤/暂时离开/结束游戏"
+      ],
+      "buttons": {
+        "去下一步骤": {
+          "center_720p": [
+            173,
+            575
+          ],
+          "semantics": "已查明（阶段A）：推进到下一制作阶段，未满足条件的对象被丢弃（阶段A=未吃馅料的盘）。阶段B底部也有此按钮（配花未完成时点击语义未验证，未点击）",
+          "auto_policy": "阶段A已确认可执行（确定(900,575)）；阶段B待验证"
+        },
+        "暂时离开": {
+          "center_720p": [
+            372,
+            575
+          ],
+          "semantics": "保存当前未完成局并返回主页（主页变「继续游戏」），适用于 round_status=in_progress。已二次实机验证（S0050 继续游戏变体，体力保持 2）",
+          "auto_policy": "round_status=in_progress 时可执行；须先 OCR 确认按钮文本"
+        },
+        "结束游戏": {
+          "center_720p": [
+            900,
+            575
+          ],
+          "semantics": "结束当前轮→结算→恢复「做月饼」→允许新一轮；适用于 round_status=complete。不可逆：探索中误点会丢失未完成局进度",
+          "auto_policy": "仅 round_status=complete 且完成信号可靠时可执行；默认禁止"
+        }
+      },
+      "router": {
+        "rule": "round_status=in_progress → 暂时离开；round_status=complete → 结束游戏；无法判定 → unknown → Stop/Takeover，不点任何按钮",
+        "note": "禁止固定策略（永远暂时离开=业务死锁；永远结束游戏=丢失进度）。去下一步骤在阶段B的语义查明后再建第三分支"
+      }
+    },
+    "Settlement": {
+      "label": "结算/活动主页恢复",
+      "recognition": "已实机验证：结束游戏 → 结算弹窗「恭喜您完成本轮烤月饼,获得奖励~」→ 开心收下(638,607) → 主页恢复「做月饼」（继续游戏消失）",
+      "status": "confirmed"
+    },
+    "MooncakeStageC": {
+      "label": "做月饼游戏页-阶段C开烤",
+      "recognition": [
+        "规则行「开烤!烤好了的月饼就会变色…」",
+        "烤盘内月饼 PERFECT x3 / SOSO x1 标注",
+        "火苗数量显示条",
+        "按钮: 一键挽救(1140,545)/一键完美(1140,629) / x20挽救标签",
+        "✕≈(1231,81)"
+      ],
+      "round_status": "complete（烤盘月饼均已烤好、有收益时；「还有0个未烤好」）",
+      "mechanics": {
+        "bake": "进入时带 N 枚完美月饼（实测 3 枚: 1 PERFECT + 2 SOSO）；烤好了的月饼变色（PERFECT x3 收益）；SOSO= x1 收益",
+        "flame_heat": "未烤好/想提升可用火苗加热；点 SOSO 月饼 → 宝石不足 → 付费弹窗「很遗憾，您的宝石不足，是否花费2开心宝补足呢?」→ 取消(320,578)",
+        "save": "x20挽救（20 火苗/次，当前火苗 x3 不足）；一键挽救/一键完美疑似付费（未点击）",
+        "settlement_ready": "烤盘月饼均有收益（0 未烤好）→ 可直接 ✕ → 确认框（无「未完美」警告）→ 结束游戏"
+      },
+      "completion_signal": "【round_complete 可靠信号·定稿】烤制页「还有0个未烤好」+ 确认框无「未完美」警告 + 结算弹窗「恭喜您完成本轮烤月饼,获得奖励~」→ 可点结束游戏",
+      "exit": [
+        "MooncakeExitConfirm",
+        "Settlement"
+      ]
+    }
+  },
+  "round_lifecycle": {
+    "graph": "ActivityMainFresh -(消耗1体力)-> MooncakeStageA(翻盘:1小手/盘; 可带部分盘推进) -(去下一步骤·确定900,575)-> MooncakeStageB(配花:盲配免费/辅助全付费; 未完美可丢弃) -(去下一步骤·确定900,575)-> MooncakeStageC(开烤:0未烤好=complete) -(✕)-> MooncakeExitConfirm -(in_progress:暂时离开)-> ActivityMainResume -(继续游戏,零消耗)-> MooncakeStageA -(complete:结束游戏)-> Settlement(开心收下) -> ActivityMainFresh(做月饼恢复) -> 下一轮",
+    "open_questions": [
+      "阶段B 全对（满足所有喜好）时的画面/银勋章+小火苗？",
+      "阶段C 火苗 x3 的获取途径与免费加热条件？宝石与火苗关系？",
+      "一键挽救/一键完美的付费性质？",
+      "体力上限与 0/1 的角标显示？",
+      "免费获得放大镜的途径是否存在？"
+    ]
+  },
+  "permissions": {
+    "activity_stamina": false,
+    "small_hand_tool": false,
+    "note": "第一版二态（禁止/明确允许）。不做 budget/reserve/daily_limit。授权入口：CLI --allow-resource <name> 或编辑本文件（默认 false）"
+  }
+}

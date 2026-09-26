@@ -1,0 +1,23 @@
+﻿{"round":"B","index":1,"state":"StageA-PartialFlip","reason":"Maa FLIP_1..6 只成功4盘(小手6→2),S_A20_A_NEXT recognition_failed;AI接管补翻:翻2盘使有馅料盘数达6,其余3盘去下一步骤时丢弃(与Round A同模式)","decision":"点击(577,340)翻盘"}
+{"round":"B","index":2,"state":"StageA-Flipped6","reason":"6盘有馅料(4Maa+2AI),3盘盖叶;点去下一步骤触发丢弃确认(免费)","decision":"点击去下一步骤(187,581)"}
+{"round":"B","index":3,"state":"StageA-DiscardConfirm","reason":"弹窗:未吃到馅料的月饼将被丢失(3盘盖叶),免费策略确定继续","decision":"点击确定(898,574)"}
+{"round":"B","index":4,"state":"StageB-FlowerMatch","reason":"配花页6枚月饼(3上粉/2中粉/1绿+下粉);免费盲配策略与Round A一致;点(515,200)尝试出卡","decision":"点击(515,200)"}
+{"round":"B","index":5,"state":"StageB-ThreeFlowers","reason":"点(515,200)出三花卡(粉/黄/白绿@514/750/977,y202);免费盲配点黄花(750,202)","decision":"点击(750,202)"}
+{"round":"B","index":6,"state":"StageB-FlowerMatch","reason":"两组三花卡(上左/上中);免费盲配:为月饼1点左面板黄花(510,152)","decision":"点击(510,152)"}
+{"round":"B","index":7,"state":"StageB-FlowerMatch","reason":"月饼1上左PERFECT;点月饼2(上中755,200)出面板继续盲配","decision":"点击(755,200)"}
+{"round":"B","index":8,"state":"StageB-FlowerMatch","reason":"月饼2面板(右:玫瑰/桂花/玉兰);盲配点中间黄花(763,150)","decision":"点击(763,150)"}
+{"round":"B","index":9,"state":"StageB-FlowerMatch","reason":"月饼2上中PERFECT(2/2盲配命中);点中左(510,360)出面板","decision":"点击(510,360)"}
+{"round":"B","index":10,"state":"StageB-FlowerMatch","reason":"中左月饼面板(粉/黄/白绿);盲配点中间黄花(500,300)","decision":"点击(500,300)"}
+{"round":"B","index":11,"state":"StageB-FlowerMatch","reason":"中左月饼PERFECT(3/3);点中中(750,360)出面板","decision":"点击(750,360)"}
+{"round":"B","index":12,"state":"StageB-FlowerMatch","reason":"中中面板(粉/黄/白绿);盲配点黄花(750,280)","decision":"点击(750,280)"}
+{"round":"B","index":13,"state":"StageB-FlowerMatch","reason":"中中PERFECT(4/4);点下左(515,523)出面板","decision":"点击(515,523)"}
+{"round":"B","index":14,"state":"StageB-FlowerMatch","reason":"下左面板(粉/黄/白绿);盲配点黄花(545,437)","decision":"点击(545,437)"}
+{"round":"B","index":15,"state":"StageB-FlowerMatch","reason":"下左配错(扭转心意=付费3不点,免费策略放弃);点中右绿(990,360)出面板","decision":"点击(990,360)"}
+{"round":"B","index":16,"state":"StageB-FlowerMatch","reason":"中右面板(粉/黄/白绿);盲配点黄花(1009,277)","decision":"点击(1009,277)"}
+{"round":"B","index":17,"state":"StageB-Done","reason":"6枚全配(5PERFECT+下左错,免费放弃救);去下一步骤触发未完美丢弃弹窗","decision":"点击去下一步骤(187,581)"}
+{"round":"B","index":18,"state":"StageB-ExitConfirm","reason":"弹窗:还有2颗月饼没有完美;免费策略确定丢弃,带PERFECT进烤制(S0136)","decision":"点击确定(909,580)"}
+{"round":"B","index":19,"state":"StageC-Bake","reason":"烤制页:2PERFECT+2SOSO,还有1个未烤好;火苗x3免费,用火苗加热(规则:未烤好可用火苗继续加热)","decision":"点击再加把火(637,645)"}
+{"round":"B","index":20,"state":"StageC-Paywall","reason":"再加把火触发付费墙(5开心宝补5火苗),禁止开心宝消费→取消;未烤好月饼不加热(免费策略),"decision":"点击取消(460,576)"}
+{"round":"B","index":21,"state":"StageC-Bake","reason":"付费补齐已取消,不加热未烤好(免费策略);点✕触发退出确认框","decision":"点击✕(1232,81)"}
+{"round":"B","index":22,"state":"MooncakeExitConfirm","reason":"确认框:确定现在结束游戏吗?无丢弃警告;1未烤好=火苗不足付费墙所致,免费策略不加热;结束游戏结算已烤月饼(2P+2S)","decision":"点击结束游戏(901,573)"}
+{"round":"B","index":23,"state":"Settlement","reason":"结算弹窗:恭喜完成+获得月饼x1x7(免费无选择)(S0141)","decision":"点击开心收下(638,601)"}

@@ -1,0 +1,23 @@
+{
+  "event": "mid-autumn-brew",
+  "session": "ai-vs-hybrid-20260925-1618",
+  "timestamp": "2026-09-25T17:14:57",
+  "source_state": "S_A20_A_NEXT",
+  "reason": "recognition_failed",
+  "pipeline_node": "Activity_mid_autumn_brew_S_A20_A_NEXT__TakeoverError",
+  "expected": "去下一步骤",
+  "roi": [
+    100,
+    560,
+    250,
+    600
+  ],
+  "result_candidates": [
+    "S_A21_A_CONFIRM"
+  ],
+  "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+  "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+  "trace_status": "ok",
+  "log_status": "ok",
+  "screenshot_status": "ok"
+}

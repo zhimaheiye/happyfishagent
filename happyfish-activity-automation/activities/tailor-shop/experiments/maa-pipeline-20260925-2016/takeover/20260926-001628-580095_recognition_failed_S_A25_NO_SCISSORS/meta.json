@@ -1,0 +1,24 @@
+{
+  "event": "tailor-shop",
+  "session": "20260925-195917",
+  "timestamp": "2026-09-26T00:16:28",
+  "source_state": "S_A25_NO_SCISSORS",
+  "reason": "recognition_failed",
+  "pipeline_node": "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverError",
+  "expected": null,
+  "roi": [
+    400,
+    590,
+    700,
+    730
+  ],
+  "result_candidates": [
+    "S_A26_X10_EXCLUDE"
+  ],
+  "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+  "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+  "trace_status": "unavailable",
+  "log_status": "ok",
+  "screenshot_status": "ok",
+  "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\scissors_digit0.png"
+}

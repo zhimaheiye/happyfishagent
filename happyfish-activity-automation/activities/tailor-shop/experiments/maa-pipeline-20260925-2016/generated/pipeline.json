@@ -1,0 +1,850 @@
+{
+  "$meta": {
+    "event": "tailor-shop",
+    "event_slug": "tailor_shop",
+    "session_id": "20260925-195917",
+    "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+    "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+    "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+    "warnings": [],
+    "trace_tail_limit": 10,
+    "start_router": "Activity_tailor_shop_StartRouter"
+  },
+  "Activity_tailor_shop_S_X10_EVENT_B": {
+    "roi": [
+      100,
+      100,
+      1180,
+      650
+    ],
+    "timeout": 4000,
+    "recognition": "TemplateMatch",
+    "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\btype_title.png",
+    "threshold": 0.7,
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_X10_EVENT_B] 确认 S_X10_EVENT_B"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_X10_EVENT_B__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_X10_EVENT_B__TakeoverFrontier"
+    ]
+  },
+  "Activity_tailor_shop_S_X10_EVENT_B__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_X10_EVENT_B",
+      "expected": null,
+      "roi": [
+        100,
+        100,
+        1180,
+        650
+      ],
+      "result_candidates": [
+        "AI_DECISION_EVENT_B"
+      ],
+      "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\btype_title.png",
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_X10_EVENT_B__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_X10_EVENT_B__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_X10_EVENT_B__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_X10_EVENT_B] S_X10_EVENT_B recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_X10_EVENT_B__TakeoverFrontier": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_X10_EVENT_B",
+      "expected": null,
+      "roi": [
+        100,
+        100,
+        1180,
+        650
+      ],
+      "result_candidates": [
+        "AI_DECISION_EVENT_B"
+      ],
+      "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\btype_title.png",
+      "reason": "knowledge_frontier",
+      "pipeline_node": "Activity_tailor_shop_S_X10_EVENT_B__TakeoverFrontier"
+    },
+    "next": [
+      "Activity_tailor_shop_S_X10_EVENT_B__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_X10_EVENT_B__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_X10_EVENT_B] S_X10_EVENT_B knowledge_frontier，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_X10_EVENT_B__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_X10_EVENT_B 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_X11_EVENT_AC": {
+    "roi": [
+      100,
+      100,
+      1150,
+      700
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "得鱼概率|压箱底",
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_X11_EVENT_AC] 确认 S_X11_EVENT_AC"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverFrontier"
+    ]
+  },
+  "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_X11_EVENT_AC",
+      "expected": "得鱼概率|压箱底",
+      "roi": [
+        100,
+        100,
+        1150,
+        700
+      ],
+      "result_candidates": [
+        "AI_DECISION_EVENT_AC"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_X11_EVENT_AC] S_X11_EVENT_AC recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverFrontier": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_X11_EVENT_AC",
+      "expected": "得鱼概率|压箱底",
+      "roi": [
+        100,
+        100,
+        1150,
+        700
+      ],
+      "result_candidates": [
+        "AI_DECISION_EVENT_AC"
+      ],
+      "reason": "knowledge_frontier",
+      "pipeline_node": "Activity_tailor_shop_S_X11_EVENT_AC__TakeoverFrontier"
+    },
+    "next": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_X11_EVENT_AC__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_X11_EVENT_AC] S_X11_EVENT_AC knowledge_frontier，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_X11_EVENT_AC__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_X11_EVENT_AC 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A40_EXIT": {
+    "roi": [
+      450,
+      125,
+      810,
+      185
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "确定现在结束游戏吗",
+    "action": "Click",
+    "target": [
+      362,
+      573
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A40_EXIT] 确认 S_A40_EXIT"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A40_EXIT__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A50_MAIN_BACK"
+    ]
+  },
+  "Activity_tailor_shop_S_A40_EXIT__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A40_EXIT",
+      "expected": "确定现在结束游戏吗",
+      "roi": [
+        450,
+        125,
+        810,
+        185
+      ],
+      "result_candidates": [
+        "S_A50_MAIN_BACK"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A40_EXIT__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A40_EXIT__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A40_EXIT__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A40_EXIT] S_A40_EXIT recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A40_EXIT__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A40_EXIT 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A30_SETTLE": {
+    "roi": [
+      500,
+      570,
+      800,
+      650
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "开心收下",
+    "action": "Click",
+    "target": [
+      633,
+      609
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A30_SETTLE] 确认 S_A30_SETTLE"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A30_SETTLE__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_X10_EVENT_B",
+      "Activity_tailor_shop_S_X11_EVENT_AC",
+      "Activity_tailor_shop_S_A20_CUT"
+    ]
+  },
+  "Activity_tailor_shop_S_A30_SETTLE__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A30_SETTLE",
+      "expected": "开心收下",
+      "roi": [
+        500,
+        570,
+        800,
+        650
+      ],
+      "result_candidates": [
+        "S_X10_EVENT_B",
+        "S_X11_EVENT_AC",
+        "S_A20_CUT"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A30_SETTLE__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A30_SETTLE__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A30_SETTLE__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A30_SETTLE] S_A30_SETTLE recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A30_SETTLE__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A30_SETTLE 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A25_NO_SCISSORS": {
+    "roi": [
+      400,
+      590,
+      700,
+      730
+    ],
+    "timeout": 4000,
+    "recognition": "TemplateMatch",
+    "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\scissors_digit0.png",
+    "threshold": 0.8,
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A25_NO_SCISSORS] 确认 S_A25_NO_SCISSORS"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverFrontier"
+    ]
+  },
+  "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A25_NO_SCISSORS",
+      "expected": null,
+      "roi": [
+        400,
+        590,
+        700,
+        730
+      ],
+      "result_candidates": [
+        "AI_DECISION_NO_SCISSORS"
+      ],
+      "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\scissors_digit0.png",
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A25_NO_SCISSORS] S_A25_NO_SCISSORS recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverFrontier": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A25_NO_SCISSORS",
+      "expected": null,
+      "roi": [
+        400,
+        590,
+        700,
+        730
+      ],
+      "result_candidates": [
+        "AI_DECISION_NO_SCISSORS"
+      ],
+      "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\templates\\scissors_digit0.png",
+      "reason": "knowledge_frontier",
+      "pipeline_node": "Activity_tailor_shop_S_A25_NO_SCISSORS__TakeoverFrontier"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A25_NO_SCISSORS] S_A25_NO_SCISSORS knowledge_frontier，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A25_NO_SCISSORS__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A25_NO_SCISSORS 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A00_MAIN": {
+    "roi": [
+      500,
+      550,
+      810,
+      680
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "精选布料",
+    "action": "Click",
+    "target": [
+      644,
+      623
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A00_MAIN] 确认 S_A00_MAIN"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A00_MAIN__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A10_SCISSORS"
+    ]
+  },
+  "Activity_tailor_shop_S_A00_MAIN__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A00_MAIN",
+      "expected": "精选布料",
+      "roi": [
+        500,
+        550,
+        810,
+        680
+      ],
+      "result_candidates": [
+        "S_A10_SCISSORS"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A00_MAIN__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A00_MAIN__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A00_MAIN__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A00_MAIN] S_A00_MAIN recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A00_MAIN__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A00_MAIN 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A10_SCISSORS": {
+    "roi": [
+      150,
+      280,
+      360,
+      350
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "趁手小剪刀",
+    "action": "Click",
+    "target": [
+      258,
+      504
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A10_SCISSORS] 确认 S_A10_SCISSORS"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A10_SCISSORS__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A20_CUT"
+    ]
+  },
+  "Activity_tailor_shop_S_A10_SCISSORS__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A10_SCISSORS",
+      "expected": "趁手小剪刀",
+      "roi": [
+        150,
+        280,
+        360,
+        350
+      ],
+      "result_candidates": [
+        "S_A20_CUT"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A10_SCISSORS__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A10_SCISSORS__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A10_SCISSORS__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A10_SCISSORS] S_A10_SCISSORS recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A10_SCISSORS__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A10_SCISSORS 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A20_CUT": {
+    "roi": [
+      280,
+      330,
+      1100,
+      590
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "裁剪",
+    "action": "Click",
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A20_CUT] 确认 S_A20_CUT"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A21_COMPLETE"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A25_NO_SCISSORS",
+      "Activity_tailor_shop_S_A20_CUT"
+    ]
+  },
+  "Activity_tailor_shop_S_A20_CUT__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A20_CUT",
+      "expected": "裁剪",
+      "roi": [
+        280,
+        330,
+        1100,
+        590
+      ],
+      "result_candidates": [
+        "S_A25_NO_SCISSORS",
+        "S_A20_CUT"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A20_CUT__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A20_CUT__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A20_CUT__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A20_CUT] S_A20_CUT recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A20_CUT__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A20_CUT 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A21_COMPLETE": {
+    "roi": [
+      990,
+      600,
+      1240,
+      700
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "完成本关",
+    "action": "Click",
+    "target": [
+      1115,
+      654
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A21_COMPLETE] 确认 S_A21_COMPLETE"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A21_COMPLETE__TakeoverError"
+    ],
+    "next": [
+      "Activity_tailor_shop_S_A30_SETTLE"
+    ]
+  },
+  "Activity_tailor_shop_S_A21_COMPLETE__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A21_COMPLETE",
+      "expected": "完成本关",
+      "roi": [
+        990,
+        600,
+        1240,
+        700
+      ],
+      "result_candidates": [
+        "S_A30_SETTLE"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A21_COMPLETE__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A21_COMPLETE__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A21_COMPLETE__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A21_COMPLETE] S_A21_COMPLETE recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A21_COMPLETE__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A21_COMPLETE 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_S_A50_MAIN_BACK": {
+    "roi": [
+      420,
+      25,
+      870,
+      135
+    ],
+    "timeout": 4000,
+    "recognition": "OCR",
+    "expected": "巧手裁缝铺",
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A50_MAIN_BACK] 确认 S_A50_MAIN_BACK"
+    },
+    "on_error": [
+      "Activity_tailor_shop_S_A50_MAIN_BACK__TakeoverError"
+    ]
+  },
+  "Activity_tailor_shop_S_A50_MAIN_BACK__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": "S_A50_MAIN_BACK",
+      "expected": "巧手裁缝铺",
+      "roi": [
+        420,
+        25,
+        870,
+        135
+      ],
+      "result_candidates": [],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_tailor_shop_S_A50_MAIN_BACK__TakeoverError"
+    },
+    "next": [
+      "Activity_tailor_shop_S_A50_MAIN_BACK__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_S_A50_MAIN_BACK__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A50_MAIN_BACK] S_A50_MAIN_BACK recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_S_A50_MAIN_BACK__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] S_A50_MAIN_BACK 已停止，不再继续点击"
+    }
+  },
+  "Activity_tailor_shop_StartRouter": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "next": [
+      "Activity_tailor_shop_S_X10_EVENT_B",
+      "Activity_tailor_shop_S_X11_EVENT_AC",
+      "Activity_tailor_shop_S_A40_EXIT",
+      "Activity_tailor_shop_S_A30_SETTLE",
+      "Activity_tailor_shop_S_A25_NO_SCISSORS",
+      "Activity_tailor_shop_S_A00_MAIN",
+      "Activity_tailor_shop_S_A10_SCISSORS",
+      "Activity_tailor_shop_S_A20_CUT",
+      "Activity_tailor_shop_S_A21_COMPLETE",
+      "Activity_tailor_shop_S_A50_MAIN_BACK"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_StartRouter__TakeoverUnknown"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] 从当前画面识别已确认状态"
+    }
+  },
+  "Activity_tailor_shop_StartRouter__TakeoverUnknown": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "tailor-shop",
+      "event_slug": "tailor_shop",
+      "session": "20260925-195917",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\tailor-shop\\experiments\\maa-pipeline-20260925-2016\\generated\\pipeline.json",
+      "source_state": null,
+      "reason": "start_router_unmatched",
+      "pipeline_node": "Activity_tailor_shop_StartRouter__TakeoverUnknown",
+      "known_candidates": [
+        "S_X10_EVENT_B",
+        "S_X11_EVENT_AC",
+        "S_A40_EXIT",
+        "S_A30_SETTLE",
+        "S_A25_NO_SCISSORS",
+        "S_A00_MAIN",
+        "S_A10_SCISSORS",
+        "S_A20_CUT",
+        "S_A21_COMPLETE",
+        "S_A50_MAIN_BACK"
+      ],
+      "expected": null,
+      "roi": null,
+      "result_candidates": []
+    },
+    "next": [
+      "Activity_tailor_shop_StartRouter__Stop"
+    ],
+    "on_error": [
+      "Activity_tailor_shop_StartRouter__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[StartRouter] StartRouter start_router_unmatched，写入 takeover 后停止"
+    }
+  },
+  "Activity_tailor_shop_StartRouter__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[tailor-shop] 当前画面不在已知状态中，已停止"
+    }
+  }
+}

@@ -1,0 +1,1136 @@
+{
+  "$meta": {
+    "event": "mid-autumn-brew",
+    "event_slug": "mid_autumn_brew",
+    "session_id": "ai-vs-hybrid-20260925-1618",
+    "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+    "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+    "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+    "warnings": [
+      "S_A10_STAGE_A 与 S_A11_FLIP_1 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A10_STAGE_A 与 S_A12_FLIP_2 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A10_STAGE_A 与 S_A13_FLIP_3 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A10_STAGE_A 与 S_A14_FLIP_4 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A10_STAGE_A 与 S_A15_FLIP_5 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A10_STAGE_A 与 S_A16_FLIP_6 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_C00_STAGE_C 与 S_C05_CLOSE 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级",
+      "S_A00_MAIN_FRESH 与 S_C30_MAIN_BACK 的 recognition 相同（OCR），StartRouter 仍按 flow 顺序，没有改优先级"
+    ],
+    "trace_tail_limit": 10,
+    "start_router": "Activity_mid_autumn_brew_StartRouter"
+  },
+  "Activity_mid_autumn_brew_S_A00_MAIN_FRESH": {
+    "roi": [
+      500,
+      600,
+      790,
+      680
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "做月饼",
+    "action": "Click",
+    "target": [
+      640,
+      637
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A00_MAIN_FRESH] 确认 S_A00_MAIN_FRESH"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A10_STAGE_A"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A00_MAIN_FRESH",
+      "expected": "做月饼",
+      "roi": [
+        500,
+        600,
+        790,
+        680
+      ],
+      "result_candidates": [
+        "S_A10_STAGE_A"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A00_MAIN_FRESH] S_A00_MAIN_FRESH recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A00_MAIN_FRESH__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A00_MAIN_FRESH 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A10_STAGE_A": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A10_STAGE_A] 确认 S_A10_STAGE_A"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A10_STAGE_A__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A11_FLIP_1"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A10_STAGE_A__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A10_STAGE_A",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A11_FLIP_1"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A10_STAGE_A__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A10_STAGE_A__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A10_STAGE_A__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A10_STAGE_A] S_A10_STAGE_A recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A10_STAGE_A__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A10_STAGE_A 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A11_FLIP_1": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      577,
+      193
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A11_FLIP_1] 确认 S_A11_FLIP_1"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A11_FLIP_1__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A12_FLIP_2"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A11_FLIP_1__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A11_FLIP_1",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A12_FLIP_2"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A11_FLIP_1__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A11_FLIP_1__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A11_FLIP_1__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A11_FLIP_1] S_A11_FLIP_1 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A11_FLIP_1__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A11_FLIP_1 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A12_FLIP_2": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      850,
+      193
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A12_FLIP_2] 确认 S_A12_FLIP_2"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A12_FLIP_2__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A13_FLIP_3"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A12_FLIP_2__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A12_FLIP_2",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A13_FLIP_3"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A12_FLIP_2__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A12_FLIP_2__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A12_FLIP_2__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A12_FLIP_2] S_A12_FLIP_2 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A12_FLIP_2__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A12_FLIP_2 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A13_FLIP_3": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      1123,
+      193
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A13_FLIP_3] 确认 S_A13_FLIP_3"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A13_FLIP_3__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A14_FLIP_4"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A13_FLIP_3__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A13_FLIP_3",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A14_FLIP_4"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A13_FLIP_3__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A13_FLIP_3__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A13_FLIP_3__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A13_FLIP_3] S_A13_FLIP_3 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A13_FLIP_3__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A13_FLIP_3 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A14_FLIP_4": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      577,
+      340
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A14_FLIP_4] 确认 S_A14_FLIP_4"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A14_FLIP_4__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A15_FLIP_5"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A14_FLIP_4__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A14_FLIP_4",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A15_FLIP_5"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A14_FLIP_4__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A14_FLIP_4__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A14_FLIP_4__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A14_FLIP_4] S_A14_FLIP_4 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A14_FLIP_4__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A14_FLIP_4 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A15_FLIP_5": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      850,
+      340
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A15_FLIP_5] 确认 S_A15_FLIP_5"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A15_FLIP_5__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A16_FLIP_6"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A15_FLIP_5__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A15_FLIP_5",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A16_FLIP_6"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A15_FLIP_5__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A15_FLIP_5__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A15_FLIP_5__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A15_FLIP_5] S_A15_FLIP_5 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A15_FLIP_5__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A15_FLIP_5 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A16_FLIP_6": {
+    "roi": [
+      120,
+      15,
+      880,
+      145
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "查看盘子中的馅料",
+    "action": "Click",
+    "target": [
+      1123,
+      340
+    ],
+    "post_delay": 1200,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A16_FLIP_6] 确认 S_A16_FLIP_6"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A16_FLIP_6__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A20_A_NEXT"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A16_FLIP_6__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A16_FLIP_6",
+      "expected": "查看盘子中的馅料",
+      "roi": [
+        120,
+        15,
+        880,
+        145
+      ],
+      "result_candidates": [
+        "S_A20_A_NEXT"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A16_FLIP_6__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A16_FLIP_6__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A16_FLIP_6__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A16_FLIP_6] S_A16_FLIP_6 recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A16_FLIP_6__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A16_FLIP_6 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A20_A_NEXT": {
+    "roi": [
+      100,
+      560,
+      250,
+      600
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "去下一步骤",
+    "action": "Click",
+    "target": [
+      187,
+      581
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A20_A_NEXT] 确认 S_A20_A_NEXT"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A20_A_NEXT__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A20_A_NEXT__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A20_A_NEXT",
+      "expected": "去下一步骤",
+      "roi": [
+        100,
+        560,
+        250,
+        600
+      ],
+      "result_candidates": [
+        "S_A21_A_CONFIRM"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A20_A_NEXT__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A20_A_NEXT__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A20_A_NEXT__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A20_A_NEXT] S_A20_A_NEXT recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A20_A_NEXT__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A20_A_NEXT 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A21_A_CONFIRM": {
+    "roi": [
+      120,
+      150,
+      880,
+      280
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "未吃到馅料的月饼",
+    "action": "Click",
+    "target": [
+      900,
+      575
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_A21_A_CONFIRM] 确认 S_A21_A_CONFIRM"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverFrontier"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A21_A_CONFIRM",
+      "expected": "未吃到馅料的月饼",
+      "roi": [
+        120,
+        150,
+        880,
+        280
+      ],
+      "result_candidates": [
+        "S_B00_STAGE_B"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A21_A_CONFIRM] S_A21_A_CONFIRM recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverFrontier": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_A21_A_CONFIRM",
+      "expected": "未吃到馅料的月饼",
+      "roi": [
+        120,
+        150,
+        880,
+        280
+      ],
+      "result_candidates": [
+        "S_B00_STAGE_B"
+      ],
+      "reason": "knowledge_frontier",
+      "pipeline_node": "Activity_mid_autumn_brew_S_A21_A_CONFIRM__TakeoverFrontier"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_A21_A_CONFIRM] S_A21_A_CONFIRM knowledge_frontier，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_A21_A_CONFIRM__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_A21_A_CONFIRM 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C00_STAGE_C": {
+    "roi": [
+      120,
+      45,
+      880,
+      160
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "开烤",
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_C00_STAGE_C] 确认 S_C00_STAGE_C"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C00_STAGE_C__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_C05_CLOSE"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_C00_STAGE_C__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_C00_STAGE_C",
+      "expected": "开烤",
+      "roi": [
+        120,
+        45,
+        880,
+        160
+      ],
+      "result_candidates": [
+        "S_C05_CLOSE"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_C00_STAGE_C__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_C00_STAGE_C__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C00_STAGE_C__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_C00_STAGE_C] S_C00_STAGE_C recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C00_STAGE_C__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_C00_STAGE_C 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C05_CLOSE": {
+    "roi": [
+      120,
+      45,
+      880,
+      160
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "开烤",
+    "action": "Click",
+    "target": [
+      1231,
+      81
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_C05_CLOSE] 确认 S_C05_CLOSE"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C05_CLOSE__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_C10_EXIT"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_C05_CLOSE__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_C05_CLOSE",
+      "expected": "开烤",
+      "roi": [
+        120,
+        45,
+        880,
+        160
+      ],
+      "result_candidates": [
+        "S_C10_EXIT"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_C05_CLOSE__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_C05_CLOSE__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C05_CLOSE__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_C05_CLOSE] S_C05_CLOSE recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C05_CLOSE__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_C05_CLOSE 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C10_EXIT": {
+    "roi": [
+      380,
+      130,
+      900,
+      300
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "确定现在结束游戏吗",
+    "action": "Click",
+    "target": [
+      900,
+      575
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_C10_EXIT] 确认 S_C10_EXIT"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C10_EXIT__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_C20_SETTLE"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_C10_EXIT__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_C10_EXIT",
+      "expected": "确定现在结束游戏吗",
+      "roi": [
+        380,
+        130,
+        900,
+        300
+      ],
+      "result_candidates": [
+        "S_C20_SETTLE"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_C10_EXIT__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_C10_EXIT__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C10_EXIT__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_C10_EXIT] S_C10_EXIT recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C10_EXIT__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_C10_EXIT 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C20_SETTLE": {
+    "roi": [
+      300,
+      140,
+      700,
+      230
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "恭喜您完成本轮烤月饼",
+    "action": "Click",
+    "target": [
+      638,
+      607
+    ],
+    "post_delay": 2500,
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_C20_SETTLE] 确认 S_C20_SETTLE"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C20_SETTLE__TakeoverError"
+    ],
+    "next": [
+      "Activity_mid_autumn_brew_S_C30_MAIN_BACK"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_C20_SETTLE__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_C20_SETTLE",
+      "expected": "恭喜您完成本轮烤月饼",
+      "roi": [
+        300,
+        140,
+        700,
+        230
+      ],
+      "result_candidates": [
+        "S_C30_MAIN_BACK"
+      ],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_C20_SETTLE__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_C20_SETTLE__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C20_SETTLE__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_C20_SETTLE] S_C20_SETTLE recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C20_SETTLE__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_C20_SETTLE 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C30_MAIN_BACK": {
+    "roi": [
+      500,
+      600,
+      790,
+      680
+    ],
+    "timeout": 8000,
+    "recognition": "OCR",
+    "expected": "做月饼",
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "[S_C30_MAIN_BACK] 确认 S_C30_MAIN_BACK"
+    },
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C30_MAIN_BACK__TakeoverError"
+    ]
+  },
+  "Activity_mid_autumn_brew_S_C30_MAIN_BACK__TakeoverError": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": "S_C30_MAIN_BACK",
+      "expected": "做月饼",
+      "roi": [
+        500,
+        600,
+        790,
+        680
+      ],
+      "result_candidates": [],
+      "reason": "recognition_failed",
+      "pipeline_node": "Activity_mid_autumn_brew_S_C30_MAIN_BACK__TakeoverError"
+    },
+    "next": [
+      "Activity_mid_autumn_brew_S_C30_MAIN_BACK__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_S_C30_MAIN_BACK__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[S_C30_MAIN_BACK] S_C30_MAIN_BACK recognition_failed，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_S_C30_MAIN_BACK__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] S_C30_MAIN_BACK 已停止，不再继续点击"
+    }
+  },
+  "Activity_mid_autumn_brew_StartRouter": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "next": [
+      "Activity_mid_autumn_brew_S_A00_MAIN_FRESH",
+      "Activity_mid_autumn_brew_S_A10_STAGE_A",
+      "Activity_mid_autumn_brew_S_A11_FLIP_1",
+      "Activity_mid_autumn_brew_S_A12_FLIP_2",
+      "Activity_mid_autumn_brew_S_A13_FLIP_3",
+      "Activity_mid_autumn_brew_S_A14_FLIP_4",
+      "Activity_mid_autumn_brew_S_A15_FLIP_5",
+      "Activity_mid_autumn_brew_S_A16_FLIP_6",
+      "Activity_mid_autumn_brew_S_A20_A_NEXT",
+      "Activity_mid_autumn_brew_S_A21_A_CONFIRM",
+      "Activity_mid_autumn_brew_S_C00_STAGE_C",
+      "Activity_mid_autumn_brew_S_C05_CLOSE",
+      "Activity_mid_autumn_brew_S_C10_EXIT",
+      "Activity_mid_autumn_brew_S_C20_SETTLE",
+      "Activity_mid_autumn_brew_S_C30_MAIN_BACK"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_StartRouter__TakeoverUnknown"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] 从当前画面识别已确认状态"
+    }
+  },
+  "Activity_mid_autumn_brew_StartRouter__TakeoverUnknown": {
+    "recognition": "DirectHit",
+    "action": "Custom",
+    "custom_action": "DumpActivityTakeover",
+    "custom_action_param": {
+      "event": "mid-autumn-brew",
+      "event_slug": "mid_autumn_brew",
+      "session": "ai-vs-hybrid-20260925-1618",
+      "session_dir": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen",
+      "flow_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\flow.json",
+      "pipeline_path": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\frozen\\generated\\pipeline.json",
+      "source_state": null,
+      "reason": "start_router_unmatched",
+      "pipeline_node": "Activity_mid_autumn_brew_StartRouter__TakeoverUnknown",
+      "known_candidates": [
+        "S_A00_MAIN_FRESH",
+        "S_A10_STAGE_A",
+        "S_A11_FLIP_1",
+        "S_A12_FLIP_2",
+        "S_A13_FLIP_3",
+        "S_A14_FLIP_4",
+        "S_A15_FLIP_5",
+        "S_A16_FLIP_6",
+        "S_A20_A_NEXT",
+        "S_A21_A_CONFIRM",
+        "S_C00_STAGE_C",
+        "S_C05_CLOSE",
+        "S_C10_EXIT",
+        "S_C20_SETTLE",
+        "S_C30_MAIN_BACK"
+      ],
+      "expected": null,
+      "roi": null,
+      "result_candidates": []
+    },
+    "next": [
+      "Activity_mid_autumn_brew_StartRouter__Stop"
+    ],
+    "on_error": [
+      "Activity_mid_autumn_brew_StartRouter__Stop"
+    ],
+    "focus": {
+      "Node.Action.Succeeded": "[StartRouter] StartRouter start_router_unmatched，写入 takeover 后停止"
+    }
+  },
+  "Activity_mid_autumn_brew_StartRouter__Stop": {
+    "recognition": "DirectHit",
+    "action": "StopTask",
+    "focus": {
+      "Node.Action.Succeeded": "[mid-autumn-brew] 当前画面不在已知状态中，已停止"
+    }
+  }
+}

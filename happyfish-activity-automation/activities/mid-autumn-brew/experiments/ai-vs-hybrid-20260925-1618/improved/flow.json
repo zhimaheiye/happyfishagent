@@ -1,0 +1,1103 @@
+{
+  "schema": "happyfish.action_recorder.v0",
+  "exploration_task": "mid-autumn-brew",
+  "task": "做月饼 post-experiment improved flow：StageA 翻盘每步后置验证(TemplateMatch 盘位模板) + StageC 尾部完整门禁 + AI→Maa 回交(StageC 入口)",
+  "session_id": "ai-vs-hybrid-20260925-1618",
+  "created_at": "2026-09-25T18:00:00+08:00",
+  "start_state": "S_A00_MAIN_FRESH",
+  "goal_state": "S_C30_MAIN_BACK",
+  "status_legend": {
+    "observed": "记录器写下的原始事实。recognition 仍为空，不能交给 Maa。",
+    "proposed": "AI 或人工提议。不是已确认规则。",
+    "confirmed": "已经确认的规则，但还没有编译成 Pipeline。",
+    "maa_ready": "已确认，并且允许映射成 Maa 节点。"
+  },
+  "notes": "post-experiment improved version（不修改 frozen 实验数据）。修复点1：StageA 翻盘 FLIP_i 后插入 VERIFY_i=TemplateMatch 该盘翻开模板(取自 S0079 稳定帧)，翻盘未生效(模板不匹配)→recognition_failed→takeover，不再静默继续。修复点2：StageC 尾部完整进 Maa——S_C01 烤制页 OCR「还有0个未烤好」=complete信号①；S_C10 确认框 OCR「确定现在结束游戏吗」精确文案天然排除 StageB 未完美警告弹窗(「确定现在离开吗?还有X颗月饼没有完美哦」)=信号②；S_C20 结算 OCR「恭喜您完成本轮烤月饼」→点击开心收下；S_C30 OCR「做月饼」=新局入口恢复(继续游戏态不匹配→takeover)。AI→Maa 回交：AI 完成 StageB 配花后自己点去下一步骤+确定进入烤制页(StageC)即停止，重新启动本 pipeline，StartRouter 从「开烤」识别进入 S_C00 接管尾部。依据：2026-09-25 双轮实测（S0072-S0142；翻盘失败=B/D 两盘 grid_diff 证实；翻开盘模板跨帧 1.000/盖叶<0.5 离线验证；S0079 vs S0117 盘面 |dMean|=0 跨轮一致）。",
+  "states": [
+    {
+      "state": "S_X10_PAYWALL",
+      "name": "付费墙弹窗(开心宝/宝石补足)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/paywall_title.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          100,
+          120,
+          1020,
+          320
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "识别付费墙弹窗(标题模板,离线验证S0138=1.000 vs 烤制页0.096/未完美0.202/确认框0.117)→takeover,由AI取消/决策;绝不绕过弹窗继续底层动作"
+      },
+      "result_candidates": [
+        "AI_DECISION_PAYWALL"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 8000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "付费墙=modal优先(StartRouter顺序最前);标题含数字(如5开心宝)跨轮可能变化→匹配失败走start_router_unmatched=takeover安全降级"
+    },
+    {
+      "state": "S_X20_STAGEB_LEAVE",
+      "name": "StageB未完美离开弹窗",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "不能陪您去下一步骤",
+        "recommended_roi": [
+          150,
+          150,
+          850,
+          280
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "识别StageB未完美弹窗(还有X颗月饼没有完美)→takeover,由AI按免费策略决策丢弃;防止底层配花页被误路由"
+      },
+      "result_candidates": [
+        "AI_DECISION_STAGEB_LEAVE"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 8000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "modal优先;OCR实测S0112=HIT, S0080/S0119丢弃弹窗=「定继续吗?」不匹配, S0114确认框=「确定现在结束游戏吗」不匹配"
+    },
+    {
+      "state": "S_A21_A_CONFIRM",
+      "name": "阶段A-丢弃确认(确定)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "未吃到馅料的月饼",
+        "recommended_roi": [
+          120,
+          100,
+          880,
+          330
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          900,
+          575
+        ],
+        "coord_space": "720p",
+        "reason": "确定继续:未翻盘按免费规则丢弃,带已翻盘进入配花阶段",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "丢弃为免费规则,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_B00_STAGE_B"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2000
+      }
+    },
+    {
+      "state": "S_A00_MAIN_FRESH",
+      "name": "活动主页-做月饼入口",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "做月饼",
+        "recommended_roi": [
+          500,
+          600,
+          790,
+          680
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          640,
+          637
+        ],
+        "coord_space": "720p",
+        "reason": "实验授权:消耗1体力新开做月饼局(下一轮一体力smoke)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "实验授权消耗1体力,非付费操作"
+        }
+      },
+      "result_candidates": [
+        "S_A10_STAGE_A"
+      ],
+      "timing": {
+        "action_to_stable_ms": 1500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "做月饼=新开局消耗1体力,授权内"
+    },
+    {
+      "state": "S_A10_STAGE_A",
+      "name": "阶段A-查看馅料(翻盘)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "确认进入阶段A游戏页"
+      },
+      "result_candidates": [
+        "S_A11_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 800
+      },
+      "notes": "确认进入阶段A游戏页;next=CHECK-before-FLIP(每盘先判断已开/盖叶)"
+    },
+    {
+      "state": "S_A11_CHECK",
+      "name": "阶段A-Check盘A(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_A.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          532,
+          148,
+          622,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_A 模板命中=盘A仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A12_CHECK",
+      "result_candidates": [
+        "S_A11_FLIP_1"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A12_CHECK",
+      "name": "阶段A-Check盘B(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_B.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          805,
+          148,
+          895,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_B 模板命中=盘B仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A13_CHECK",
+      "result_candidates": [
+        "S_A12_FLIP_2"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A13_CHECK",
+      "name": "阶段A-Check盘C(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_C.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          1078,
+          148,
+          1168,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_C 模板命中=盘C仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A14_CHECK",
+      "result_candidates": [
+        "S_A13_FLIP_3"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A14_CHECK",
+      "name": "阶段A-Check盘D(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_D.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          532,
+          295,
+          622,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_D 模板命中=盘D仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A15_CHECK",
+      "result_candidates": [
+        "S_A14_FLIP_4"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A15_CHECK",
+      "name": "阶段A-Check盘E(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_E.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          805,
+          295,
+          895,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_E 模板命中=盘E仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A16_CHECK",
+      "result_candidates": [
+        "S_A15_FLIP_5"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A16_CHECK",
+      "name": "阶段A-Check盘F(已开则跳过)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/closed_F.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          1078,
+          295,
+          1168,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "CHECK-before-FLIP 正向语义: closed_F 模板命中=盘F仍盖叶->FLIP; 不命中=已开->recognition_fail_next 跳下一盘(安全方向:不点击不消耗)"
+      },
+      "recognition_fail_next": "S_A20_A_NEXT",
+      "result_candidates": [
+        "S_A16_FLIP_6"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 2000,
+        "action_to_stable_ms": 100
+      },
+      "notes": "2026-09-26实机修复: 原open模板'命中=已开'依赖识别失败->FLIP, 但Maa语义下next候选识别失败不触发recognition_fail_next(候选只算未命中), 导致A10->A11_CHECK失败->A10超时TakeoverError。改为closed模板正向链: 命中=盖叶->FLIP, 不命中=已开->fail_next跳下一盘。FLIP后直接下一盘CHECK(未翻盘由去下一步骤免费丢弃兜底, 不再设独立VERIFY); resume时已开盘closed不命中自动跳过。"
+    },
+    {
+      "state": "S_A11_FLIP_1",
+      "name": "翻盘1(左上A)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          577,
+          193
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A12_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘A: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A12_CHECK"
+    },
+    {
+      "state": "S_A12_FLIP_2",
+      "name": "翻盘2(上中B)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          850,
+          193
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A13_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘B: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A13_CHECK"
+    },
+    {
+      "state": "S_A13_FLIP_3",
+      "name": "翻盘3(右上C)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1123,
+          193
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A14_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘C: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A14_CHECK"
+    },
+    {
+      "state": "S_A14_FLIP_4",
+      "name": "翻盘4(左中D)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          577,
+          340
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A15_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘D: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A15_CHECK"
+    },
+    {
+      "state": "S_A15_FLIP_5",
+      "name": "翻盘5(中中E)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          850,
+          340
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A16_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘E: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A16_CHECK"
+    },
+    {
+      "state": "S_A16_FLIP_6",
+      "name": "翻盘6(右中F)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "查看盘子中的馅料",
+        "recommended_roi": [
+          120,
+          15,
+          880,
+          145
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1123,
+          340
+        ],
+        "coord_space": "720p",
+        "reason": "翻盘查看馅料,消耗1小手(免费道具,实验授权)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "小手=局内免费道具,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A20_A_NEXT"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500,
+        "recognition_timeout_ms": 8000
+      },
+      "notes": "FLIP盘F: CHECK确认盖叶后执行(小手=免费道具); post_delay 2500ms等翻盘动画; 翻盘失败(仍盖叶)不阻塞, 由去下一步骤丢弃确认免费兜底; 下一节点=S_A20_A_NEXT"
+    },
+    {
+      "state": "S_A11V_VERIFY",
+      "name": "验证翻盘1(A盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_A.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          532,
+          148,
+          622,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:A盘翻盘后模板匹配=点击生效;不匹配=点击未生效→takeover"
+      },
+      "result_candidates": [
+        "S_A12_CHECK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘A:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A12V_VERIFY",
+      "name": "验证翻盘2(B盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_B.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          805,
+          148,
+          895,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:B盘翻盘后模板匹配=点击生效"
+      },
+      "result_candidates": [
+        "S_A13_CHECK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘B:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A13V_VERIFY",
+      "name": "验证翻盘3(C盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_C.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          1078,
+          148,
+          1168,
+          238
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:C盘翻盘后模板匹配=点击生效"
+      },
+      "result_candidates": [
+        "S_A14_CHECK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘C:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A14V_VERIFY",
+      "name": "验证翻盘4(D盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_D.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          532,
+          295,
+          622,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:D盘翻盘后模板匹配=点击生效"
+      },
+      "result_candidates": [
+        "S_A15_CHECK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘D:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A15V_VERIFY",
+      "name": "验证翻盘5(E盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_E.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          805,
+          295,
+          895,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:E盘翻盘后模板匹配=点击生效"
+      },
+      "result_candidates": [
+        "S_A16_CHECK"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘E:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A16V_VERIFY",
+      "name": "验证翻盘6(F盘翻开)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/flip/open_F.png",
+        "threshold": 0.7,
+        "recommended_roi": [
+          1078,
+          295,
+          1168,
+          385
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "后置验证:F盘翻盘后模板匹配=点击生效;全部6盘验证通过后才去下一步骤"
+      },
+      "result_candidates": [
+        "S_A20_A_NEXT"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 5000,
+        "action_to_stable_ms": 300
+      },
+      "notes": "VERIFY盘F:翻盘后模板匹配=生效→下一盘CHECK;不匹配→recognition_failed→takeover(不自动二次点击)"
+    },
+    {
+      "state": "S_A20_A_NEXT",
+      "name": "阶段A-去下一步骤",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "TemplateMatch",
+        "template": "D:\\开心水族箱活动经验\\happyfishagent\\happyfish-activity-automation\\activities\\mid-autumn-brew\\experiments\\ai-vs-hybrid-20260925-1618\\improved\\templates/next_step_btn.png",
+        "threshold": 0.75,
+        "recommended_roi": [
+          100,
+          550,
+          265,
+          615
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          187,
+          581
+        ],
+        "coord_space": "720p",
+        "reason": "去下一步骤,触发未吃馅料盘丢弃确认(免费规则)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "丢弃未翻盘为游戏免费规则,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_A21_A_CONFIRM",
+        "S_B00_STAGE_B"
+      ],
+      "timing": {
+        "action_to_stable_ms": 1500,
+        "recognition_timeout_ms": 5000
+      },
+      "notes": "改用按钮 TemplateMatch:裁剪 OCR 对「去下一步骤」小文本不可靠(实测 rapidocr 只读「步骤」,Round B recognition_failed 根因);按钮模板 S0079 匹配 1.000 vs 弹窗遮罩 0.695,阈值 0.75 区分; 2026-09-26: result增加S_B00_STAGE_B兜底——6盘全翻成功时无丢弃确认框, 直接进入StageB(配花)"
+    },
+    {
+      "state": "S_B00_STAGE_B",
+      "name": "阶段B-配花(AI region)",
+      "status": "proposed",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "点击月饼,为它配好鲜花",
+        "recommended_roi": [
+          120,
+          30,
+          910,
+          130
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "AI region:配花需视觉判断PERFECT/喜好/付费墙,AI接管"
+      },
+      "result_candidates": [],
+      "notes": "AI 完成配花后:点去下一步骤(187,581)→未完美弹窗→确定(909,580)→进入烤制页(StageC)后停止游戏操作,重新启动临时 Maa 从 S_C00 接管尾部"
+    },
+    {
+      "state": "S_C00_STAGE_C",
+      "name": "阶段C-开烤(回交入口)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开烤",
+        "recommended_roi": [
+          140,
+          30,
+          1170,
+          170
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "AI→Maa 回交点:确认进入烤制阶段,StartRouter 可从本状态识别并接管尾部"
+      },
+      "result_candidates": [
+        "S_C01_COMPLETE_CHECK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 800
+      },
+      "notes": "; 2026-09-26: ROI放宽至(140,30,1170,170)覆盖烤制页规则行像素(182,37)-(1156,112)"
+    },
+    {
+      "state": "S_C01_COMPLETE_CHECK",
+      "name": "阶段C-烤制页确认(开烤规则行)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开烤",
+        "recommended_roi": [
+          140,
+          30,
+          1170,
+          170
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "StageC 存在确认(规则行「开烤!烤好了的月饼就会变色...」)。complete 判定交由 S_C10 确认框文案:底部「还有0个未烤好」裁剪 OCR 实测不可读(rapidocr 空),放弃作为门禁;Round B 实证 1未烤好(火苗不足付费墙)也可免费正常结算,故未烤好不阻塞结束,付费墙由「不加热」策略规避"
+      },
+      "result_candidates": [
+        "S_C05_CLOSE"
+      ],
+      "timing": {
+        "recognition_timeout_ms": 8000,
+        "action_to_stable_ms": 500
+      },
+      "notes": "原「还有0个未烤好」OCR 不可靠(裁剪读不出),改规则行确认;complete 双信号:Signal1=烤制页规则行(StageC存在) + Signal2=S_C10「确定现在结束游戏吗」精确文案(未完美弹窗不匹配→takeover); 2026-09-26: ROI放宽至(140,30,1170,170)覆盖烤制页规则行像素(182,37)-(1156,112)"
+    },
+    {
+      "state": "S_C05_CLOSE",
+      "name": "阶段C-关闭游戏页",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "开烤",
+        "recommended_roi": [
+          140,
+          30,
+          1170,
+          170
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1231,
+          81
+        ],
+        "coord_space": "720p",
+        "reason": "关闭烤制页,触发退出确认框(complete→结束游戏路由)",
+        "safety": {
+          "level": "close",
+          "reason": "关闭页面按钮,无消耗"
+        }
+      },
+      "result_candidates": [
+        "S_C10_EXIT"
+      ],
+      "timing": {
+        "action_to_stable_ms": 1500
+      },
+      "notes": "; 2026-09-26: ROI放宽至(140,30,1170,170)覆盖烤制页规则行像素(182,37)-(1156,112)"
+    },
+    {
+      "state": "S_C10_EXIT",
+      "name": "退出确认框-结束游戏",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "确定现在结束游戏吗",
+        "recommended_roi": [
+          380,
+          130,
+          900,
+          300
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          900,
+          575
+        ],
+        "coord_space": "720p",
+        "reason": "complete 门禁②:确认框文案精确匹配(结束确认框);StageB未完美弹窗文案为「确定现在离开吗?还有X颗月饼没有完美哦」不含本串→不匹配→takeover,不会误点结束",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "complete 双信号确认后结束游戏,非付费"
+        }
+      },
+      "result_candidates": [
+        "S_C20_SETTLE"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500
+      }
+    },
+    {
+      "state": "S_C20_SETTLE",
+      "name": "结算-开心收下",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "恭喜您完成本轮",
+        "recommended_roi": [
+          300,
+          100,
+          700,
+          260
+        ]
+      },
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          638,
+          607
+        ],
+        "coord_space": "720p",
+        "reason": "开心收下本轮奖励(免费无选择)",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "免费结算确认,无选择无付费"
+        }
+      },
+      "result_candidates": [
+        "S_C30_MAIN_BACK"
+      ],
+      "timing": {
+        "action_to_stable_ms": 2500
+      },
+      "notes": "expected 用「恭喜您完成本轮」:Maa OCR expected 支持正则(子串匹配),裁剪 OCR 实测输出「恭喜您完成本轮烤月」(截断),完整串会失配;开心收下按钮坐标 638,607 两轮实测稳定"
+    },
+    {
+      "state": "S_C30_MAIN_BACK",
+      "name": "活动主页-做月饼恢复(终点)",
+      "status": "maa_ready",
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": {
+        "type": "OCR",
+        "expected": "做月饼",
+        "recommended_roi": [
+          480,
+          570,
+          810,
+          700
+        ]
+      },
+      "action": {
+        "type": "DoNothing",
+        "reason": "验收:做月饼恢复=本轮真正结束(继续游戏态OCR不匹配→takeover);终点不再点击做月饼"
+      },
+      "result_candidates": [],
+      "timing": {
+        "action_to_stable_ms": 800
+      },
+      "notes": "终点:体力应为0,不再点击做月饼; 2026-09-26: ROI放宽至(480,570,810,700)覆盖做月饼按钮(530,587)-(749,683)"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "round": "A",
+  "mode": "pure_ai",
+  "start": {"page": "ActivityMainFresh", "stamina": 2, "unfinished_round": false},
+  "end": {"page": "ActivityMainFresh(做月饼恢复)", "stamina": 1, "continue_game": false},
+  "route": "ActivityMainFresh→StageA(翻6盘,小手6→0)→丢弃确认→StageB(配花:上中✓左下✓ 左上✗右上✗中下未配)→未完美丢弃确认(还有3颗)→StageC(2枚SOSO×1收益,还有0个未烤好)→ExitConfirm(complete:0未烤好+无未完美警告)→结束游戏→Settlement(恭喜完成,月饼x1x1)→开心收下→ActivityMainFresh",
+  "metrics": {
+    "ai_judgment_count": 16,
+    "ai_game_action_count": 44,
+    "maa_game_action_count": 0,
+    "takeover_count": 0,
+    "recognition_failed": 0,
+    "start_router_unmatched": 0,
+    "knowledge_frontier": 0,
+    "ai_repeated_known_state": 20,
+    "paid_wall_encounters": 0,
+    "retries": {"mid_green_moon_click": 16, "next_step_click": 4},
+    "perfect_mooncake": 2,
+    "final_reward": "月饼x2(SOSO各1收益)",
+    "unexpected_states": [],
+    "note": "中下绿月饼因浮动动画+点击延迟16次未命中,为最大摩擦点;去下一步骤4次后弹窗才被观测到(可能S0108起已弹窗未读取截图)"
+  },
+  "deterministic_shell": {
+    "ai_judgments": 7,
+    "ai_actions": 11,
+    "note": "MAIN_FRESH(1judge+1action)+StageA翻盘(1judge+6action)+丢弃确认(1judge+1action)+StageC(1judge+1action)+ExitConfirm(1judge+1action)+Settlement(1judge+1action)+终点(1judge)"
+  },
+  "stageB": {
+    "ai_judgments": 9,
+    "ai_actions": 33,
+    "perfect": 2,
+    "paid_wall_visible": ["探索心愿", "一键帮我选", "一键扭转", "一键挽救", "一键完美"],
+    "note": "中下绿16次尝试+去下一步骤4次重试计入"
+  }
+}

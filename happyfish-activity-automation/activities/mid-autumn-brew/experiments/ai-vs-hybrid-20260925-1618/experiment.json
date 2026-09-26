@@ -1,0 +1,44 @@
+{
+  "experiment": "酿月食香 · Pure AI vs AI→Maa 双轮对比",
+  "event": "mid-autumn-brew",
+  "created_at": "2026-09-25T16:18:00+08:00",
+  "start_conditions": {
+    "page": "ActivityMainFresh（做月饼）",
+    "stamina": 2,
+    "unfinished_round": false,
+    "small_hand_tool": "上局结束 x0（新局是否重新提供待 Round A 开局确认）"
+  },
+  "rounds": {
+    "A": {"mode": "pure_ai", "stamina_budget": 1, "note": "纯 AI 基线：状态判断/动作选择/点击全由 AI + Recorder，禁止 Maa 帮忙"},
+    "B": {"mode": "hybrid", "stamina_budget": 1, "note": "AI→Maa 混合：确定性外壳(maa_ready)交 Maa，StageB(AI region)由 AI 处理，完成后交还 Maa"}
+  },
+  "safety_rules": {
+    "allow": ["两次做月饼新开局各耗1体力", "每局免费/已有小手等必要道具", "免费丢弃未完美对象", "正常结束并领取本轮结算奖励"],
+    "forbid": ["开心宝", "真实货币", "购买额外小手", "宝石不足付费补足", "广告", "活动奖励兑换", "任何额外收费补救"]
+  },
+  "business_policy": "两轮同策略：不为了提高奖励付费纠错；免费能完成即可。SOSO/非完美若只能付费挽救则放弃挽救，按免费路径完成本轮。",
+  "fairness": {
+    "frozen_before_round_a": true,
+    "rule": "Round B 使用的自动化能力在 Round A 开始前冻结（frozen/flow.json + pipeline.json + hash）。Round A 产生的新知识可记录但不得用于优化 Round B Pipeline，直到 A/B 结束。",
+    "deviation_policy": "仅安全风险（可能误点付费/误消费/误结束轮次）允许中途修 frozen，必须记录 experiment_deviation。OCR 精度/ROI 优化/多自动一步等普通优化一律留到实验结束。"
+  },
+  "frozen": {
+    "flow": "frozen/flow.json",
+    "pipeline": "frozen/pipeline.json",
+    "pipeline_sha256_prefix": "54963b3a05a799b2",
+    "maa_ready_states": ["S_A00_MAIN_FRESH", "S_A10_STAGE_A", "S_A11_FLIP_1", "S_A12_FLIP_2", "S_A13_FLIP_3", "S_A14_FLIP_4", "S_A15_FLIP_5", "S_A16_FLIP_6", "S_A20_A_NEXT", "S_A21_A_CONFIRM", "S_C00_STAGE_C", "S_C05_CLOSE", "S_C10_EXIT", "S_C20_SETTLE", "S_C30_MAIN_BACK"],
+    "ai_region": ["S_B00_STAGE_B(proposed)"],
+    "schema": "happyfish.action_recorder.v0",
+    "note": "确定 shell: 做月饼入口→StageA翻盘6→去下一步骤→丢弃确认→[frontier:StageB]→StageC→✕→结束游戏→开心收下→主页做月饼。StageB 配花=proposed(AI region) → S_A21 编译为 TakeoverFrontier。"
+  },
+  "metrics_definitions": {
+    "ai_judgment": "AI 看游戏画面并据此决定下一步游戏行为的次数（decisions.jsonl 记录）：状态判断/按钮选择/PERFECT判断/complete判断/暂时离开vs结束游戏/付费墙识别/新状态判断。不算：跑脚本、读写JSON、schema校验、Recorder自动截图、机械等待。",
+    "ai_game_action": "由 AI 决定并通过 Recorder 实际执行的 tap/swipe/drag。",
+    "maa_game_action": "由 Maa Pipeline 实际执行的 Click/Swipe（DoNothing/Recognition 不计）。",
+    "takeover_count": "Maa→AI 交接次数（含 reason）。",
+    "deterministic_shell": "MAIN_FRESH/StageA翻盘/去下一步骤/确定/StageC/✕/ExitConfirm/结束游戏/Settlement/开心收下/回主页",
+    "stochastic_core": "StageB 配花（随机喜好/PERFECT判定/免费配对决策/付费纠错墙）"
+  },
+  "round_a_completion": "round_complete→结束游戏→Settlement→开心收下→ActivityMainFresh，验证继续游戏消失、做月饼恢复、体力=1",
+  "round_b_completion": "ActivityMainFresh 体力=0，本轮完整结算、无未完成局、无继续游戏；不点做月饼（无第三局）"
+}
