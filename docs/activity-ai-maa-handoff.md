@@ -198,7 +198,7 @@ Activity_<event>_StartRouter__Stop
 
 `known_candidates` 与 StartRouter 的候选状态一致，用的是 flow 里的状态号，不是 Pipeline 节点名。Dump 失败时 `on_error` 仍是 `StopTask`。
 
-这个 reason 的实机闭环还没跑，见第七节 Step 1。
+这个 reason 后续已完成 0 Click、0 资源消耗的实机闭环验证；历史验证步骤仍保留在第七节，供回归参考。
 
 ## 7. Takeover package
 
@@ -233,9 +233,9 @@ DailyRoutine
 Release
 ```
 
-## 9. 下一阶段：第一只真实活动实验
+## 9. 历史 Runbook：第一只真实活动实验
 
-本阶段没有执行。下面是交给下一任 Agent 的步骤。
+这套 Runbook 后续已在「酿月食香」真实活动中完成验证，现保留作为新活动首轮探索的标准参考。
 
 ### Step 1：StartRouter 零点击 smoke test
 
@@ -268,7 +268,7 @@ StopTask
 
 历史参考：`recognition_failed` 已经用直接进入业务节点的方式跑通过，脚本是 `D:\happyfishgame\dev\test_activity_takeover_live.py`。那个脚本的入口不是 StartRouter。下一轮要么改入口，要么另写一条只跑 Router 的命令。本轮不要启动它。
 
-待下一阶段实机验证。
+该 smoke 后续已实机验证通过：0 Click、0 资源消耗，`reason=start_router_unmatched`、`source_state=null`、`known_candidates` 正确，最终 `StopTask`。
 
 ### Step 2：选择第一只真实活动
 
@@ -361,3 +361,192 @@ python D:\happyfishgame\dev\test_activity_takeover.py
 `test_flow_to_maa.py` 包含 V1.1 的 StartRouter 断言，以及 MaaHappyFish schema 校验。
 
 `dev/test_activity_takeover_live.py` 会连接模拟器并跑 Maa。额度或现场不合适时不要重复跑。此前通过应写成「此前已通过，本轮未重复」，不要写成失败。
+
+
+## 12. 2026-09-29：首个完整案例与生产化学习闭环
+
+这一节记录已经从真实活动与生产运行中验证出的长期规则。它覆盖第九节历史首轮实验之后的状态，不要再把“首个真实活动尚未执行”当成当前事实。
+
+### 12.1 首个完整案例：酿月食香
+
+「酿月食香」已经跑通完整双向接力：
+
+```text
+Maa
+→ 活动主页 / StageA 确定性流程
+→ StageB knowledge frontier
+→ AI 接管随机配花
+→ 到 StageC 后停止人工操作并回交
+→ Maa 继续 StageC / 退出 / 结算
+→ ActivityMainFresh
+```
+
+最终一体力 smoke 的 10 项验收全部通过，包括：
+
+- 只消耗 1 点活动体力；
+- StageA 六盘全部完成且不重复点击已完成盘；
+- StageA 无 AI 补偿翻盘；
+- StageB 由 AI 完成；
+- AI 到 StageC 后停止继续点；
+- Maa 第二次真正接管；
+- Maa 独立完成退出、结束游戏、结算与“开心收下”；
+- 最终回到 `ActivityMainFresh`；
+- 完整 `Maa → AI → Maa` 闭环成立。
+
+这意味着本框架已经从“AI 能在 Maa 失败时接管”升级为真正的双向接力。
+
+### 12.2 Pure AI vs Hybrid：已经证明什么
+
+历史 A/B 实验为了公平，Round B 在 Round A 开始前冻结 Pipeline；两轮之间不把 Round A 新知识喂给 Round B。
+
+关键结果：
+
+- Pure AI：44 次游戏动作，16 次 AI 判断；
+- Hybrid：Maa 承担了确定性动作；AI 正常动作 24，另有 2 次因当时 StageA 翻盘失败产生的补偿动作，总计 26；
+- AI 重复处理已知状态：20 → 5，下降 75%；
+- 确定性外壳的正常 AI 动作：17 → 9；若把 2 次失败补偿也算入则为 11；
+- 第一次 A/B 中 AI 总判断数没有下降，反而因 StageB 采用更细的逐对象判断以及 Maa 失败补偿而上升。
+
+因此当前可以确认的是：
+
+> Hybrid 显著减少 AI 对“已经学会的确定性流程”的重复处理。
+
+不能把这次实验夸大成：
+
+> 所有 AI 判断都会下降，或已经证明总墙钟时间必然更快。
+
+性能比较应优先看“确定性外壳 AI 判断 / AI 动作 / 重复已知状态次数”，随机语义区域单独统计。
+
+### 12.3 实验模式与生产模式必须分开
+
+#### 实验模式
+
+用于回答“新模式有没有价值”。
+
+规则：
+
+- 冻结待测 Pipeline；
+- 一轮实验中不根据前一轮结果继续优化；
+- 保留失败与补偿，不能为了让结果漂亮而现场调参；
+- 历史 frozen 数据不可用新版覆盖。
+
+#### 生产模式
+
+用于真正长期运行。
+
+生产环境不应继续冻结。
+
+核心目标不是：
+
+```text
+今天也跑完了
+```
+
+而是：
+
+```text
+今天跑完
++
+明天 AI 需要重复做的工作更少
+```
+
+生产可以利用每一局新增的 Recorder、decision、takeover、截图和 Maa 日志继续学习，但只允许在“局与局之间”优化：
+
+```text
+Round N 完整结束
+→ Learning Review
+→ 生成 Candidate
+→ fixture / replay / schema 等离线验证
+→ 通过
+→ Round N+1 启用新版
+```
+
+禁止在一局仍在消耗稀缺资源时临时修改未经验证的 Pipeline 后继续跑。
+
+### 12.4 生产运行的体力停止条件
+
+曾出现 cron 沿用“一体力 smoke”语义，只跑一局就停止，而活动主页仍有剩余体力。根因不是 stamina detector，而是生产任务写错了停止条件。
+
+生产 drain-stamina 模式必须是：
+
+```text
+读取当前实际体力 N
+├─ N = 0 → 本线结束
+└─ N > 0
+   → 完整跑一局
+   → 可靠回到 ActivityMainFresh
+   → 再次读取实际体力
+   → 重复
+```
+
+不要根据“今天理论上应该有几次”预设局数。
+
+任一局出现无法安全恢复的 `recognition_failed`、未知付费墙、资源不足或无法可靠回到主界面时，停止当前线，不再继续消耗下一点体力，并保存 takeover。
+
+### 12.5 Production Learning Review
+
+每局安全结束后，应快速分析本局 AI 判断并分类：
+
+- `NEW`：第一次出现的业务状态；
+- `VARIANT`：已知状态的新视觉 / 新业务变体；
+- `REPEATED`：AI 又做了一次已经出现过的同类判断；
+- `CANDIDATE_MAA`：重复且稳定，已经适合下沉；
+- `SAFETY_AI`：即使重复，也因付费、不可逆选择、用户偏好或高风险资源继续保留 AI。
+
+长期最重要的生产指标之一是：
+
+```text
+AI repeated-known-state → 接近 0
+```
+
+当某段 AI 逻辑在连续多局中表现稳定，且已有足够正样本、负样本 / variant、明确资源语义和安全失败路径，应主动评估下沉为 Maa Pipeline 或 CustomAction，而不是永久让 AI 每局重做相同判断。
+
+不要求 100% Maa 化。即使一个区域只有 80% 能确定化，也可以先让 Maa / CustomAction 处理 80%，剩余未知 variant 继续 takeover 给 AI。
+
+### 12.6 「酿月食香」StageB 的生产方向
+
+StageB 配花在首轮实验中被保留为 AI 区域，因为涉及随机月饼、喜好卡、PERFECT / SOSO 和付费纠错墙。
+
+但“当前由 AI 处理”不等于“永久属于 AI”。
+
+生产运行已经积累多局素材后，应定期审计：
+
+1. 月饼位置与数量有多少真实 variant；
+2. 喜好卡片的位置、文案和识别是否稳定；
+3. 花候选是否可结构化识别；
+4. PERFECT 是否有稳定视觉信号；
+5. 免费配花决策是否已经可以算法化；
+6. 未完美对象能否安全丢弃；
+7. “扭转心意”等付费墙能否可靠识别并永不误点。
+
+如果这些事实已经稳定，应优先把重复部分下沉，而不是固定每局都在 StageB 调 AI。
+
+### 12.7 新活动的标准探索顺序
+
+真实活动验证表明，活动页面常见的“？”帮助 / 规则入口非常有价值。
+
+新活动默认优先：
+
+```text
+当前活动现场
+→ 视觉识别“？”/帮助/规则
+→ Recorder 以 readonly 打开
+→ 读完整分页 / 页签
+→ 先建立玩法、资源、付费红线和周期语义
+→ 再开始业务探索
+```
+
+帮助页不能替代真实 UI 采证，但能显著减少靠试错理解活动的次数，并提供后续 OCR 候选术语。
+
+### 12.8 当前长期目标
+
+本框架的成熟状态不是“每局固定 Maa→AI→Maa”，而是：
+
+```text
+正常日常
+→ Maa / CustomAction 尽可能完整执行
+→ 只有新 variant、异常、风险状态或真正语义判断
+→ AI takeover
+```
+
+也就是说，Maa→AI→Maa 是已经验证的安全能力；Production Learning 的下一阶段目标，是随着真实运行逐渐压缩 AI 区域。
