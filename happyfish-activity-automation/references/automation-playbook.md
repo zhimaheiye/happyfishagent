@@ -81,6 +81,8 @@ ADB="D:/MuMuPlayer/nx_device/15.0/shell/adb.exe"; DEV="127.0.0.1:7555"
 
 ## 三、读界面纪律
 
+读界面的同时要留档。每一屏看见什么、点了什么、为什么点、还可能遇到什么，按 [`activity-evidence-contract.md`](activity-evidence-contract.md) 写入会被 git 跟踪的 `assets/<活动>/` 和活动 `SKILL.md`。当时做完但不留档，等于没做。
+
 1. 全屏缩略图**只用来定位**；判读图标、角标、文字**必须放大 2~3 倍**（`scripts/zoom.py`）。
 2. 中文按钮、小图标（尤其**付费/广告角标**）放大后再下结论。
 3. 棋盘类玩法：用像素法找网格线（纯色行列扫描取峰值），推出行列数与格心公式，比目测准。

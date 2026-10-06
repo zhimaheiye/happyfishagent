@@ -17,6 +17,7 @@ happyfishagent/
 └── happyfish-activity-automation/       ← 活动文档与工具脚本
     ├── SKILL.md                         ← 通用红线 + 主循环 + 进/出导航 + 活动路由
     ├── references/
+    │   ├── activity-evidence-contract.md ← 动手前必读：每一步看见什么、点什么、为什么、可能遇到什么
     │   └── automation-playbook.md       ← 通用技术手册（跨活动复用）
     ├── scripts/
     │   ├── grab.py                      ← adb 截图（规避中文路径坑）
@@ -54,6 +55,8 @@ happyfishagent/
 
 **设计约定：主文档管「怎么干」（通用流程 / 环境 / 红线），各活动文档管「这个活动是什么」（界面 / 规则 / 坐标 / 进·出导航）。**
 新增活动 = 在 `activities/` 下新建一个目录放说明文档，再回主路由表补一行。
+
+做活动之前先读 [活动留档契约](happyfish-activity-automation/references/activity-evidence-contract.md)。每一次操作都要留下当时看见的画面、点中的控件、选择理由，以及可能遇到的分支。这些材料要进 `assets/<活动>/` 和对应活动文档，并提交到本仓库。玩完但没留下可提交的记录，这次就不算做完。仓库根目录的 `_*.png` 和 `activities/*/sessions/` 只是临时草稿。
 
 ## 已收录活动
 
