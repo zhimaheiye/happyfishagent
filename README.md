@@ -14,6 +14,14 @@
 - **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
 - 已加入[纯离线任务范围判断脚本](happyfish-activity-automation/scripts/task_scope_policy.py)和[回归用例](happyfish-activity-automation/tests/test_task_scope_policy.py)，可用 `python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v` 检查规则。**尚未接入实际输入通道，不是运行时安全闸**；无需更改 `MaaHappyFish` 稳定实现。
 
+### 当前特别保留的 Agent 能力（2026-10-11）
+
+- **秘境之门仅订单鱼苗**：用户已授权 Agent 处理右侧「送鱼任务」的订单交付并收集完整复用素材，供下一步 MAA 开发；**自由送鱼一律不做**。素材完成移交并经开发验收后，撤销 Agent 任务与素材，届时需要可从 Git 历史恢复。
+- **好友留言处理**：MAA 已有选项但尚未由用户实测确认可用，**Agent 暂时继续接管**，记录新类别/识别文本/控件位置及脱敏证据，并按类别/证据去重。MAA 真正测试并移交后再撤销本职责，不能把现有代码当作已成熟。
+- **每日签到**：MAA 已配置全局自动弹窗，Agent 完全退出签到执行。
+- **珊瑚盲点与守护归还**：珊瑚入口允许盲点，但每击必须识别是否已进入正确页面；合法 Agent 工作可暂停正在运行的守护/MFA，结束后仅将**先前由本次 Agent 暂停的原状态**挂回，不得借此自动重跑 MAA。
+- **免费随机五选一宝箱**：允许在受托活动中选择明确的**唯一免费随机箱**，其它付费箱不点；明确展示不同永久奖品的选择及最终兑换保留用户决定。
+
 ### 宝石订单：气泡不产生 Agent 待办
 
 宝石订单由 `MaaHappyFish` 的 `GemOrderTask` 和「日常收尾」负责。主鱼缸偶尔弹出的「还有 N 个订单未完成哦」**仅是游戏提示**，即使 MAA 当天未运行、配置 OFF 或还有多张订单，Agent 日常也**不进入、不查、不交付、不丢弃、不重复运行**。如未来明确点名故障并授权，才按 [MAA 定点兜底规则](happyfish-activity-automation/references/agent-work-modes-maa-boundary.md) 单独审查；气泡本身绝不是兜底凭据。
