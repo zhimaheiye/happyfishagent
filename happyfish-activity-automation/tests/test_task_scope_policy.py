@@ -191,6 +191,23 @@ class ScopePolicyTests(unittest.TestCase):
             "maa_ownership_not_verified",
         )
 
+    def test_wishing_lamp_generic_maa_recovery_or_final_redeem_is_blocked(self):
+        self.assertEqual(
+            self.check(False, mode="feature", scope="assigned", action="maa_recovery",
+                       feature_id="wishing-lamp", special_feature_authorized=True,
+                       maa_owned=True, fallback_authorized=True,
+                       maa_failure_verified=True, retry_no_duplicate=True),
+            "wishing_lamp_maa_recovery_requires_separate_review",
+        )
+        self.assertEqual(
+            self.check(False, mode="feature", scope="assigned", action="final_redeem",
+                       feature_id="许愿神灯", special_feature_authorized=True,
+                       resource="C", activity_verified=True, gameplay_authorized=True,
+                       final_choice_authorized=True, final_reward_item="金币",
+                       final_reward_quantity=1),
+            "wishing_lamp_unmodeled_redemption_is_not_authorized",
+        )
+
     def test_mutating_game_action_needs_identified_feature(self):
         self.assertEqual(
             self.check(False, mode="daily", scope="assigned", action="navigate",
