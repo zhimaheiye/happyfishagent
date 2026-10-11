@@ -12,7 +12,7 @@ from dataclasses import dataclass
 class Proposal:
     mode: str                      # daily | feature
     scope: str                     # assigned | discovery | none
-    action: str                    # observe | puzzle_numbering | navigate | gameplay | final_redeem | maa_recovery | modify_code
+    action: str                    # observe | puzzle_numbering | navigate | gameplay | order_fish | friend_mail | final_redeem | maa_recovery | modify_code
     feature_id: str = ""           # required for game navigation/operation; 'wishing-lamp' is ALWAYS excluded
     maa_owned: bool = False        # True = current substep is MAA-owned; false alone is NOT proof
     maa_ownership_verified: bool = False  # must check latest MAA substeps/independent/global routes
@@ -21,6 +21,13 @@ class Proposal:
     resource: str = "none"         # none | A | B | C | D | E | unknown
     activity_verified: bool = False
     gameplay_authorized: bool = False  # feature mode must explicitly allow real actions
+    order_fish_authorized: bool = False  # existing user authorization, only verified order juveniles
+    order_fish_matches: bool = False  # order species and fish panel checked
+    order_fish_juvenile: bool = False  # all selected fish juveniles; not crowns / gene-bearing
+    order_fish_count_matches: bool = False  # selected N = required M > 0
+    friend_mail_authorized: bool = False  # handoff to MAA not yet accepted
+    friend_mail_category: str = ""   # known action type, never inferred from red dot
+    friend_mail_button_verified: bool = False  # same-row OCR/button/bbox confirmed
     final_choice_authorized: bool = False
     final_reward_item: str = ""    # specific reward selected by user, not a model choice
     final_reward_quantity: int = 0
@@ -48,6 +55,10 @@ def _canonical_feature(value: str) -> str:
         return "gem-order"
     if "宝石订单" in name or ("订单" in name and "未完成" in name):
         return "gem-order"
+    if name in {"mijing-order-fish", "秘境之门订单鱼", "秘境之门", "订单送鱼"}:
+        return "mijing-order-fish"
+    if name in {"friend-mail", "好友留言", "好友消息", "留言箱"}:
+        return "friend-mail"
     return name
 
 
@@ -60,7 +71,7 @@ def decide(p: Proposal) -> Decision:
         return deny("no_valid_mode")
     if p.scope not in {"assigned", "discovery", "none"}:
         return deny("invalid_scope")
-    if p.action not in {"observe", "puzzle_numbering", "navigate", "gameplay", "final_redeem", "maa_recovery", "modify_code"}:
+    if p.action not in {"observe", "puzzle_numbering", "navigate", "gameplay", "order_fish", "friend_mail", "final_redeem", "maa_recovery", "modify_code"}:
         return deny("unknown_action")
     if p.scope == "none":
         return deny("not_in_user_scope")
@@ -76,7 +87,7 @@ def decide(p: Proposal) -> Decision:
 
     # From here the action can change real state.
     feature = _canonical_feature(p.feature_id)
-    if p.action in {"navigate", "gameplay", "final_redeem", "maa_recovery"}:
+    if p.action in {"navigate", "gameplay", "order_fish", "friend_mail", "final_redeem", "maa_recovery"}:
         if not feature:
             return deny("feature_identity_not_supplied")
         if feature == "wishing-lamp":
@@ -92,9 +103,28 @@ def decide(p: Proposal) -> Decision:
         return deny("discovery_is_read_only")
     if p.maa_busy:
         return deny("simulator_or_maa_busy")
-    if p.action in {"navigate", "gameplay", "final_redeem", "maa_recovery"} and not p.maa_ownership_verified:
+    if p.action in {"navigate", "gameplay", "order_fish", "friend_mail", "final_redeem", "maa_recovery"} and not p.maa_ownership_verified:
         return deny("maa_ownership_not_verified")
 
+    if p.action == "order_fish":
+        # Specific exception: current user authorized delivering verified order juveniles.
+        # A resource-D exception is never a license to sell/free-send arbitrary fish.
+        if feature != "mijing-order-fish" or not p.order_fish_authorized:
+            return deny("order_fish_specific_authorization_required")
+        if not p.activity_verified or not (
+            p.order_fish_matches and p.order_fish_juvenile and p.order_fish_count_matches
+        ):
+            return deny("order_fish_identity_juvenile_count_not_verified")
+        return allow("verified_order_juveniles_only_preview")
+    if p.action == "friend_mail":
+        # MAA has code but user has not tested/handover; this bounded Agent duty remains.
+        if feature != "friend-mail" or not p.friend_mail_authorized:
+            return deny("friend_mail_current_assignment_required")
+        if p.friend_mail_category not in {"friend_request_accept", "baby_visit_ignore", "system_notice_delete"}:
+            return deny("friend_mail_unknown_category")
+        if not p.friend_mail_button_verified:
+            return deny("friend_mail_per_row_ocr_required")
+        return allow("known_friend_message_action_preview")
     if p.action == "maa_recovery":
         # Specific GemOrderTask recoveries may be considered only if MAA ownership
         # is correctly verified, user approves, and genuine failure & idempotency pass.
