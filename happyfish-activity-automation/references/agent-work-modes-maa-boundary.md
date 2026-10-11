@@ -71,4 +71,14 @@
 
 执行日志至少记录：`mode`、`task_id`、`source`（用户指令或确定的集合授权）、`maa_owner`（含具体子步骤）、`action_type`、`resource_in/out`、`safety_gate`、`screenshot_before/after`、`result`、`evidence_path`。未经批准的项记 `skipped_out_of_scope`，而不是“失败待补”。
 
+### 离线权限预检（无设备副作用）
+
+`../scripts/task_scope_policy.py` 提供 **纯 Python、无 ADB/模拟器调用** 的规划决策示例；`../tests/test_task_scope_policy.py` 包含 MAA OFF/未运行、失败未授权、明确兜底、探索只读、最终兑换、未知花费与运行冲突等用例。在仓库根目录执行：
+
+```bash
+python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v
+```
+
+测试只读取人为传入的 `Proposal` 字段；它**不会自己核实用户授权、画面 OCR 或 MAA 日志**，也未接任何真实点击通道，因此**不能作为实际点击前的最终许可**。
+
 **这是操作规则，并非自动强制的运行时权限闸**：Recorder 仍依赖 Agent 自报 `--safety`；当前尚未把本文件与所有 ADB / MCP / MFA 操作通道进行硬拦截绑定。离线规则测试只验证决策契约；不能据此宣布模拟器的实际越权点击已被代码彻底防止。
