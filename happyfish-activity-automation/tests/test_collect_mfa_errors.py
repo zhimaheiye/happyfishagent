@@ -48,6 +48,17 @@ class CollectMfaErrorsTests(unittest.TestCase):
                 self.assertNotIn("1234567", excerpt)
                 self.assertNotIn("abcdefghijklmnopqrstuvwxyz", excerpt)
 
+    def test_same_error_window_is_not_archived_twice(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp)
+            (base / "log-20261011.log").write_text("ERROR: 任务失败：X\\n", encoding="utf-8")
+            first = collect(base, base / "evidence", 48)
+            second = collect(base, base / "evidence", 48)
+            self.assertEqual(first["status"], "created")
+            self.assertEqual(second["status"], "already_archived")
+            self.assertEqual(first["zip"], second["zip"])
+            self.assertEqual(len(list((base / "evidence").glob("*.zip"))), 1)
+
     def test_no_normal_completion_as_error(self):
         self.assertEqual(windows(["INFO: 任务已全部完成！", "INFO: 无需操作"]), ([], 0))
 
