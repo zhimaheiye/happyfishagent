@@ -89,6 +89,10 @@ def decide(p: Proposal) -> Decision:
         return deny("maa_ownership_not_verified")
 
     if p.action == "maa_recovery":
+        # A generic recovery can invoke a whole workflow. For wishing lamp,
+        # even a view-only grant must not unlock that broader execution path.
+        if feature == "wishing-lamp":
+            return deny("wishing_lamp_maa_recovery_requires_separate_review")
         if not p.maa_owned:
             return deny("not_a_maa_recovery_target")
         if not p.fallback_authorized:
@@ -110,6 +114,9 @@ def decide(p: Proposal) -> Decision:
 
     if p.maa_owned:
         return deny("maa_owns_task_even_if_off_or_not_run")
+    if feature == "wishing-lamp" and p.action == "final_redeem":
+        # No lamp-specific final-redemption protocol has been defined.
+        return deny("wishing_lamp_unmodeled_redemption_is_not_authorized")
     if p.action == "navigate":
         return allow("explicit_wishing_lamp_view_only" if feature == "wishing-lamp" else "authorized_navigation")
     if feature == "wishing-lamp" and p.action == "gameplay":
