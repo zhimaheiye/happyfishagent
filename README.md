@@ -12,7 +12,7 @@
 - **日常执行 A**：依固定阶段与用户授权的 Agent 清单，做 MAA 尚未覆盖的工作；**不按红点扫全场**。属于 `MaaHappyFish` 的日常收尾项目，无论 ON/OFF、当天运行与否、成功或失败，都不由 Agent 自行补做。
 - **功能探索/开发 B**：指定功能可研究、取证；“其他功能都看看”只扩大**只读调查范围**，不得自行把每项都跑一遍、消耗资源或修改稳定 MAA 代码。素材必须按 [`activity-evidence-contract.md`](happyfish-activity-automation/references/activity-evidence-contract.md) 验收并提交，缺证据只能标待完成。
 - **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
-- 当前为**文档授权纪律**；尚未完成所有输入通道的运行时强制拦截。无需更改 `MaaHappyFish` 稳定实现。
+- 已加入[纯离线任务范围判断脚本](happyfish-activity-automation/scripts/task_scope_policy.py)和[回归用例](happyfish-activity-automation/tests/test_task_scope_policy.py)，可用 `python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v` 检查规则。**尚未接入实际输入通道，不是运行时安全闸**；无需更改 `MaaHappyFish` 稳定实现。
 
 ## 结构
 
