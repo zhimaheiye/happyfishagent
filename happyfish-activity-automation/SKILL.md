@@ -1,6 +1,6 @@
 ---
 name: happyfish-activity-automation
-description: 用 MCP/adb 驱动 MuMu 模拟器，自动玩《开心水族箱》(乐元素) 的活动小游戏，白嫖全部免费资源。当用户说「帮我刷/完成某个水族箱活动」「用模拟器玩开心水族箱」「浪漫满屋 约会/日历」「拼图/魔幻拼图」「鱼宝乐园/养鱼宝宝/鱼宝宝孵化」「深海寻鱼/深海地图/下潜」「秘境之门/送鱼/送鱼任务/神秘海域/魔力水晶」「课间十分钟/课桌比拼/课间休息/操场锻炼/领奖处/记忆碎片」「酿月食香/做月饼/烤月饼/桂花酿/吃月饼券」「丰收时节/棋子合并/烧体力/稻草人」「薰衣草旅馆/客房服务」「好友消息/留言板/好友申请」「签到/签到寻宝/连登/连登领奖/同游有你」时使用。动手前必须先读 references/activity-evidence-contract.md：每次看见什么、点了什么、为什么点、还可能遇到什么，都要留成以后能写自动化的素材；当时做完但不留档，等于没做。主技能负责通用流程（连接、截图、像素级读界面、坐标法、进/出导航、拖拽/滑动、闭环验证、防付费按钮），具体活动玩法见 activities/ 下的子技能。
+description: 用 MCP/adb 驱动 MuMu 模拟器，处理用户已授权且不与 MaaHappyFish 日常收尾重叠的《开心水族箱》任务。当用户说「帮我刷/完成某个水族箱活动」「用模拟器玩开心水族箱」「浪漫满屋 约会/日历」「拼图/魔幻拼图」「鱼宝乐园/养鱼宝宝/鱼宝宝孵化」「深海寻鱼/深海地图/下潜」「秘境之门/送鱼/送鱼任务/神秘海域/魔力水晶」「课间十分钟/课桌比拼/课间休息/操场锻炼/领奖处/记忆碎片」「酿月食香/做月饼/烤月饼/桂花酿/吃月饼券」「丰收时节/棋子合并/烧体力/稻草人」「薰衣草旅馆/客房服务」「好友消息/留言板/好友申请」「签到/签到寻宝/连登/连登领奖/同游有你」时使用。动手前必须先读 references/agent-work-modes-maa-boundary.md、references/activity-authorization-resource-flow.md 和 references/activity-evidence-contract.md：每次看见什么、点了什么、为什么点、还可能遇到什么，都要留成以后能写自动化的素材；当时做完但不留档，等于没做。主技能负责通用流程（连接、截图、像素级读界面、坐标法、进/出导航、拖拽/滑动、闭环验证、防付费按钮），具体活动玩法见 activities/ 下的子技能。
 agent_created: true
 ---
 
@@ -12,11 +12,21 @@ agent_created: true
 
 ## ★★★ 动手前必读：授权边界 + 活动留档契约（2026-10-11）
 
-**先读 [`references/activity-authorization-resource-flow.md`](references/activity-authorization-resource-flow.md) 判断授权和资源层级，再读 [`references/activity-evidence-contract.md`](references/activity-evidence-contract.md) 留档；然后读目标活动子技能，才能点第一下。读不到任一必要规则就停止该项操作。**
+**先读 [`references/agent-work-modes-maa-boundary.md`](references/agent-work-modes-maa-boundary.md) 选定日常/探索模式、核对 MAA 归属和兜底授权，再读 [`references/activity-authorization-resource-flow.md`](references/activity-authorization-resource-flow.md) 资源边界、[`references/activity-evidence-contract.md`](references/activity-evidence-contract.md) 取证要求及目标子技能。读不到必要规则就停止该项操作。**
 
 用户要留下的是以后写自动化用的材料：每一屏看见了什么、选择点哪一个、为什么点它、旁边还有什么、可能还会遇到什么。活动被点完，但这份材料没有落在会被 git 跟踪的 `assets/<活动>/` 和 `activities/<活动>/SKILL.md` 里，这次就不算做完。
 
 纪律 B 的“截图 + 坐标”只是底线。仓库根目录的 `_*.png`，以及被 gitignore 的 `activities/*/sessions/`，都不算留下了。
+
+## ★★ 优先检查：MAA 日常收尾排除规则与两种模式
+
+- **A 日常**：只做本次明确委托、已核实不是 MAA 子任务/独立功能覆盖的 Agent 工作。先核对范围，再按固定清单顺序做事；**不要以“把红点全部点掉”生成任务**。集合授权只适用于已核实属于“精彩活动”的短期免费玩法。
+- **B 功能探索/开发**：可以按用户要求调查指定功能及其它候选功能；泛化的“其它也看看”**只扩大只读调查**，实际消耗、做新功能或修改 MAA 需要对应授权。取证未入库不算完成。
+- **MAA 归 MAA**：`MaaHappyFish` 的 **`DailyRoutineTask` 全部子任务**不管 ON/OFF、已运行/未运行、成功/失败，Agent 默认都不能补做；MAA 独立任务、全局处理也不能因为不在这个列表而被抢做。**只有这次另行明确授权、日志证实真实失败且重试安全时**才可定点兜底，不能重跑整队列。
+- 日常执行流程固定为**委托/互斥检查 → 只读发现 → 显式清单中允许的活动 → 最终领奖只读提醒 → 素材/结果验收**。旧的“日常收尾未勾选即为人工任务”“看到红点就做”都已作废。
+- 上面规则独立于活动资源安全规则；即使某动作“免费且属于活动 A/B 层”，如由 MAA 负责或不在本次范围内仍不可点击。
+
+> 详细 MAA 17 项清单、独立功能、兜底条件和开发模式验收见 `references/agent-work-modes-maa-boundary.md`。本节不意味着任何新日常活动已经自动列入执行清单。
 
 ## 三条硬红线（任何情况下不破）
 
@@ -94,7 +104,7 @@ agent_created: true
 
 ## ★★ 动手前先读 MaaHappyFish 仓库（2026-09-21 芝麻明确要求：「这个问题我说过的」）
 
-**本技能只负责产出素材；消费素材的自动化工具是仓库 `MaaHappyFish`** —— 而且**仓库里已经沉淀了大量权威信息**。
+**本技能只处理用户授权的非 MAA 重叠工作与活动素材；已经由 `MaaHappyFish` 覆盖的日常/独立/全局任务不能由 Agent 自发重跑。可复用的自动化实现另在仓库 `MaaHappyFish`** —— 而且**仓库里已经沉淀了大量权威信息**。
 
 - **权威源路径**：`D:\happyfishgame`（git 工作副本，remote `zhimaheiye/MaaHappyFish`）。
   ⚠️ 别另建副本、别翻旧记忆里的路径 —— 以这个目录为准。
@@ -193,7 +203,7 @@ agent_created: true
 
 ## 子技能路由（动手前必读）
 
-**当用户提到某个已收录活动时，先读它的子技能，再操作。**
+**当用户提到某个已收录活动时，先判 A/B 模式与 MAA 实际子流程归属，再读子技能；路由表中的“已收录”只代表有资料，**不是自动执行白名单**。**
 
 | 活动 | 触发词 | 子技能 |
 |---|---|---|
