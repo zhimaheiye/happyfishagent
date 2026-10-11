@@ -14,6 +14,10 @@
 - **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
 - 已加入[纯离线任务范围判断脚本](happyfish-activity-automation/scripts/task_scope_policy.py)和[回归用例](happyfish-activity-automation/tests/test_task_scope_policy.py)，可用 `python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v` 检查规则。**尚未接入实际输入通道，不是运行时安全闸**；无需更改 `MaaHappyFish` 稳定实现。
 
+### 宝石订单：气泡不产生 Agent 待办
+
+宝石订单由 `MaaHappyFish` 的 `GemOrderTask` 和「日常收尾」负责。主鱼缸偶尔弹出的「还有 N 个订单未完成哦」**仅是游戏提示**，即使 MAA 当天未运行、配置 OFF 或还有多张订单，Agent 日常也**不进入、不查、不交付、不丢弃、不重复运行**。如未来明确点名故障并授权，才按 [MAA 定点兜底规则](happyfish-activity-automation/references/agent-work-modes-maa-boundary.md) 单独审查；气泡本身绝不是兜底凭据。
+
 ### 两项保留能力的特殊分工
 
 - **深海寻鱼**：`MaaHappyFish` 已有功能但还不完善。现有导航/截图/付费态素材保留，**由用户下次按这些素材继续开发并补入 MAA「日常收尾」**；Agent 当前不自行代跑或修改 MAA。
