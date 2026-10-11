@@ -14,6 +14,11 @@
 - **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
 - 已加入[纯离线任务范围判断脚本](happyfish-activity-automation/scripts/task_scope_policy.py)和[回归用例](happyfish-activity-automation/tests/test_task_scope_policy.py)，可用 `python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v` 检查规则。**尚未接入实际输入通道，不是运行时安全闸**；无需更改 `MaaHappyFish` 稳定实现。
 
+### 两项保留能力的特殊分工
+
+- **深海寻鱼**：`MaaHappyFish` 已有功能但还不完善。现有导航/截图/付费态素材保留，**由用户下次按这些素材继续开发并补入 MAA「日常收尾」**；Agent 当前不自行代跑或修改 MAA。
+- **每日魔幻拼图**：保留识图、拼块编号和可信度核验工具；只有用户明确要求时根据其提供/指定的现有图片**输出标号或位置串**。平时不主动出串、不进游戏、不填串、不启动 MFA、不代领奖。
+
 ## 结构
 
 ```
