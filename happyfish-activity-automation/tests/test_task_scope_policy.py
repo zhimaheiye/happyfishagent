@@ -120,6 +120,22 @@ class ScopePolicyTests(unittest.TestCase):
                    resource="C", activity_verified=True, final_choice_authorized=True,
                    final_reward_item="金币", final_reward_quantity=True)
 
+    def test_puzzle_numbering_is_explicit_offline_only(self):
+        self.check(False, mode="daily", scope="assigned", action="puzzle_numbering",
+                   puzzle_image_available=True)
+        self.check(False, mode="feature", scope="discovery", action="puzzle_numbering",
+                   puzzle_image_available=True)
+        self.check(False, mode="feature", scope="assigned", action="puzzle_numbering")
+        self.assertEqual(
+            self.check(True, mode="feature", scope="assigned", action="puzzle_numbering",
+                       puzzle_image_available=True, maa_owned=True,
+                       maa_ownership_verified=False, maa_busy=True),
+            "picture_analysis_only_no_game_or_maa_actions",
+        )
+        self.check(False, mode="feature", scope="assigned", action="gameplay",
+                   maa_owned=True, maa_ownership_verified=True,
+                   activity_verified=True, gameplay_authorized=True, resource="A")
+
     def test_no_random_unknown_action(self):
         self.check(False, mode="daily", scope="assigned", action="clear_red_dots")
 
