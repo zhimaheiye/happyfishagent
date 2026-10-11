@@ -13,11 +13,7 @@ class Proposal:
     mode: str                      # daily | feature
     scope: str                     # assigned | discovery | none
     action: str                    # observe | puzzle_numbering | navigate | gameplay | final_redeem | maa_recovery | modify_code
-    feature_id: str = ""           # required for actual game navigation/operation; canonical 'wishing-lamp'
-    special_feature_authorized: bool = False  # CURRENT explicit user permission for protected feature
-    wishing_lamp_spend_authorized: bool = False  # specific CURRENT approval for silk consumption
-    wishing_lamp_resource: str = ""  # 'regular' or 'gold'; approved silk type for this step
-    wishing_lamp_max_uses: int = 0  # user-specified per-step upper limit, NOT a runtime counter
+    feature_id: str = ""           # required for game navigation/operation; 'wishing-lamp' is ALWAYS excluded
     maa_owned: bool = False        # True = current substep is MAA-owned; false alone is NOT proof
     maa_ownership_verified: bool = False  # must check latest MAA substeps/independent/global routes
     maa_busy: bool = False         # MFA / person actively using simulator
@@ -43,9 +39,9 @@ class Decision:
 
 def _canonical_feature(value: str) -> str:
     name = (value or "").strip().lower().replace("_", "-")
-    if name in {"wishing-lamp", "wishinglamp", "wish-lamp", "许愿神灯", "擦神灯", "许愿绸", "许愿金绸"}:
+    if name in {"wishing-lamp", "wishinglamp", "wish-lamp", "许愿神灯", "擦神灯", "许愿绸", "许愿金绸", "神灯", "幸运神灯"}:
         return "wishing-lamp"
-    if "许愿神灯" in name:
+    if "许愿神灯" in name or "幸运神灯" in name:
         return "wishing-lamp"
     return name
 
@@ -78,8 +74,10 @@ def decide(p: Proposal) -> Decision:
     if p.action in {"navigate", "gameplay", "final_redeem", "maa_recovery"}:
         if not feature:
             return deny("feature_identity_not_supplied")
-        if feature == "wishing-lamp" and not p.special_feature_authorized:
-            return deny("wishing_lamp_explicit_user_authorization_required")
+        if feature == "wishing-lamp":
+            # User transferred ALL real game operation for this feature to MaaHappyFish.
+            # No Agent-side grant or 'read only navigation' may override this deny.
+            return deny("wishing_lamp_owned_by_maa_agent_prohibited")
 
     if p.scope != "assigned":
         return deny("discovery_is_read_only")
@@ -89,10 +87,6 @@ def decide(p: Proposal) -> Decision:
         return deny("maa_ownership_not_verified")
 
     if p.action == "maa_recovery":
-        # A generic recovery can invoke a whole workflow. For wishing lamp,
-        # even a view-only grant must not unlock that broader execution path.
-        if feature == "wishing-lamp":
-            return deny("wishing_lamp_maa_recovery_requires_separate_review")
         if not p.maa_owned:
             return deny("not_a_maa_recovery_target")
         if not p.fallback_authorized:
@@ -114,22 +108,8 @@ def decide(p: Proposal) -> Decision:
 
     if p.maa_owned:
         return deny("maa_owns_task_even_if_off_or_not_run")
-    if feature == "wishing-lamp" and p.action == "final_redeem":
-        # No lamp-specific final-redemption protocol has been defined.
-        return deny("wishing_lamp_unmodeled_redemption_is_not_authorized")
     if p.action == "navigate":
-        return allow("explicit_wishing_lamp_view_only" if feature == "wishing-lamp" else "authorized_navigation")
-    if feature == "wishing-lamp" and p.action == "gameplay":
-        # A general "feature permission" is NOT approval to spend either kind of silk.
-        if not p.wishing_lamp_spend_authorized:
-            return deny("wishing_lamp_spend_not_authorized")
-        if p.wishing_lamp_resource not in {"regular", "gold"}:
-            return deny("wishing_lamp_specific_silk_type_required")
-        if type(p.wishing_lamp_max_uses) is not int or p.wishing_lamp_max_uses < 1:
-            return deny("wishing_lamp_spend_limit_required")
-        if not p.gameplay_authorized or not p.activity_verified or p.resource != "D":
-            return deny("wishing_lamp_actual_step_must_be_verified")
-        return allow("wishing_lamp_bounded_user_instruction_preview_only")
+        return allow("authorized_navigation")
     if p.mode == "feature" and not p.gameplay_authorized:
         return deny("feature_inspection_does_not_authorize_gameplay")
     if p.resource in {"unknown", "D", "E"}:
