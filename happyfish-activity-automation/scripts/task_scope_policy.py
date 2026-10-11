@@ -12,10 +12,11 @@ from dataclasses import dataclass
 class Proposal:
     mode: str                      # daily | feature
     scope: str                     # assigned | discovery | none
-    action: str                    # observe | gameplay | final_redeem | maa_recovery | modify_code
+    action: str                    # observe | puzzle_numbering | gameplay | final_redeem | maa_recovery | modify_code
     maa_owned: bool = False        # True = current substep is MAA-owned; false alone is NOT proof
     maa_ownership_verified: bool = False  # must check latest MAA substeps/independent/global routes
     maa_busy: bool = False         # MFA / person actively using simulator
+    puzzle_image_available: bool = False  # already supplied/specified; never fetch via game clicks
     resource: str = "none"         # none | A | B | C | D | E | unknown
     activity_verified: bool = False
     gameplay_authorized: bool = False  # feature mode must explicitly allow real actions
@@ -44,12 +45,19 @@ def decide(p: Proposal) -> Decision:
         return deny("no_valid_mode")
     if p.scope not in {"assigned", "discovery", "none"}:
         return deny("invalid_scope")
-    if p.action not in {"observe", "gameplay", "final_redeem", "maa_recovery", "modify_code"}:
+    if p.action not in {"observe", "puzzle_numbering", "gameplay", "final_redeem", "maa_recovery", "modify_code"}:
         return deny("unknown_action")
     if p.scope == "none":
         return deny("not_in_user_scope")
     if p.action == "observe":
         return allow("read_only_within_discovery_or_assignment")
+    if p.action == "puzzle_numbering":
+        # Offline picture analysis is separate from operating MAA's puzzle.
+        if p.mode != "feature" or p.scope != "assigned":
+            return deny("puzzle_numbering_only_on_user_request")
+        if not p.puzzle_image_available:
+            return deny("puzzle_image_required_no_game_navigation")
+        return allow("picture_analysis_only_no_game_or_maa_actions")
 
     # From here the action can change real state.
     if p.scope != "assigned":
