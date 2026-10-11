@@ -12,6 +12,7 @@ class ScopePolicyTests(unittest.TestCase):
     def check(self, expected, **kwargs):
         # Known ownership in normal test cases; dedicated tests cover unknown.
         kwargs.setdefault("maa_ownership_verified", True)
+        kwargs.setdefault("feature_id", "unrelated-event")
         outcome = decide(Proposal(**kwargs))
         self.assertEqual(outcome.allowed, expected, outcome.reason)
         return outcome.reason
@@ -135,6 +136,71 @@ class ScopePolicyTests(unittest.TestCase):
         self.check(False, mode="feature", scope="assigned", action="gameplay",
                    maa_owned=True, maa_ownership_verified=True,
                    activity_verified=True, gameplay_authorized=True, resource="A")
+
+    def test_wishing_lamp_requires_explicit_permission_even_if_labeled_free(self):
+        for mode in ("daily", "feature"):
+            with self.subTest(mode=mode):
+                self.assertEqual(
+                    self.check(False, mode=mode, scope="assigned", action="navigate",
+                               feature_id="许愿神灯", activity_verified=True),
+                    "wishing_lamp_explicit_user_authorization_required",
+                )
+                self.check(False, mode=mode, scope="assigned", action="gameplay",
+                           feature_id="wishing-lamp", resource="A", activity_verified=True,
+                           gameplay_authorized=True)
+
+    def test_wishing_lamp_view_permission_cannot_spend_any_silk(self):
+        self.assertEqual(
+            self.check(True, mode="feature", scope="assigned", action="navigate",
+                       feature_id="wishing_lamp", special_feature_authorized=True),
+            "explicit_wishing_lamp_view_only",
+        )
+        self.assertEqual(
+            self.check(False, mode="feature", scope="assigned", action="gameplay",
+                       feature_id="许愿神灯", resource="D", activity_verified=True,
+                       gameplay_authorized=True, special_feature_authorized=True),
+            "wishing_lamp_spend_not_authorized",
+        )
+
+    def test_wishing_lamp_explicit_silk_type_and_count_required(self):
+        base = dict(mode="feature", scope="assigned", action="gameplay",
+                    feature_id="wishing-lamp", activity_verified=True,
+                    special_feature_authorized=True, wishing_lamp_spend_authorized=True,
+                    gameplay_authorized=True, resource="D")
+        self.check(False, **base)
+        self.check(False, **dict(base, wishing_lamp_resource="regular"))
+        self.check(False, **dict(base, wishing_lamp_resource="regular", wishing_lamp_max_uses=0))
+        self.check(False, **dict(base, wishing_lamp_resource="gold", wishing_lamp_max_uses=True))
+        self.assertEqual(
+            self.check(True, **dict(base, wishing_lamp_resource="regular", wishing_lamp_max_uses=2)),
+            "wishing_lamp_bounded_user_instruction_preview_only",
+        )
+        self.check(True, **dict(base, wishing_lamp_resource="gold", wishing_lamp_max_uses=1))
+
+    def test_wishing_lamp_maa_fallback_is_not_a_special_permission(self):
+        self.check(False, mode="daily", scope="assigned", action="maa_recovery",
+                   feature_id="擦神灯", maa_owned=True,
+                   fallback_authorized=True, maa_failure_verified=True,
+                   retry_no_duplicate=True)
+        self.check(False, mode="feature", scope="discovery", action="navigate",
+                   feature_id="wishing-lamp", special_feature_authorized=True)
+        self.assertEqual(
+            self.check(False, mode="feature", scope="assigned", action="navigate",
+                       feature_id="wishing-lamp", special_feature_authorized=True,
+                       maa_ownership_verified=False),
+            "maa_ownership_not_verified",
+        )
+
+    def test_mutating_game_action_needs_identified_feature(self):
+        self.assertEqual(
+            self.check(False, mode="daily", scope="assigned", action="navigate",
+                       feature_id=""),
+            "feature_identity_not_supplied",
+        )
+        self.check(False, mode="daily", scope="assigned", action="gameplay",
+                   feature_id="", activity_verified=True, resource="A")
+        self.check(True, mode="feature", scope="discovery", action="observe",
+                   feature_id="")
 
     def test_no_random_unknown_action(self):
         self.check(False, mode="daily", scope="assigned", action="clear_red_dots")
