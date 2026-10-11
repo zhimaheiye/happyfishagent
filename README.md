@@ -14,6 +14,10 @@
 - **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
 - 已加入[纯离线任务范围判断脚本](happyfish-activity-automation/scripts/task_scope_policy.py)和[回归用例](happyfish-activity-automation/tests/test_task_scope_policy.py)，可用 `python -m unittest discover -s happyfish-activity-automation/tests -p 'test_task_scope_policy.py' -v` 检查规则。**尚未接入实际输入通道，不是运行时安全闸**；无需更改 `MaaHappyFish` 稳定实现。
 
+### MFA 报错证据自动归档（Agent 日常职责）
+
+每次台式机 Agent 日常执行时：**读取 MFA 运行日志 → 提取所有错误上下文 → 遮罩敏感信息 → 生成可验收 ZIP → 去重并推送到 `mfa-evidence/` → 完成已授权的其它日常 → 检查本次新增错误 → 按原状态挂回 MFA**。用户不需要再另开对话收集报错。脚本见 [`collect_mfa_errors.py`](happyfish-activity-automation/scripts/collect_mfa_errors.py)，离线用例见 [`test_collect_mfa_errors.py`](happyfish-activity-automation/tests/test_collect_mfa_errors.py)。**本仓库只提供采集能力和作业规则，定时调度继续用台式机 Agent 已有实现，实际运行与上传需台式机 Agent 调用；不能把提交脚本称为自动上传已部署。** 上传前务必检查日志隐私内容；无错误或无法读取日志分别报告，不主动修复 MAA。
+
 ### 当前特别保留的 Agent 能力（2026-10-11）
 
 - **秘境之门仅订单鱼苗**：用户已授权 Agent 处理右侧「送鱼任务」的订单交付并收集完整复用素材，供下一步 MAA 开发；**自由送鱼一律不做**。素材完成移交并经开发验收后，撤销 Agent 任务与素材，届时需要可从 Git 历史恢复。
