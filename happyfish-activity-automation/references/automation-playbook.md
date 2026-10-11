@@ -155,6 +155,10 @@ Get-Process | ? { $_.ProcessName -match "MuMu|Nemu" } | Select ProcessName,Id,St
 挂机本身不是活动玩法，但它**随时会把模拟器抢走**（MFA 跑队列时你再拿 adb 去点 = 跟它抢界面）。
 动手做活动前，先确认挂机状态。
 
+### 7.0 本轮执行前后：采集 MFA 报错并打包入库
+
+日常 Agent 在开始操作前和结束后的只读阶段，都要运行 `scripts/collect_mfa_errors.py` 提取 `D:\\happyfishgame\\client_avalonia\\logs` 内 MFA 报错，生成经敏感信息复查、验证 ZIP 的 `mfa-evidence/MFA_errors_*.zip`，对照远端已有归档指纹去重并通过已有 Git 工作流推送。没报错不生成 ZIP；找不到日志应报告异常；**只收集不自行修复、重跑、接管日常收尾**。该脚本不负责本地定时（台式机 Agent 已有定时实现），也不负责上传动作；后两者由现有台式机 Agent 编排。完整流程见 [`agent-work-modes-maa-boundary.md`](agent-work-modes-maa-boundary.md)。
+
 ### 7.1 MFA 是什么、怎么判它在跑
 
 - 程序：`D:\happyfishgame\client_avalonia\MaaHappyFish.exe`（MFAAvalonia + 开心水族箱小助手）
