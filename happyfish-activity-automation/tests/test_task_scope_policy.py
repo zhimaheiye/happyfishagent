@@ -214,6 +214,32 @@ class ScopePolicyTests(unittest.TestCase):
         self.check(True, mode="feature", scope="discovery", action="observe",
                    feature_id="")
 
+    def test_order_fish_user_permission_stays_with_verified_order_juveniles(self):
+        base = dict(mode="daily", scope="assigned", action="order_fish",
+                    feature_id="秘境之门订单鱼", maa_owned=True,
+                    order_fish_authorized=True, activity_verified=True,
+                    resource="D", order_fish_matches=True,
+                    order_fish_juvenile=True, order_fish_count_matches=True)
+        self.check(True, **base)
+        for key in ("order_fish_authorized", "activity_verified",
+                    "order_fish_matches", "order_fish_juvenile", "order_fish_count_matches"):
+            with self.subTest(key=key):
+                self.check(False, **dict(base, **{key: False}))
+        self.check(False, **dict(base, feature_id="自由送鱼"))
+        self.check(False, **dict(base, maa_busy=True))
+
+    def test_friend_mail_handoff_pending_and_new_type_never_auto_clicks(self):
+        base = dict(mode="daily", scope="assigned", action="friend_mail",
+                    feature_id="好友留言", maa_owned=True,
+                    friend_mail_authorized=True, friend_mail_button_verified=True,
+                    friend_mail_category="friend_request_accept")
+        self.check(True, **base)
+        self.check(False, **dict(base, friend_mail_authorized=False))
+        self.check(False, **dict(base, friend_mail_button_verified=False))
+        self.check(False, **dict(base, friend_mail_category="unknown"))
+        self.check(False, **dict(base, feature_id="宝石订单"))
+        self.check(False, **dict(base, maa_busy=True))
+
     def test_no_random_unknown_action(self):
         self.check(False, mode="daily", scope="assigned", action="clear_red_dots")
 
