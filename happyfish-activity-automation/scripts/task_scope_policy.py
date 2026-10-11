@@ -13,12 +13,15 @@ class Proposal:
     mode: str                      # daily | feature
     scope: str                     # assigned | discovery | none
     action: str                    # observe | gameplay | final_redeem | maa_recovery | modify_code
-    maa_owned: bool = False        # check precise substep and independent/global MAA tasks
+    maa_owned: bool = False        # True = current substep is MAA-owned; false alone is NOT proof
+    maa_ownership_verified: bool = False  # must check latest MAA substeps/independent/global routes
     maa_busy: bool = False         # MFA / person actively using simulator
     resource: str = "none"         # none | A | B | C | D | E | unknown
     activity_verified: bool = False
     gameplay_authorized: bool = False  # feature mode must explicitly allow real actions
     final_choice_authorized: bool = False
+    final_reward_item: str = ""    # specific reward selected by user, not a model choice
+    final_reward_quantity: int = 0
     fallback_authorized: bool = False
     maa_failure_verified: bool = False
     retry_no_duplicate: bool = False
@@ -53,6 +56,8 @@ def decide(p: Proposal) -> Decision:
         return deny("discovery_is_read_only")
     if p.maa_busy:
         return deny("simulator_or_maa_busy")
+    if p.action in {"gameplay", "final_redeem", "maa_recovery"} and not p.maa_ownership_verified:
+        return deny("maa_ownership_not_verified")
 
     if p.action == "maa_recovery":
         if not p.maa_owned:
@@ -82,10 +87,12 @@ def decide(p: Proposal) -> Decision:
         return deny("unknown_or_persistent_or_paid_resource")
 
     if p.action == "final_redeem":
-        if p.resource != "C":
+        if p.resource != "C" or not p.activity_verified:
             return deny("not_a_verified_final_reward_action")
         if not p.final_choice_authorized:
             return deny("user_must_choose_final_reward")
+        if not p.final_reward_item.strip() or type(p.final_reward_quantity) is not int or p.final_reward_quantity < 1:
+            return deny("final_reward_item_and_quantity_required")
         return allow("user_selected_specific_final_reward")
 
     if p.action == "gameplay":
