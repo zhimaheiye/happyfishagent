@@ -28,10 +28,10 @@ SECRET_RX = [
     re.compile(r"(?i)(bearer\s+)[a-z0-9._~+/-]{12,}"),
     re.compile(r"(?i)(你的\s*ID\s*为\s*[:：]?\s*)\d+"),
     re.compile(r"(?i)\b([a-z0-9._%+-]+)@([a-z0-9.-]+\.[a-z]{2,})\b"),
-    re.compile(r"(?i)([a-z]:\\\\Users\\\\)[^\\\\\s]+"),
+    re.compile(r"(?i)([a-z]:\\Users\\)[^\\\s]+"),
     re.compile(r"(/(?:home|Users)/)[^/\s]+"),
 ]
-DEFAULT_LOG_DIR = r"D:\\happyfishgame\\client_avalonia\\logs"
+DEFAULT_LOG_DIR = r"D:\happyfishgame\client_avalonia\logs"
 
 
 def sanitize(line: str) -> str:
@@ -93,6 +93,14 @@ def collect(log_dir: Path, out_dir: Path, hours: int, now: dt.datetime | None = 
     out_dir.mkdir(parents=True, exist_ok=True)
     stamp = now.strftime("%Y%m%d_%H%M%S")
     identity = hashlib.sha256("\n".join(part for _, part in excerpts).encode()).hexdigest()[:12]
+    for existing in sorted(out_dir.glob(f"MFA_errors_*_{identity}.zip")):
+        try:
+            with zipfile.ZipFile(existing) as zf:
+                if json.loads(zf.read("manifest.json")).get("sha256_excerpt") == identity:
+                    return {"status": "already_archived", "zip": str(existing),
+                            "error_hits": total, "file_count": len(excerpts)}
+        except (OSError, zipfile.BadZipFile, KeyError, ValueError):
+            continue
     dest = out_dir / f"MFA_errors_{stamp}_{identity}.zip"
     manifest = {
         "schema": "mfa-error-evidence-v1",
