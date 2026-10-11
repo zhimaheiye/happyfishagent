@@ -35,8 +35,10 @@ DEFAULT_LOG_DIR = r"D:\happyfishgame\client_avalonia\logs"
 
 
 def sanitize(line: str) -> str:
-    line = SECRET_RX[0].sub(lambda m: m.group(1) + "=<REDACTED>", line)
+    # Mask bearer tokens BEFORE replacing the Authorization: Bearer prefix;
+    # otherwise the first substitution hides "Bearer" and leaves its token visible.
     line = SECRET_RX[1].sub(lambda m: m.group(1) + "<REDACTED>", line)
+    line = SECRET_RX[0].sub(lambda m: m.group(1) + "=<REDACTED>", line)
     line = SECRET_RX[2].sub(lambda m: m.group(1) + "<REDACTED>", line)
     line = SECRET_RX[3].sub("<REDACTED_EMAIL>", line)
     line = SECRET_RX[4].sub(lambda m: m.group(1) + "<USER>", line)
