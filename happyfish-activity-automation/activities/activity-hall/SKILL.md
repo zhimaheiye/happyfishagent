@@ -6,6 +6,8 @@ agent_created: true
 
 # 活动大厅（「精彩活动天天有」）巡检
 
+> **任务归属注意（2026-10-11）**：本页是限时活动的**只读发现入口**，不是“全部卡片自动执行”的授权。日常模式依 [`../../references/agent-work-modes-maa-boundary.md`](../../references/agent-work-modes-maa-boundary.md) 执行固定清单、过滤 MAA 已覆盖的子流程；探索模式里广泛查看其它卡片默认也只是登记标题和证据，不按红点扩大操作范围。
+
 > 素材见 `assets/activity-hall/`（2026-10-08 批 **6 张** + README，逐张说明在该目录 `README.md`）。
 > 留档口径见 `../../references/activity-evidence-contract.md`；上层流程见主技能 `../../SKILL.md`。
 > 主证据 = `活动档案/刷新档-20261008-00点/操作记录.md`「### 第 11 项『活动大厅巡检』」+「## 第 9 / 10 / 11 项 —— 合并动作表」的 **#88~#96**。
