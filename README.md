@@ -5,6 +5,15 @@
 把「新活动 → 摸清规则 → 记录界面坐标与素材 → 供自动化工具调用」这套流程固化下来。
 目标是把每个活动的玩法、入口坐标、退出路径、付费陷阱和参考帧都记录清楚，供 MaaFramework、MCP 工具或其他自动化项目直接取用。
 
+## 工作模式与 MaaHappyFish 边界（2026-10-11）
+
+仓库入口规则见 [`agent-work-modes-maa-boundary.md`](happyfish-activity-automation/references/agent-work-modes-maa-boundary.md)。
+
+- **日常执行 A**：依固定阶段与用户授权的 Agent 清单，做 MAA 尚未覆盖的工作；**不按红点扫全场**。属于 `MaaHappyFish` 的日常收尾项目，无论 ON/OFF、当天运行与否、成功或失败，都不由 Agent 自行补做。
+- **功能探索/开发 B**：指定功能可研究、取证；“其他功能都看看”只扩大**只读调查范围**，不得自行把每项都跑一遍、消耗资源或修改稳定 MAA 代码。素材必须按 [`activity-evidence-contract.md`](happyfish-activity-automation/references/activity-evidence-contract.md) 验收并提交，缺证据只能标待完成。
+- **MAA 定点兜底**：另行明确授权，且日志证明真失败、确认没有重复消费风险、无正在运行的任务冲突后，才可最小范围介入。MAA 报错默认用户自行按日志处理。
+- 当前为**文档授权纪律**；尚未完成所有输入通道的运行时强制拦截。无需更改 `MaaHappyFish` 稳定实现。
+
 ## 结构
 
 ```
@@ -17,7 +26,9 @@ happyfishagent/
 └── happyfish-activity-automation/       ← 活动文档与工具脚本
     ├── SKILL.md                         ← 通用红线 + 主循环 + 进/出导航 + 活动路由
     ├── references/
-    │   ├── activity-evidence-contract.md ← 动手前必读：每一步看见什么、点什么、为什么、可能遇到什么
+    │   ├── agent-work-modes-maa-boundary.md ← 两种模式 + MAA 归属与兜底授权
+    │   ├── activity-authorization-resource-flow.md ← 限时活动资源分层
+    │   ├── activity-evidence-contract.md ← 每一步看见什么、点什么、为什么、可能遇到什么
     │   └── automation-playbook.md       ← 通用技术手册（跨活动复用）
     ├── scripts/
     │   ├── grab.py                      ← adb 截图（规避中文路径坑）
