@@ -1,5 +1,7 @@
 # assets/sea-otter —— 海獭摸宝素材库
 
+> **唯一合法导航**：「游乐园→第二排第一个海獭→寻宝统一入口」。历史宝箱→宝石兑换→旗鱼/缺口配方跳转路线已作废且从操作技能删除；本目录保留统一入口的取证帧和算法模板，但没有自动执行许可。
+
 坐标系 **1280×720**（MuMu 实例 0 / `127.0.0.1:16384`，本机 `MuMuManager info -v all` 报的 `adb_port`）。
 本批日期 **2026-10-11**，由 maa-mcp `screencap` + 仓库 Recorder（`scripts/record_action.py`，session
 `happyfish-activity-automation/activities/sea-otter/sessions/20261011-130633/`）采集。
