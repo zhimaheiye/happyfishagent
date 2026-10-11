@@ -10,6 +10,8 @@ from task_scope_policy import Proposal, decide  # noqa: E402
 
 class ScopePolicyTests(unittest.TestCase):
     def check(self, expected, **kwargs):
+        # Known ownership in normal test cases; dedicated tests cover unknown.
+        kwargs.setdefault("maa_ownership_verified", True)
         outcome = decide(Proposal(**kwargs))
         self.assertEqual(outcome.allowed, expected, outcome.reason)
         return outcome.reason
@@ -64,8 +66,14 @@ class ScopePolicyTests(unittest.TestCase):
     def test_final_reward_selection_remains_user_owned(self):
         self.check(False, mode="daily", scope="assigned", action="final_redeem",
                    activity_verified=True, resource="C")
-        self.check(True, mode="daily", scope="assigned", action="final_redeem",
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
                    activity_verified=True, resource="C", final_choice_authorized=True)
+        self.check(True, mode="daily", scope="assigned", action="final_redeem",
+                   activity_verified=True, resource="C", final_choice_authorized=True,
+                   final_reward_item="图纸", final_reward_quantity=1)
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
+                   activity_verified=False, resource="C", final_choice_authorized=True,
+                   final_reward_item="图纸", final_reward_quantity=1)
 
     def test_inappropriate_paid_persistent_unknown_blocked(self):
         for resource in ("D", "E", "unknown"):
@@ -86,6 +94,31 @@ class ScopePolicyTests(unittest.TestCase):
                    code_change_authorized=True, target_maa_repo=True)
         self.check(True, mode="feature", scope="assigned", action="modify_code",
                    code_change_authorized=True, target_maa_repo=False)
+
+    def test_missing_maa_ownership_check_is_never_permission(self):
+        self.assertEqual(
+            self.check(False, mode="daily", scope="assigned", action="gameplay",
+                       activity_verified=True, resource="A", maa_ownership_verified=False),
+            "maa_ownership_not_verified",
+        )
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
+                   activity_verified=True, resource="C", final_choice_authorized=True,
+                   final_reward_item="金币", final_reward_quantity=1,
+                   maa_ownership_verified=False)
+        self.check(False, mode="daily", scope="assigned", action="maa_recovery",
+                   maa_owned=True, fallback_authorized=True, maa_failure_verified=True,
+                   retry_no_duplicate=True, maa_ownership_verified=False)
+
+    def test_final_reward_needs_specific_item_and_valid_quantity(self):
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
+                   resource="C", activity_verified=True, final_choice_authorized=True,
+                   final_reward_item="金币", final_reward_quantity=0)
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
+                   resource="C", activity_verified=True, final_choice_authorized=True,
+                   final_reward_item="金币", final_reward_quantity=-1)
+        self.check(False, mode="daily", scope="assigned", action="final_redeem",
+                   resource="C", activity_verified=True, final_choice_authorized=True,
+                   final_reward_item="金币", final_reward_quantity=True)
 
     def test_no_random_unknown_action(self):
         self.check(False, mode="daily", scope="assigned", action="clear_red_dots")
