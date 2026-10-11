@@ -137,76 +137,29 @@ class ScopePolicyTests(unittest.TestCase):
                    maa_owned=True, maa_ownership_verified=True,
                    activity_verified=True, gameplay_authorized=True, resource="A")
 
-    def test_wishing_lamp_requires_explicit_permission_even_if_labeled_free(self):
+    def test_wishing_lamp_is_never_an_agent_game_action(self):
+        # Even if scope/MAA fallback/resource flags are set, NO game operation is allowed.
         for mode in ("daily", "feature"):
-            with self.subTest(mode=mode):
-                self.assertEqual(
-                    self.check(False, mode=mode, scope="assigned", action="navigate",
-                               feature_id="许愿神灯", activity_verified=True),
-                    "wishing_lamp_explicit_user_authorization_required",
-                )
-                self.check(False, mode=mode, scope="assigned", action="gameplay",
-                           feature_id="wishing-lamp", resource="A", activity_verified=True,
-                           gameplay_authorized=True)
+            for action in ("navigate", "gameplay", "final_redeem", "maa_recovery"):
+                for feature_id in ("wishing-lamp", "wishing_lamp", "许愿神灯",
+                                   "许愿金绸", "幸运神灯", "擦神灯"):
+                    with self.subTest(mode=mode, action=action, feature_id=feature_id):
+                        self.assertEqual(
+                            self.check(False, mode=mode, scope="assigned", action=action,
+                                       feature_id=feature_id, maa_owned=True,
+                                       maa_failure_verified=True, fallback_authorized=True,
+                                       retry_no_duplicate=True, activity_verified=True,
+                                       gameplay_authorized=True, resource="A",
+                                       final_choice_authorized=True,
+                                       final_reward_item="鱼", final_reward_quantity=1),
+                            "wishing_lamp_owned_by_maa_agent_prohibited",
+                        )
 
-    def test_wishing_lamp_view_permission_cannot_spend_any_silk(self):
-        self.assertEqual(
-            self.check(True, mode="feature", scope="assigned", action="navigate",
-                       feature_id="wishing_lamp", special_feature_authorized=True),
-            "explicit_wishing_lamp_view_only",
-        )
-        self.assertEqual(
-            self.check(False, mode="feature", scope="assigned", action="gameplay",
-                       feature_id="许愿神灯", resource="D", activity_verified=True,
-                       gameplay_authorized=True, special_feature_authorized=True),
-            "wishing_lamp_spend_not_authorized",
-        )
-
-    def test_wishing_lamp_explicit_silk_type_and_count_required(self):
-        base = dict(mode="feature", scope="assigned", action="gameplay",
-                    feature_id="wishing-lamp", activity_verified=True,
-                    special_feature_authorized=True, wishing_lamp_spend_authorized=True,
-                    gameplay_authorized=True, resource="D")
-        self.check(False, **base)
-        self.check(False, **dict(base, wishing_lamp_resource="regular"))
-        self.check(False, **dict(base, wishing_lamp_resource="regular", wishing_lamp_max_uses=0))
-        self.check(False, **dict(base, wishing_lamp_resource="gold", wishing_lamp_max_uses=True))
-        self.assertEqual(
-            self.check(True, **dict(base, wishing_lamp_resource="regular", wishing_lamp_max_uses=2)),
-            "wishing_lamp_bounded_user_instruction_preview_only",
-        )
-        self.check(True, **dict(base, wishing_lamp_resource="gold", wishing_lamp_max_uses=1))
-
-    def test_wishing_lamp_maa_fallback_is_not_a_special_permission(self):
-        self.check(False, mode="daily", scope="assigned", action="maa_recovery",
-                   feature_id="擦神灯", maa_owned=True,
-                   fallback_authorized=True, maa_failure_verified=True,
-                   retry_no_duplicate=True)
+    def test_wishing_lamp_can_only_be_referenced_offline(self):
+        self.check(True, mode="feature", scope="discovery", action="observe",
+                   feature_id="wishing-lamp")
         self.check(False, mode="feature", scope="discovery", action="navigate",
-                   feature_id="wishing-lamp", special_feature_authorized=True)
-        self.assertEqual(
-            self.check(False, mode="feature", scope="assigned", action="navigate",
-                       feature_id="wishing-lamp", special_feature_authorized=True,
-                       maa_ownership_verified=False),
-            "maa_ownership_not_verified",
-        )
-
-    def test_wishing_lamp_generic_maa_recovery_or_final_redeem_is_blocked(self):
-        self.assertEqual(
-            self.check(False, mode="feature", scope="assigned", action="maa_recovery",
-                       feature_id="wishing-lamp", special_feature_authorized=True,
-                       maa_owned=True, fallback_authorized=True,
-                       maa_failure_verified=True, retry_no_duplicate=True),
-            "wishing_lamp_maa_recovery_requires_separate_review",
-        )
-        self.assertEqual(
-            self.check(False, mode="feature", scope="assigned", action="final_redeem",
-                       feature_id="许愿神灯", special_feature_authorized=True,
-                       resource="C", activity_verified=True, gameplay_authorized=True,
-                       final_choice_authorized=True, final_reward_item="金币",
-                       final_reward_quantity=1),
-            "wishing_lamp_unmodeled_redemption_is_not_authorized",
-        )
+                   feature_id="wishing-lamp")
 
     def test_mutating_game_action_needs_identified_feature(self):
         self.assertEqual(
