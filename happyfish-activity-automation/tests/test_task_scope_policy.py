@@ -161,6 +161,48 @@ class ScopePolicyTests(unittest.TestCase):
         self.check(False, mode="feature", scope="discovery", action="navigate",
                    feature_id="wishing-lamp")
 
+    def test_gem_order_bubble_never_generates_agent_task(self):
+        # Prevent the agent from treating "还有 N 个订单未完成哦" as an action cue.
+        aliases = ("宝石订单", "GemOrderTask", "gem-order", "宝石订单气泡",
+                   "还有6个订单未完成哦", "订单未完成")
+        for feature_id in aliases:
+            for mode in ("daily", "feature"):
+                for action in ("navigate", "gameplay", "final_redeem"):
+                    with self.subTest(feature=feature_id, mode=mode, action=action):
+                        self.assertEqual(
+                            self.check(False, mode=mode, scope="assigned",
+                                       feature_id=feature_id, action=action,
+                                       maa_owned=False, maa_ownership_verified=True,
+                                       gameplay_authorized=True, activity_verified=True,
+                                       resource="A", final_choice_authorized=True,
+                                       final_reward_item="道具", final_reward_quantity=1),
+                            "gem_order_maa_owned_bubble_not_a_task",
+                        )
+
+    def test_gem_order_fallback_requires_explicit_user_authorization_and_failure_evidence(self):
+        base = dict(mode="daily", scope="assigned", feature_id="GemOrderTask",
+                    action="maa_recovery", maa_owned=True)
+        self.assertEqual(self.check(False, **base), "fallback_not_authorized")
+        self.check(False, **dict(base, fallback_authorized=True))
+        self.check(False, **dict(base, fallback_authorized=True,
+                                 maa_failure_verified=True))
+        self.assertEqual(
+            self.check(True, **dict(base, fallback_authorized=True,
+                                    maa_failure_verified=True, retry_no_duplicate=True)),
+            "bounded_maa_fallback_only",
+        )
+        self.check(False, **dict(base, maa_owned=False,
+                                 fallback_authorized=True, maa_failure_verified=True,
+                                 retry_no_duplicate=True))
+        self.check(False, **dict(base, fallback_authorized=True,
+                                 maa_failure_verified=True, retry_no_duplicate=True,
+                                 maa_busy=True))
+
+    def test_gem_order_is_distinct_from_gem_exchange(self):
+        # Gem exchange is separate. It still requires the ordinary task gates.
+        self.check(True, mode="daily", scope="assigned", feature_id="宝石兑换",
+                   action="gameplay", maa_owned=False, activity_verified=True, resource="A")
+
     def test_mutating_game_action_needs_identified_feature(self):
         self.assertEqual(
             self.check(False, mode="daily", scope="assigned", action="navigate",
