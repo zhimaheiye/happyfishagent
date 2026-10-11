@@ -6,6 +6,8 @@ agent_created: true
 
 # 活动大厅（「精彩活动天天有」）巡检
 
+> ⛔ **许愿神灯专项排除**：本页面和左栏发现许愿神灯时，仅登记名称；未获用户本次明确点名，**不得进入，更不得擦普通绸或金绸**。即使用户说“把所有活动都看一遍”，也不包含主动进入许愿神灯。若用户仅授权看页面，仍然不消费。见 [`许愿神灯专项授权规则`](../../references/wishing-lamp-special-authorization.md)。
+
 > **任务归属注意（2026-10-11）**：本页是限时活动的**只读发现入口**，不是“全部卡片自动执行”的授权。日常模式依 [`../../references/agent-work-modes-maa-boundary.md`](../../references/agent-work-modes-maa-boundary.md) 执行固定清单、过滤 MAA 已覆盖的子流程；探索模式里广泛查看其它卡片默认也只是登记标题和证据，不按红点扩大操作范围。
 
 > 素材见 `assets/activity-hall/`（2026-10-08 批 **6 张** + README，逐张说明在该目录 `README.md`）。
