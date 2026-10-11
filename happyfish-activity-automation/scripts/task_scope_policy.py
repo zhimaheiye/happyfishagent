@@ -43,6 +43,11 @@ def _canonical_feature(value: str) -> str:
         return "wishing-lamp"
     if "许愿神灯" in name or "幸运神灯" in name:
         return "wishing-lamp"
+    if name in {"gem-order", "gemorder", "gemordertask", "gem-order-task",
+                "宝石订单", "宝石订单气泡", "订单未完成"}:
+        return "gem-order"
+    if "宝石订单" in name or ("订单" in name and "未完成" in name):
+        return "gem-order"
     return name
 
 
@@ -78,6 +83,10 @@ def decide(p: Proposal) -> Decision:
             # User transferred ALL real game operation for this feature to MaaHappyFish.
             # No Agent-side grant or 'read only navigation' may override this deny.
             return deny("wishing_lamp_owned_by_maa_agent_prohibited")
+        if feature == "gem-order" and p.action != "maa_recovery":
+            # A pending-order bubble is NOT user authorization or proof of MAA failure.
+            # Deny entering, manipulating and redeeming regardless of claimed maa_owned.
+            return deny("gem_order_maa_owned_bubble_not_a_task")
 
     if p.scope != "assigned":
         return deny("discovery_is_read_only")
@@ -87,6 +96,8 @@ def decide(p: Proposal) -> Decision:
         return deny("maa_ownership_not_verified")
 
     if p.action == "maa_recovery":
+        # Specific GemOrderTask recoveries may be considered only if MAA ownership
+        # is correctly verified, user approves, and genuine failure & idempotency pass.
         if not p.maa_owned:
             return deny("not_a_maa_recovery_target")
         if not p.fallback_authorized:
