@@ -1,0 +1,97 @@
+{
+  "schema": "happyfish-friend-mail-types-v1",
+  "updated": "2026-10-11",
+  "notice": "本索引用于去重与取证，不提供未知类别的点击授权；样本必须脱敏。MAA 留言箱功能未经用户验收，当前 Agent 暂时继续按已授权类别处理。",
+  "dedup_key": [
+    "type_id",
+    "normalized_body_pattern",
+    "button_text",
+    "layout_variant"
+  ],
+  "record_fields": [
+    "type_id",
+    "normalized_body_pattern",
+    "button_text",
+    "action",
+    "layout_variant",
+    "bbox_original",
+    "screenshot_sanitized_path",
+    "observed_at",
+    "verified",
+    "notes"
+  ],
+  "types": [
+    {
+      "type_id": "friend_request",
+      "normalized_body_pattern": "希望成为你的好友哦",
+      "button_text": "同意",
+      "action": "已授权逐条同意，逐行 OCR 检查",
+      "layout_variant": "multi-row-variable-gap",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": "2026-10-08",
+      "verified": true,
+      "notes": "绿钮形状与拜访同形，必须读文字；位置不固定。详见 friend-mail/SKILL.md"
+    },
+    {
+      "type_id": "baby_visit_invitation",
+      "normalized_body_pattern": "我养的鱼宝宝健康又可爱，要不要来瞧瞧",
+      "button_text": "拜访",
+      "action": "逐条忽略（非全部忽略），须核对正文类别",
+      "layout_variant": "multi-row-variable-gap",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": "2026-10-08",
+      "verified": true,
+      "notes": "不能因为按钮绿色就同意；逐行重新定位。"
+    },
+    {
+      "type_id": "system_notice",
+      "normalized_body_pattern": "系统通知|折扣券",
+      "button_text": "删除|查看",
+      "action": "依已授权的明确系统通知类别处理；未知通知只读，不点击查看",
+      "layout_variant": "system-message",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": "2026-09-21",
+      "verified": true,
+      "notes": "系统消息可能包含其它类别；不能把所有通知都视为可删除。"
+    },
+    {
+      "type_id": "friend_request_receipt",
+      "normalized_body_pattern": "对方同意了我的好友申请",
+      "button_text": "unknown",
+      "action": "仅按当前确知的可见操作处理，未确认按钮时只读取证",
+      "layout_variant": "unknown",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": null,
+      "verified": false,
+      "notes": "用户历史提出的类别规则，不宣称已有对应实机按钮证据。"
+    },
+    {
+      "type_id": "reward_message",
+      "normalized_body_pattern": "奖励|领取",
+      "button_text": "unknown",
+      "action": "待识别真实领取机制；若涉及最终常驻选择不得代选",
+      "layout_variant": "unknown",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": null,
+      "verified": false,
+      "notes": "历史规划分类，尚未实机验证。"
+    },
+    {
+      "type_id": "unknown",
+      "normalized_body_pattern": "",
+      "button_text": "",
+      "action": "只读取证，未知不可逆按钮一律不点",
+      "layout_variant": "unknown",
+      "bbox_original": null,
+      "screenshot_sanitized_path": null,
+      "observed_at": null,
+      "verified": false,
+      "notes": "出现新增类别后应创建稳定 type_id 并推送对应经过遮罩的图片和 OCR/bbox。"
+    }
+  ]
+}
