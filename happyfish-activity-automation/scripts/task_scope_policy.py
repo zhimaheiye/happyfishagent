@@ -68,11 +68,9 @@ def decide(p: Proposal) -> Decision:
     if p.action == "modify_code":
         if not p.code_change_authorized:
             return deny("code_changes_not_authorized")
-        if p.target_maa_repo and not p.gameplay_authorized:
-            # gameplay_authorized is NOT permission to change MAA code; this branch
-            # intentionally refuses absent a separate, dedicated MAA code review.
-            return deny("maa_stable_code_requires_separate_development_approval")
         if p.target_maa_repo:
+            # Separate user authorization for changes to MaaHappyFish must be
+            # handled by its own development workflow, outside this preview.
             return deny("maa_stable_code_requires_separate_development_approval")
         return allow("scoped_non_maa_code_change")
 
