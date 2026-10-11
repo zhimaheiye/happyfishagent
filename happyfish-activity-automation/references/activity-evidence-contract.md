@@ -1,5 +1,7 @@
 # 活动留档契约
 
+> MFA 日常错误日志属于**单独的只读证据采集职责**，不能当作活动任务授权。归档到 `mfa-evidence/` 时遵循 `references/agent-work-modes-maa-boundary.md` 的错误窗口提取、ZIP 敏感检查、去重、上传和远端验证规范。
+
 > **适用前提**：先读 [`agent-work-modes-maa-boundary.md`](agent-work-modes-maa-boundary.md)，明确日常 A / 探索 B、MAA 所有权和操作授权。留档要求只控制“怎么记证据”，**不许可为了素材去重跑 MAA 已覆盖功能或消耗资源测试**。
 
 日期：2026-10-06。
