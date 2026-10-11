@@ -19,9 +19,9 @@
 - **深海寻鱼**：`MaaHappyFish` 已有功能但还不完善。现有导航/截图/付费态素材保留，**由用户下次按这些素材继续开发并补入 MAA「日常收尾」**；Agent 当前不自行代跑或修改 MAA。
 - **每日魔幻拼图**：保留识图、拼块编号和可信度核验工具；只有用户明确要求时根据其提供/指定的现有图片**输出标号或位置串**。平时不主动出串、不进游戏、不填串、不启动 MFA、不代领奖。
 
-### 许愿神灯特别排除
+### 许愿神灯：MAA 独占，Agent 完全禁用
 
-**许愿神灯不属于 Agent 的默认日常，也不因精彩活动授权或红点自动进入。** 只有用户本次明确点名该功能，才按限定范围执行；只授权查看≠授权擦灯。普通许愿绸和许愿金绸都要**分别明确消耗类型与最大次数**，不能依据历史“刷倍率”攻略擅自操作。技术资料保留，规则见 [`许愿神灯专项授权`](happyfish-activity-automation/references/wishing-lamp-special-authorization.md)。
+`MaaHappyFish` 现有许愿神灯功能已经满足用户需求，**Agent 不得进入、采集、擦绸、领奖或以日常/探索/兜底名义代跑**。本仓库已删除该功能的两张操作截图、专项授权步骤及攻略坐标，仅保留事故警示。将来需要变更相关 MAA 功能时，单独处理 `MaaHappyFish`，不从 Agent 日常扩权。
 
 ## 结构
 
@@ -36,7 +36,6 @@ happyfishagent/
     ├── SKILL.md                         ← 通用红线 + 主循环 + 进/出导航 + 活动路由
     ├── references/
     │   ├── agent-work-modes-maa-boundary.md ← 两种模式 + MAA 归属与兜底授权
-    │   ├── wishing-lamp-special-authorization.md ← 许愿神灯：未经专项授权禁止进入及消耗
     │   ├── activity-authorization-resource-flow.md ← 限时活动资源分层
     │   ├── activity-evidence-contract.md ← 每一步看见什么、点什么、为什么、可能遇到什么
     │   └── automation-playbook.md       ← 通用技术手册（跨活动复用）
