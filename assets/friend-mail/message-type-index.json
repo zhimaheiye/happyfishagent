@@ -1,6 +1,6 @@
 {
   "schema": "happyfish-friend-mail-types-v1",
-  "updated": "2026-10-16",
+  "updated": "2026-10-17",
   "notice": "本索引用于去重与取证，不提供未知类别的点击授权；样本必须脱敏。MAA 留言箱功能未经用户验收，当前 Agent 暂时继续按已授权类别处理。",
   "dedup_key": [
     "type_id",
@@ -112,7 +112,48 @@
       "screenshot_sanitized_path": "assets/friend-mail/20261016_01_mail_one_row_expand_delete_masked.png",
       "observed_at": "2026-10-16",
       "verified": false,
-      "notes": "同一正文在 10-10 挂的是「拜访/忽略」对，10-11 起改挂「展开/删除」对 → 钮文字会变、正文才定类型。★ 10-16 新证据：时间戳 14:33:14 = 白天到达，此前三次均为 00:4x~01:0x → 该通知全天都会到，两次清理之间会累积。⛔ 「删除」不可逆且未定性；「展开」展开成什么未知。"
+      "notes": "同一正文在 10-10 挂的是「拜访/忽略」对，10-11 起改挂「展开/删除」对 → 钮文字会变、正文才定类型。★ 10-16 新证据：时间戳 14:33:14 = 白天到达，此前三次均为 00:4x~01:0x → 该通知全天都会到，两次清理之间会累积。⛔ 「删除」不可逆且未定性；「展开」展开成什么未知。 ★ 10-17 第 4 次目击：钮对**回到 10-10 那套「拜访/忽略」**（不是新形状，是旧形状复现），且正文**掉了「有N个好友,」前缀**只剩「在您家观看了一场精彩的舞蹈表演~」⇒ normalized_body_pattern 要按「包含『观看了一场精彩的舞蹈表演』」匹配，⛔ 别用整句等值。本档仍两枚不点。",
+      "variants": [
+        {
+          "observed_at": "2026-10-17",
+          "button_text": "拜访|忽略",
+          "normalized_body_pattern": "在您家观看了一场精彩的舞蹈表演~（无「有N个好友,」前缀）",
+          "row_position": "第 2 行（首行下方，行距 ≈120px 本批成立）",
+          "bbox_original": {
+            "green_拜访_center": [
+              957,
+              438
+            ],
+            "orange_忽略_center": [
+              1134,
+              442
+            ]
+          },
+          "screenshot_sanitized_path": "assets/friend-mail/20261017_01_mail_two_rows_goonlook_visit_masked.png",
+          "action": "只读留证，两枚都不点"
+        }
+      ]
+    },
+    {
+      "type_id": "system_notice_merchant_visit",
+      "normalized_body_pattern": "海牛先生来了~快去看看吧！",
+      "button_text": "去看看|忽略",
+      "action": "⛔ 两枚都不点。绿「去看看」= 跳进**海牛先生活动页**（10-03 实点后果已取证：进去后按 ⚡30→13、海草 457→440，芝麻当场判「海牛先生 MFA 里有自动化，不需要你去做」）；橙「忽略」= 未授权的丢弃动作。",
+      "layout_variant": "single-row-other-message-goonlook-ignore",
+      "bbox_original": {
+        "green_去看看_center": [
+          957,
+          318
+        ],
+        "orange_忽略_center": [
+          1134,
+          322
+        ]
+      },
+      "screenshot_sanitized_path": "assets/friend-mail/20261017_01_mail_two_rows_goonlook_visit_masked.png",
+      "observed_at": "2026-10-17",
+      "verified": true,
+      "notes": "署名「系统通知」但**不是**彩色风车那套（那套钮是 查看/删除）。★ 判据：**署名相同不代表钮相同**，逐枚裁图读钮字是唯一闸。⚠️ 本条非「首次」：10-03 已见过并误点，只是当时未进 registry（查 日常进度.md 10-03 段）。"
     }
   ]
 }
