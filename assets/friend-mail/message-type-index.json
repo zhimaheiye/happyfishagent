@@ -1,6 +1,6 @@
 {
   "schema": "happyfish-friend-mail-types-v1",
-  "updated": "2026-10-11",
+  "updated": "2026-10-16",
   "notice": "本索引用于去重与取证，不提供未知类别的点击授权；样本必须脱敏。MAA 留言箱功能未经用户验收，当前 Agent 暂时继续按已授权类别处理。",
   "dedup_key": [
     "type_id",
@@ -92,6 +92,27 @@
       "observed_at": null,
       "verified": false,
       "notes": "出现新增类别后应创建稳定 type_id 并推送对应经过遮罩的图片和 OCR/bbox。"
+    },
+    {
+      "type_id": "dance_visitor_notice",
+      "normalized_body_pattern": "有N个好友,在您家观看了一场精彩的舞蹈表演~",
+      "button_text": "展开|删除",
+      "action": "只读留证；两枚钮功能均未验证 → 一律不点（10-11 首见、10-12 复现、10-16 第三次，三档一致未点）",
+      "layout_variant": "single-row-other-message-expand-delete",
+      "bbox_original": {
+        "green_展开_center": [
+          958,
+          321
+        ],
+        "orange_删除_center": [
+          1135,
+          321
+        ]
+      },
+      "screenshot_sanitized_path": "assets/friend-mail/20261016_01_mail_one_row_expand_delete_masked.png",
+      "observed_at": "2026-10-16",
+      "verified": false,
+      "notes": "同一正文在 10-10 挂的是「拜访/忽略」对，10-11 起改挂「展开/删除」对 → 钮文字会变、正文才定类型。★ 10-16 新证据：时间戳 14:33:14 = 白天到达，此前三次均为 00:4x~01:0x → 该通知全天都会到，两次清理之间会累积。⛔ 「删除」不可逆且未定性；「展开」展开成什么未知。"
     }
   ]
 }
