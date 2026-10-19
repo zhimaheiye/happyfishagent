@@ -1,6 +1,6 @@
 {
   "schema": "happyfish-friend-mail-types-v1",
-  "updated": "2026-10-18",
+  "updated": "2026-10-20",
   "notice": "本索引用于去重与取证，不提供未知类别的点击授权；样本必须脱敏。MAA 留言箱功能未经用户验收，当前 Agent 暂时继续按已授权类别处理。",
   "dedup_key": [
     "type_id",
@@ -31,7 +31,26 @@
       "screenshot_sanitized_path": null,
       "observed_at": "2026-10-08",
       "verified": true,
-      "notes": "绿钮形状与拜访同形，必须读文字；位置不固定。详见 friend-mail/SKILL.md"
+      "notes": "绿钮形状与拜访同形，必须读文字；位置不固定。详见 friend-mail/SKILL.md",
+      "also_observed_at": [
+        {
+          "observed_at": "2026-10-20",
+          "body": "希望成为你的好友哦。",
+          "sender": "<已脱敏>",
+          "button_text": "同意",
+          "green_center": [
+            957,
+            645
+          ],
+          "orange_ignore_center": [
+            1134,
+            646
+          ],
+          "action": "点绿「同意」（芝麻 10-05 标准动作）",
+          "result": "该行消失、邀请消息分节整体消失",
+          "screenshot": "d1020_0406_mailbtn.png / d1020_0408_after_agree.png"
+        }
+      ]
     },
     {
       "type_id": "baby_visit_invitation",
@@ -55,7 +74,35 @@
       "screenshot_sanitized_path": null,
       "observed_at": "2026-09-21",
       "verified": true,
-      "notes": "系统消息可能包含其它类别；不能把所有通知都视为可删除。"
+      "notes": "系统消息可能包含其它类别；不能把所有通知都视为可删除。",
+      "also_observed_at": [
+        {
+          "observed_at": "2026-10-20",
+          "count": 2,
+          "bodies": [
+            "您有购鱼折扣券将于24小时内到期，请尽快使用哦~",
+            "感谢你参与悬赏任务，请查收您的礼物！"
+          ],
+          "button_text": "查看|删除",
+          "green_view_center": [
+            957,
+            321
+          ],
+          "orange_delete_centers": [
+            [
+              1134,
+              322
+            ],
+            [
+              1134,
+              442
+            ]
+          ],
+          "action": "两条均点橙「删除」（折扣券=芝麻09-21拍板；悬赏礼物=芝麻10-15「直接删除就行」）",
+          "result": "两条消失，「系统消息」分节标签整个消失",
+          "screenshot": "d1020_0409_del_sysnotify2.png / d1020_0409_del_sysnotify1.png"
+        }
+      ]
     },
     {
       "type_id": "friend_request_receipt",
@@ -154,6 +201,24 @@
               "note": "未新增 assets/ 素材：与 10-17 变体同 type_id+同正文模式+同钮对+同布局，dedup_key 全命中 ⇒ 按契约只追加目击记录"
             }
           ]
+        }
+      ],
+      "also_observed_at": [
+        {
+          "observed_at": "2026-10-20",
+          "variant": "展开|删除（回到带「有N个好友,」前缀那一套）",
+          "body": "有8个好友,在您家观看了一场精彩的舞蹈表演~",
+          "timestamp_in_card": "2026-10-20 02:36:44",
+          "green_center": [
+            957,
+            321
+          ],
+          "orange_center": [
+            1133,
+            322
+          ],
+          "action": "两枚均不点（第 6 次目击，功能仍未验证）",
+          "note": "本档它先在第 3 行 (957,645)/(1134,646)，两条系统通知被删后整节上移到首行位 ⇒ ⚠️ 行位随删除上移，钮心必须逐帧重测"
         }
       ]
     },
