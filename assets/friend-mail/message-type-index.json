@@ -1,6 +1,6 @@
 {
   "schema": "happyfish-friend-mail-types-v1",
-  "updated": "2026-10-20",
+  "updated": "2026-10-21",
   "notice": "本索引用于去重与取证，不提供未知类别的点击授权；样本必须脱敏。MAA 留言箱功能未经用户验收，当前 Agent 暂时继续按已授权类别处理。",
   "dedup_key": [
     "type_id",
@@ -219,6 +219,23 @@
           ],
           "action": "两枚均不点（第 6 次目击，功能仍未验证）",
           "note": "本档它先在第 3 行 (957,645)/(1134,646)，两条系统通知被删后整节上移到首行位 ⇒ ⚠️ 行位随删除上移，钮心必须逐帧重测"
+        },
+        {
+          "observed_at": "2026-10-21",
+          "variant": "展开|删除（带「有N个好友,」前缀那一套）",
+          "body": "有5个好友,在您家观看了一场精彩的舞蹈表演~",
+          "timestamp_in_card": "2026-10-21 02:04:36",
+          "row_position": "第 2 行（列表共 2 行，首行是 friend_fed_notice）",
+          "green_center": [
+            957,
+            438
+          ],
+          "orange_center": [
+            1134,
+            448
+          ],
+          "action": "两枚均不点（第 7 次目击，功能仍未验证）",
+          "note": "行距实测 121px（首行钮 y≈317/328 → 次行 438/448）；面板内 2 行 = 入口角标 2 ⇒ 「角标数=列表行数」第 N 次成立；0 点击退出后角标仍为 2（未清是口径，不是失败）"
         }
       ]
     },
@@ -242,6 +259,27 @@
       "observed_at": "2026-10-17",
       "verified": true,
       "notes": "署名「系统通知」但**不是**彩色风车那套（那套钮是 查看/删除）。★ 判据：**署名相同不代表钮相同**，逐枚裁图读钮字是唯一闸。⚠️ 本条非「首次」：10-03 已见过并误点，只是当时未进 registry（查 日常进度.md 10-03 段）。"
+    },
+    {
+      "type_id": "friend_fed_notice",
+      "normalized_body_pattern": "帮您的鱼儿喂食了。",
+      "button_text": "拜访|忽略",
+      "action": "⛔ 两枚都不点。绿「拜访」= 把芝麻导航到别人的鱼缸（代选）；橙「忽略」= 未授权的丢弃动作。⇒ 只读留证 + 注册类型。",
+      "layout_variant": "other-message-row-visit-ignore",
+      "bbox_original": {
+        "green_拜访_center": [
+          956,
+          317
+        ],
+        "orange_忽略_center": [
+          1133,
+          328
+        ]
+      },
+      "screenshot_sanitized_path": "assets/friend-mail/20261021_01_留言板两行_喂食通知与舞蹈通知_ID头像昵称已高斯模糊.png",
+      "observed_at": "2026-10-21",
+      "verified": false,
+      "notes": "10-21 04:07:45 首见（列表第 1 行，卡片内时间戳 2026-10-20 21:27:17 = 昨晚到达）。定性依据 = 游戏文案表 `归档/happygame-20260818/wiki_data/texts/zh_CN.json:32169` 的 `\"nc_fed\": \"帮您的鱼儿喂食了。\"`（同族 `nc_friend_visit`/`nc_visit: 查看鱼缸`/`nc_visit_button: 拜访好友`/`nc_gem`/`nc_rose`/`nc_title: 最新消息`）⇒ 语义是「好友来帮我的鱼喂食了」的告知，**不是好友申请**：正文里没有「希望成为你的好友哦」，所以芝麻对绿「同意」的逐条授权**不适用于本类型**。⚠️ 该类型的钮对与 `dance_visitor_notice` 的 10-17/10-18 变体同为「拜访|忽略」⇒ 钮文字不能定类型，只有正文能。"
     }
   ]
 }
