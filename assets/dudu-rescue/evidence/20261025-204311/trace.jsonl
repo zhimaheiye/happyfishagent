@@ -1,0 +1,2 @@
+{"type": "session_created", "event": "dudu-rescue", "session_id": "20261025-204311", "ts": "2026-10-25T20:43:11.892"}
+{"type": "shot", "executed": true, "state": "S0001", "screenshot": "frames/screenshots--S0001_observe_01.webp", "device": {"serial": "127.0.0.1:16416", "source": "env:HAPPYFISH_ADB_DEV", "native_resolution": [1280, 720], "wm_size": [720, 1280], "input_resolution_source": "dumpsys_input.logicalFrame", "screenshot_resolution": [1280, 720], "standard_resolution": [1280, 720]}, "ts": "2026-10-25T20:43:13.803", "session_id": "20261025-204311"}

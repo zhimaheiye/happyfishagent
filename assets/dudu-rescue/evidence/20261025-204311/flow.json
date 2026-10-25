@@ -1,0 +1,71 @@
+{
+  "schema": "happyfish.action_recorder.v0",
+  "exploration_task": "dudu-rescue",
+  "task": "dudu-rescue",
+  "session_id": "20261025-204311",
+  "created_at": "2026-10-25T20:43:11",
+  "start_state": "S0001",
+  "goal_state": null,
+  "semantics": {
+    "one_round": null,
+    "repeat_param": null
+  },
+  "status_legend": {
+    "observed": "记录器写下的原始事实。recognition 仍为空，不能交给 Maa。",
+    "proposed": "AI 或人工提议。不是已确认规则。",
+    "confirmed": "已经确认的规则，但还没有编译成 Pipeline。",
+    "maa_ready": "已确认，并且允许映射成 Maa 节点。"
+  },
+  "device": {
+    "serial": "127.0.0.1:16416",
+    "source": "env:HAPPYFISH_ADB_DEV",
+    "native_resolution": [
+      1280,
+      720
+    ],
+    "wm_size": [
+      720,
+      1280
+    ],
+    "input_resolution_source": "dumpsys_input.logicalFrame",
+    "screenshot_resolution": [
+      1280,
+      720
+    ],
+    "standard_resolution": [
+      1280,
+      720
+    ]
+  },
+  "states": [
+    {
+      "state": "S0001",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0001_observe_01.webp",
+      "screenshots": [
+        "frames/screenshots--S0001_observe_01.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {},
+      "result_state": null,
+      "result_candidates": [],
+      "timing": {},
+      "safety": {
+        "level": "unknown",
+        "reason": null
+      },
+      "proposals": {},
+      "notes": null
+    }
+  ],
+  "timing": [],
+  "unknown_states": [],
+  "notes": [
+    "status=observed 只表示原始事实。AI 猜测的 ROI / expected 写入 proposals，不能直接改成 confirmed。"
+  ]
+}
