@@ -1,0 +1,21 @@
+{
+  "image": "frames/screenshots--S0054_before.webp",
+  "roi": [
+    200,
+    585,
+    120,
+    60
+  ],
+  "rows": [
+    {
+      "box": [
+        229,
+        599,
+        54,
+        31
+      ],
+      "score": 0.999854,
+      "text": "收下"
+    }
+  ]
+}
