@@ -6,6 +6,8 @@ agent_created: true
 
 # 开心水族箱 · 活动自动化（主技能）
 
+**2026-10-25 用户确定的新活动默认模式**：所有已授权的新活动，从第一步默认采用 **Agent 决策 + Maa 功能模块复用 + Recorder 逐步留证**，无需再次点名。这里 Maa 指截图、OCR、模板匹配、点击等可复用能力；**不要求生成 Pipeline 或交给 MFA 操作**。先读 [`references/activity-module-reuse.md`](references/activity-module-reuse.md)，用 `scripts/activity_console.py` 单步执行和录制。旧 flow→Pipeline 保留为可选导出能力。此默认方式不扩大资源/活动授权。
+
 把「新活动 → 摸清规则 → 稳定自动刷完免费资源」这套流程固化下来。目标是一次学会、下次直接上手，而不是一次性脚本。
 
 **本技能是主技能**：这里管「怎么干」（通用流程 / 环境 / 红线）；具体活动的界面、规则、坐标放在 `activities/<活动>/SKILL.md` 子技能里。
@@ -80,7 +82,7 @@ agent_created: true
   python happyfish-activity-automation/scripts/record_action.py --event <event> init
   python happyfish-activity-automation/scripts/record_action.py --event <event> --safety nav --reason "为什么这下是安全的" tap <x> <y>
   ```
-  它会留下 before / after、设备坐标和 1280×720 坐标、帧差和 `trace.jsonl`。`--safety` 不是 `nav` / `close` / `tab` / `readonly` / `confirmed_safe` 时不会真正点击。已经确认的状态才编译成临时 Maa Pipeline。现场和下一只活动怎么接，先读仓库 `docs/handoff-current.md`，再读 `docs/activity-ai-maa-handoff.md`。不要把临时活动写进 MaaHappyFish 的正式 feature、DailyRoutine 或 Release。
+  它会留下 before / after、设备坐标和 1280×720 坐标、帧差和 `trace.jsonl`。`--safety` 不是 `nav` / `close` / `tab` / `readonly` / `confirmed_safe` 时不会真正点击。默认用 `activity_console.py` 直接复用 Maa 模块并录制；只有明确需要导出时，才将已确认状态编译为临时 Pipeline。新活动默认入口见 `references/activity-module-reuse.md`，历史 Pipeline 接力见 `docs/activity-ai-maa-handoff.md`。不要把临时活动写进 MaaHappyFish 的正式 feature、DailyRoutine 或 Release。
 
 ## ★ 探索未知界面时的默认纪律：探索 ≠ 零成本（2026-09-21 血泪，芝麻当场指出）
 
@@ -215,6 +217,7 @@ agent_created: true
 
 | 活动 | 触发词 | 子技能 |
 |---|---|---|
+| **嘎嘎队立大功** | 嘎嘎队 / 飞行员 / 救援 / 翻找背包 / 飞机检修 | `activities/dudu-rescue/SKILL.md`（Agent + Maa OCR + Recorder；免费背包模块已实测，存档冲突必须交回用户） |
 | 浪漫满屋 | 浪漫满屋 / 约会 / 日历 / 完成日程 | `activities/romance-house/SKILL.md` |
 | 每日魔幻拼图（仅按需标号） | 拼图 / 魔幻拼图 / 每日拼图 / 拼图编号 / 位置串 | `activities/daily-magic-puzzle/SKILL.md`（只读图片出标号，不代跑） |
 | **巧手裁缝铺** | 巧手裁缝铺 / 裁缝铺 / 精选布料 / 细密针脚 / 接单 / 量体做新衣 | `activities/tailor-shop/SKILL.md` |

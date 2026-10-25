@@ -1,0 +1,39 @@
+{
+  "from": "S0062",
+  "to": "S0063",
+  "before": "frames/screenshots--S0062_before.webp",
+  "after": "frames/screenshots--S0062_after.webp",
+  "diff_image": "frames/diffs--S0062.webp",
+  "global_mean_abs": 25.8498,
+  "changed_fraction": 0.4283,
+  "bbox_720p": [
+    8,
+    8,
+    1248,
+    688
+  ],
+  "first_change_ms": 1196,
+  "stable_ms": null,
+  "timed_out": true,
+  "idle_noise": 0.4028,
+  "change_threshold": 1.5,
+  "stable_threshold": 1.2,
+  "max_wait_ms": 2000,
+  "samples": [
+    {
+      "t_ms": 595,
+      "vs_before": 0.308,
+      "vs_prev": 0.308
+    },
+    {
+      "t_ms": 1196,
+      "vs_before": 25.721,
+      "vs_prev": 25.745
+    },
+    {
+      "t_ms": 1787,
+      "vs_before": 25.85,
+      "vs_prev": 0.176
+    }
+  ]
+}

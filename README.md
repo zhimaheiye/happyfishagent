@@ -122,6 +122,8 @@ happyfishagent/
 
 ## AI Action Recorder（V0）
 
+**2026-10-25 默认方式更新**：以后所有已授权的新活动，默认从第一步采用“Agent 决策 + Maa 功能模块复用 + Recorder 留证”，无需用户再次点名。优先直接复用截图、OCR、模板匹配、点击等模块；不要求编成 Pipeline 或放入 MFA 执行。通用入口为 `happyfish-activity-automation/scripts/activity_console.py`，用法与边界见 [新活动模块复用规则](happyfish-activity-automation/references/activity-module-reuse.md)。下文 Pipeline 是可选导出路径。
+
 首轮探索不要直接 `adb shell input tap`。用 `happyfish-activity-automation/scripts/record_action.py` 点，同一次动作会留下以后写 Maa Pipeline 要用的证据。
 
 ```bash
