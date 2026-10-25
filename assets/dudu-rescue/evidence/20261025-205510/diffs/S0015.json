@@ -1,0 +1,29 @@
+{
+  "from": "S0015",
+  "to": "S0016",
+  "before": "frames/screenshots--S0015_before.webp",
+  "after": "frames/screenshots--S0015_after.webp",
+  "diff_image": "frames/diffs--S0015.webp",
+  "global_mean_abs": 1.9449,
+  "changed_fraction": 0.0278,
+  "bbox_720p": [
+    232,
+    16,
+    736,
+    608
+  ],
+  "first_change_ms": 598,
+  "stable_ms": null,
+  "timed_out": true,
+  "idle_noise": 0.1784,
+  "change_threshold": 1.5,
+  "stable_threshold": 1.2,
+  "max_wait_ms": 800,
+  "samples": [
+    {
+      "t_ms": 598,
+      "vs_before": 1.945,
+      "vs_prev": 1.945
+    }
+  ]
+}
