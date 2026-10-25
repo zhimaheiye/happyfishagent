@@ -22,6 +22,8 @@ def emit(value):
 
 
 def ocr_matches(rows, expected):
+    if not isinstance(expected, str) or not expected.strip():
+        raise ValueError("OCR target text must not be empty")
     return [row for row in rows if isinstance(row, dict)
             and expected in str(row.get("text", ""))]
 

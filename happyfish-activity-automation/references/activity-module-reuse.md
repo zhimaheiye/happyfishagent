@@ -23,6 +23,8 @@ python happyfish-activity-automation/scripts/activity_console.py --event <slug>
 
 本机验证环境：Python3.13、maafw5.10.2、numpy2.2.6、opencv-python4.12.0.88、Pillow12.2.0。OCR模型默认只读引用 `D:/happyfishgame/assets/resource/model/ocr`，其它机器必须传实际目录；不把模型或游戏开发仓库当可修改对象。
 
+当前控制台只接受原生1280×720横屏；其它分辨率在截图阶段拒绝，防止把未经缩放的OCR框当成720p坐标点击。OCR目标文本不能为空。
+
 ```json
 {"op":"read"}
 {"op":"tap_text","expect":"出发救援","safety":"confirmed_safe","reason":"已核实当前免费体力且用户已授权","read_after":true}

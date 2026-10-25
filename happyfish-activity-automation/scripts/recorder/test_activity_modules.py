@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from activity_console import execute
 from recorder.known_modules import backpack_slots, free_backpack_counts, guard_modal, prepare_backpacks
 from archive_activity_session import archive
+from recorder.maa_vision import AdbMaaDevice
 
 
 def rows(text):
@@ -20,6 +21,24 @@ def rows(text):
 
 
 class ModuleSafetyTests(unittest.TestCase):
+    def test_unscaled_ocr_coordinates_reject_non_native_resolution(self):
+        adb = Mock(serial="fake")
+        adb.screencap.return_value = Image.new("RGB", (1920, 1080))
+        device = AdbMaaDevice(adb, Mock())
+        with self.assertRaises(RuntimeError):
+            device.screencap()
+        adb.tap.assert_not_called()
+
+    def test_empty_ocr_target_never_clicks_single_result(self):
+        with tempfile.TemporaryDirectory() as directory:
+            device = Mock(source="fake")
+            device.ocr.return_value = rows("Only result")
+            recorder = Mock()
+            result = execute({"op":"tap_text", "expect":""}, device, recorder,
+                             SimpleNamespace(path=Path(directory)))
+            self.assertIn("error", result)
+            recorder.act.assert_not_called()
+
     def test_real_backpack_templates_reject_map_and_recognize_unopened_bags(self):
         assets = Path(__file__).resolve().parents[3] / "assets/dudu-rescue"
         evidence = assets / "evidence/20261025-172501"

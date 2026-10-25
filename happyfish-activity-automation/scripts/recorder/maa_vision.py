@@ -74,7 +74,10 @@ class AdbMaaDevice:
         self.source = "adb+maa-vision"
 
     def screencap(self):
-        return self.adb.screencap()
+        picture = self.adb.screencap()
+        if picture.size != (1280, 720):
+            raise RuntimeError("Modular console requires native 1280x720; OCR coordinates are not rescaled")
+        return picture
 
     def coordinate_space(self, size):
         return self.adb.coordinate_space(size)
