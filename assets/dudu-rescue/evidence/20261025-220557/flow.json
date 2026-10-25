@@ -1,0 +1,1637 @@
+{
+  "schema": "happyfish.action_recorder.v0",
+  "exploration_task": "dudu-rescue",
+  "task": "dudu-rescue",
+  "session_id": "20261025-220557",
+  "created_at": "2026-10-25T22:05:57",
+  "start_state": "S0001",
+  "goal_state": null,
+  "semantics": {
+    "one_round": null,
+    "repeat_param": null
+  },
+  "status_legend": {
+    "observed": "记录器写下的原始事实。recognition 仍为空，不能交给 Maa。",
+    "proposed": "AI 或人工提议。不是已确认规则。",
+    "confirmed": "已经确认的规则，但还没有编译成 Pipeline。",
+    "maa_ready": "已确认，并且允许映射成 Maa 节点。"
+  },
+  "device": {
+    "serial": "127.0.0.1:16416",
+    "source": "adb+maa-vision",
+    "native_resolution": [
+      1280,
+      720
+    ],
+    "wm_size": [
+      720,
+      1280
+    ],
+    "input_resolution_source": "dumpsys_input.logicalFrame",
+    "screenshot_resolution": [
+      1280,
+      720
+    ],
+    "standard_resolution": [
+      1280,
+      720
+    ]
+  },
+  "states": [
+    {
+      "state": "S0001",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0001_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0001_observe_01.webp",
+        "frames/screenshots--S0001_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          52,
+          195
+        ],
+        "device_tap_coordinate": [
+          52,
+          195
+        ],
+        "coord_space": "720p",
+        "reason": "实时图已是主鱼缸，进入精彩活动大厅定位本活动，不触碰其它任务",
+        "safety": {
+          "level": "nav",
+          "reason": "实时图已是主鱼缸，进入精彩活动大厅定位本活动，不触碰其它任务"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0002",
+      "result_candidates": [
+        "S0002"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 1336,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "nav",
+        "reason": "实时图已是主鱼缸，进入精彩活动大厅定位本活动，不触碰其它任务"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0002",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0002_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0001_after.webp",
+        "frames/screenshots--S0002_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          145,
+          370
+        ],
+        "device_tap_coordinate": [
+          145,
+          370
+        ],
+        "coord_space": "720p",
+        "reason": "大厅首卡标题确认嘎嘎队立大功，进入本次授权活动",
+        "safety": {
+          "level": "nav",
+          "reason": "大厅首卡标题确认嘎嘎队立大功，进入本次授权活动"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0003",
+      "result_candidates": [
+        "S0003"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 594,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "nav",
+        "reason": "大厅首卡标题确认嘎嘎队立大功，进入本次授权活动"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0003",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0003_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0002_after.webp",
+        "frames/screenshots--S0003_observe_02.webp",
+        "frames/screenshots--S0003_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          632,
+          628
+        ],
+        "device_tap_coordinate": [
+          632,
+          628
+        ],
+        "coord_space": "720p",
+        "reason": "MFA已由用户结束，恢复本轮未知区域核对安全路线",
+        "safety": {
+          "level": "nav",
+          "reason": "MFA已由用户结束，恢复本轮未知区域核对安全路线"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0004",
+      "result_candidates": [
+        "S0004"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 635,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "nav",
+        "reason": "MFA已由用户结束，恢复本轮未知区域核对安全路线"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0004",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0004_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0003_after.webp",
+        "frames/screenshots--S0004_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          750,
+          430
+        ],
+        "device_tap_coordinate": [
+          750,
+          430
+        ],
+        "coord_space": "720p",
+        "reason": "当前6/9救援点仍有金锤任务入口，中心750430；与驱散云价签相隔超过100像素，先进入核对免费玩法",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "当前6/9救援点仍有金锤任务入口，中心750430；与驱散云价签相隔超过100像素，先进入核对免费玩法"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0005",
+      "result_candidates": [
+        "S0005"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 1803,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "当前6/9救援点仍有金锤任务入口，中心750430；与驱散云价签相隔超过100像素，先进入核对免费玩法"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0005",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0005_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0004_after.webp",
+        "frames/screenshots--S0005_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Swipe",
+        "input": "swipe",
+        "device_swipe": [
+          640,
+          580,
+          440,
+          405,
+          700
+        ],
+        "standard_swipe_720p": [
+          640,
+          580,
+          440,
+          405,
+          700
+        ],
+        "coord_space": "720p",
+        "reason": "剩4次免费锤子，选择最近底排第2块高亮砖，记录命中与收益",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "剩4次免费锤子，选择最近底排第2块高亮砖，记录命中与收益"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0006",
+      "result_candidates": [
+        "S0006"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 570,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "剩4次免费锤子，选择最近底排第2块高亮砖，记录命中与收益"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0006",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0006_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0005_after.webp",
+        "frames/screenshots--S0006_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Swipe",
+        "input": "swipe",
+        "device_swipe": [
+          640,
+          580,
+          1015,
+          405,
+          700
+        ],
+        "standard_swipe_720p": [
+          640,
+          580,
+          1015,
+          405,
+          700
+        ],
+        "coord_space": "720p",
+        "reason": "免费锤剩3，尝试底排右侧高亮砖；上一锤8到11好感且多个砖消失，轨迹按实际图验收",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "免费锤剩3，尝试底排右侧高亮砖；上一锤8到11好感且多个砖消失，轨迹按实际图验收"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0007",
+      "result_candidates": [
+        "S0007"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 581,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "免费锤剩3，尝试底排右侧高亮砖；上一锤8到11好感且多个砖消失，轨迹按实际图验收"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0007",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0006_after.webp",
+      "screenshots": [
+        "frames/screenshots--S0006_after.webp",
+        "frames/screenshots--S0006_after.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Swipe",
+        "input": "swipe",
+        "device_swipe": [
+          640,
+          580,
+          555,
+          185,
+          700
+        ],
+        "standard_swipe_720p": [
+          640,
+          580,
+          555,
+          185,
+          700
+        ],
+        "coord_space": "720p",
+        "reason": "剩2次免费锤子，复验首排第3块高亮目标方向，不使用一键按钮",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "剩2次免费锤子，复验首排第3块高亮目标方向，不使用一键按钮"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0008",
+      "result_candidates": [
+        "S0008"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 597,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "剩2次免费锤子，复验首排第3块高亮目标方向，不使用一键按钮"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0008",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0008_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0007_after.webp",
+        "frames/screenshots--S0008_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Swipe",
+        "input": "swipe",
+        "device_swipe": [
+          640,
+          580,
+          785,
+          185,
+          700
+        ],
+        "standard_swipe_720p": [
+          640,
+          580,
+          785,
+          185,
+          700
+        ],
+        "coord_space": "720p",
+        "reason": "最后1次免费锤子，朝首排第5块高亮砖，之后遇额外价签即退出",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "最后1次免费锤子，朝首排第5块高亮砖，之后遇额外价签即退出"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0009",
+      "result_candidates": [
+        "S0009"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 599,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "最后1次免费锤子，朝首排第5块高亮砖，之后遇额外价签即退出"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0009",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0009_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0008_after.webp",
+        "frames/screenshots--S0009_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          630,
+          605
+        ],
+        "device_tap_coordinate": [
+          630,
+          605
+        ],
+        "coord_space": "720p",
+        "reason": "免费锤击已获得随机小鱼x1，弹窗为固定掉落且已入仓库，收下结果",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "免费锤击已获得随机小鱼x1，弹窗为固定掉落且已入仓库，收下结果"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0010",
+      "result_candidates": [
+        "S0010"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 580,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "免费锤击已获得随机小鱼x1，弹窗为固定掉落且已入仓库，收下结果"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0010",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0009_after.webp",
+      "screenshots": [
+        "frames/screenshots--S0009_after.webp",
+        "frames/screenshots--S0009_after.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1240,
+          40
+        ],
+        "device_tap_coordinate": [
+          1240,
+          40
+        ],
+        "coord_space": "720p",
+        "reason": "砸砖4次免费已用完，已得小鱼x1银色勋章2好感8，额外锤有价签，返回地图",
+        "safety": {
+          "level": "close",
+          "reason": "砸砖4次免费已用完，已得小鱼x1银色勋章2好感8，额外锤有价签，返回地图"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0011",
+      "result_candidates": [
+        "S0011"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 635,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "close",
+        "reason": "砸砖4次免费已用完，已得小鱼x1银色勋章2好感8，额外锤有价签，返回地图"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0011",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0011_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0010_after.webp",
+        "frames/screenshots--S0011_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          588,
+          467
+        ],
+        "device_tap_coordinate": [
+          588,
+          467
+        ],
+        "coord_space": "720p",
+        "reason": "当前点9/9完成，选择下方中央哭脸中心588467，离最近付费云边缘约60像素以上，短途飞行",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "当前点9/9完成，选择下方中央哭脸中心588467，离最近付费云边缘约60像素以上，短途飞行"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0012",
+      "result_candidates": [
+        "S0012"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "当前点9/9完成，选择下方中央哭脸中心588467，离最近付费云边缘约60像素以上，短途飞行"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0012",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0012_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0011_after.webp",
+        "frames/screenshots--S0012_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          590,
+          440
+        ],
+        "device_tap_coordinate": [
+          590,
+          440
+        ],
+        "coord_space": "720p",
+        "reason": "第二救援点机械爪x1请求完全露出且库存6，先处理远离云层的右侧请求",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "第二救援点机械爪x1请求完全露出且库存6，先处理远离云层的右侧请求"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0013",
+      "result_candidates": [
+        "S0013"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "第二救援点机械爪x1请求完全露出且库存6，先处理远离云层的右侧请求"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0013",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0013_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0012_after.webp",
+        "frames/screenshots--S0013_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          565,
+          445
+        ],
+        "device_tap_coordinate": [
+          565,
+          445
+        ],
+        "coord_space": "720p",
+        "reason": "第二点5/9剩手电x1，库存2；请求重排至542440，点其右侧露出部分565445避开左侧云",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "第二点5/9剩手电x1，库存2；请求重排至542440，点其右侧露出部分565445避开左侧云"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0014",
+      "result_candidates": [
+        "S0014"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "第二点5/9剩手电x1，库存2；请求重排至542440，点其右侧露出部分565445避开左侧云"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0014",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0014_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0013_after.webp",
+        "frames/screenshots--S0014_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          352,
+          162
+        ],
+        "device_tap_coordinate": [
+          352,
+          162
+        ],
+        "coord_space": "720p",
+        "reason": "两个南部点已圆满，优先左上村庄哭脸；其整圈在云层矩形之外，不碰中央被云遮挡的目标",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "两个南部点已圆满，优先左上村庄哭脸；其整圈在云层矩形之外，不碰中央被云遮挡的目标"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0015",
+      "result_candidates": [
+        "S0015"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "两个南部点已圆满，优先左上村庄哭脸；其整圈在云层矩形之外，不碰中央被云遮挡的目标"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0015",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0015_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0014_after.webp",
+        "frames/screenshots--S0015_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          280,
+          160
+        ],
+        "device_tap_coordinate": [
+          280,
+          160
+        ],
+        "coord_space": "720p",
+        "reason": "村庄手电x1请求位于左上无云区域，库存1，使用最后手电争取免费收益",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "村庄手电x1请求位于左上无云区域，库存1，使用最后手电争取免费收益"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0016",
+      "result_candidates": [
+        "S0016"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "村庄手电x1请求位于左上无云区域，库存1，使用最后手电争取免费收益"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0016",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0016_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0015_after.webp",
+        "frames/screenshots--S0016_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          360,
+          160
+        ],
+        "device_tap_coordinate": [
+          360,
+          160
+        ],
+        "coord_space": "720p",
+        "reason": "村庄绷带x1请求，库存3，落点在云层左侧明确露出的请求圆内",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "村庄绷带x1请求，库存3，落点在云层左侧明确露出的请求圆内"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0017",
+      "result_candidates": [
+        "S0017"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "村庄绷带x1请求，库存3，落点在云层左侧明确露出的请求圆内"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0017",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0017_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0016_after.webp",
+        "frames/screenshots--S0017_observe_02.webp",
+        "frames/screenshots--S0017_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          320,
+          160
+        ],
+        "device_tap_coordinate": [
+          320,
+          160
+        ],
+        "coord_space": "720p",
+        "reason": "村庄6/9剩单独活动勋章图标任务气泡，无通用资产或价签，核对活动内任务后继",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "村庄6/9剩单独活动勋章图标任务气泡，无通用资产或价签，核对活动内任务后继"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0018",
+      "result_candidates": [
+        "S0018"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "村庄6/9剩单独活动勋章图标任务气泡，无通用资产或价签，核对活动内任务后继"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0018",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0018_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0017_after.webp",
+        "frames/screenshots--S0018_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          262,
+          524
+        ],
+        "device_tap_coordinate": [
+          262,
+          524
+        ],
+        "coord_space": "720p",
+        "reason": "三档救援物资赠送页左档明确免费银色勋章1，仅领免费档",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "三档救援物资赠送页左档明确免费银色勋章1，仅领免费档"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0019",
+      "result_candidates": [
+        "S0019"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 521,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "三档救援物资赠送页左档明确免费银色勋章1，仅领免费档"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0019",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0019_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0018_after.webp",
+        "frames/screenshots--S0019_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          630,
+          606
+        ],
+        "device_tap_coordinate": [
+          630,
+          606
+        ],
+        "coord_space": "720p",
+        "reason": "收下免费固定银色勋章1，不购买其它两档",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "收下免费固定银色勋章1，不购买其它两档"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0020",
+      "result_candidates": [
+        "S0020"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 585,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "收下免费固定银色勋章1，不购买其它两档"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0020",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0020_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0019_after.webp",
+        "frames/screenshots--S0020_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1240,
+          40
+        ],
+        "device_tap_coordinate": [
+          1240,
+          40
+        ],
+        "coord_space": "720p",
+        "reason": "三档任务左免费已Get，关闭该层回地图，不点另两档",
+        "safety": {
+          "level": "close",
+          "reason": "三档任务左免费已Get，关闭该层回地图，不点另两档"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0021",
+      "result_candidates": [
+        "S0021"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 1173,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "close",
+        "reason": "三档任务左免费已Get，关闭该层回地图，不点另两档"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0021",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0021_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0020_after.webp",
+        "frames/screenshots--S0021_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          747,
+          155
+        ],
+        "device_tap_coordinate": [
+          747,
+          155
+        ],
+        "coord_space": "720p",
+        "reason": "村庄已圆满，雪山哭脸右侧747155露出在云图外；避开曾误触的710160区域，尝试安全边缘飞行",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "村庄已圆满，雪山哭脸右侧747155露出在云图外；避开曾误触的710160区域，尝试安全边缘飞行"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0022",
+      "result_candidates": [
+        "S0022"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 1832,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "村庄已圆满，雪山哭脸右侧747155露出在云图外；避开曾误触的710160区域，尝试安全边缘飞行"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0022",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0022_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0021_after.webp",
+        "frames/screenshots--S0022_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          745,
+          135
+        ],
+        "device_tap_coordinate": [
+          745,
+          135
+        ],
+        "coord_space": "720p",
+        "reason": "雪山机械爪x1，库存5；点击请求右上露出部分745135，避开下方现金云",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "雪山机械爪x1，库存5；点击请求右上露出部分745135，避开下方现金云"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0023",
+      "result_candidates": [
+        "S0023"
+      ],
+      "timing": {
+        "action_to_first_change_ms": null,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "雪山机械爪x1，库存5；点击请求右上露出部分745135，避开下方现金云"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0023",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0023_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0022_after.webp",
+        "frames/screenshots--S0023_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          685,
+          125
+        ],
+        "device_tap_coordinate": [
+          685,
+          125
+        ],
+        "coord_space": "720p",
+        "reason": "雪山5/9剩绷带1，库存2；请求重排到675145，点其露出云上方的右上位置685125",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "雪山5/9剩绷带1，库存2；请求重排到675145，点其露出云上方的右上位置685125"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0024",
+      "result_candidates": [
+        "S0024"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 561,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "雪山5/9剩绷带1，库存2；请求重排到675145，点其露出云上方的右上位置685125"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0024",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0024_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0023_after.webp",
+        "frames/screenshots--S0024_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          368,
+          583
+        ],
+        "device_tap_coordinate": [
+          368,
+          583
+        ],
+        "coord_space": "720p",
+        "reason": "雪山请求露出部分仍落在云层实际点击区域，立即取消驱散，停止试探该覆盖区",
+        "safety": {
+          "level": "close",
+          "reason": "雪山请求露出部分仍落在云层实际点击区域，立即取消驱散，停止试探该覆盖区"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0025",
+      "result_candidates": [
+        "S0025"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 603,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "close",
+        "reason": "雪山请求露出部分仍落在云层实际点击区域，立即取消驱散，停止试探该覆盖区"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0025",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0025_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0024_after.webp",
+        "frames/screenshots--S0025_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          1240,
+          40
+        ],
+        "device_tap_coordinate": [
+          1240,
+          40
+        ],
+        "coord_space": "720p",
+        "reason": "本轮未知区32/55，剩余请求和未完成目标受付费云覆盖，用户已授权无安全推进路径时结束本轮，打开结束确认",
+        "safety": {
+          "level": "close",
+          "reason": "本轮未知区32/55，剩余请求和未完成目标受付费云覆盖，用户已授权无安全推进路径时结束本轮，打开结束确认"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0026",
+      "result_candidates": [
+        "S0026"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 569,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "close",
+        "reason": "本轮未知区32/55，剩余请求和未完成目标受付费云覆盖，用户已授权无安全推进路径时结束本轮，打开结束确认"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0026",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0026_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0025_after.webp",
+        "frames/screenshots--S0026_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          368,
+          583
+        ],
+        "device_tap_coordinate": [
+          368,
+          583
+        ],
+        "coord_space": "720p",
+        "reason": "用户明确要求无法安全推进时彻底结束本轮，选择左确认而非暂时离开，保留已得活动货币进入下一轮",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "用户明确要求无法安全推进时彻底结束本轮，选择左确认而非暂时离开，保留已得活动货币进入下一轮"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0027",
+      "result_candidates": [
+        "S0027"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 607,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "用户明确要求无法安全推进时彻底结束本轮，选择左确认而非暂时离开，保留已得活动货币进入下一轮"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0027",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0027_before.webp",
+      "screenshots": [
+        "frames/screenshots--S0026_after.webp",
+        "frames/screenshots--S0027_before.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {
+        "type": "Click",
+        "input": "tap",
+        "target_center_720p": [
+          630,
+          627
+        ],
+        "device_tap_coordinate": [
+          630,
+          627
+        ],
+        "coord_space": "720p",
+        "reason": "旧轮已彻底结束，首页恢复出发救援且剩3体力，开启下一轮免费救援，预计剩2",
+        "safety": {
+          "level": "confirmed_safe",
+          "reason": "旧轮已彻底结束，首页恢复出发救援且剩3体力，开启下一轮免费救援，预计剩2"
+        },
+        "ai_note": null,
+        "confirmed": null
+      },
+      "result_state": "S0028",
+      "result_candidates": [
+        "S0028"
+      ],
+      "timing": {
+        "action_to_first_change_ms": 590,
+        "action_to_stable_ms": null,
+        "timed_out": true
+      },
+      "safety": {
+        "level": "confirmed_safe",
+        "reason": "旧轮已彻底结束，首页恢复出发救援且剩3体力，开启下一轮免费救援，预计剩2"
+      },
+      "proposals": {},
+      "notes": null
+    },
+    {
+      "state": "S0028",
+      "name": null,
+      "status": "observed",
+      "screenshot": "frames/screenshots--S0027_after.webp",
+      "screenshots": [
+        "frames/screenshots--S0027_after.webp"
+      ],
+      "resolution": [
+        1280,
+        720
+      ],
+      "recognition": null,
+      "action": {},
+      "result_state": null,
+      "result_candidates": [],
+      "timing": {},
+      "safety": {
+        "level": "unknown",
+        "reason": null
+      },
+      "proposals": {},
+      "notes": null
+    }
+  ],
+  "timing": [
+    {
+      "from": "S0001",
+      "to": "S0002",
+      "action_to_first_change_ms": 1336,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0002",
+      "to": "S0003",
+      "action_to_first_change_ms": 594,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0003",
+      "to": "S0004",
+      "action_to_first_change_ms": 635,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0004",
+      "to": "S0005",
+      "action_to_first_change_ms": 1803,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0005",
+      "to": "S0006",
+      "action_to_first_change_ms": 570,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0006",
+      "to": "S0007",
+      "action_to_first_change_ms": 581,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0007",
+      "to": "S0008",
+      "action_to_first_change_ms": 597,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0008",
+      "to": "S0009",
+      "action_to_first_change_ms": 599,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0009",
+      "to": "S0010",
+      "action_to_first_change_ms": 580,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0010",
+      "to": "S0011",
+      "action_to_first_change_ms": 635,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0011",
+      "to": "S0012",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0012",
+      "to": "S0013",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0013",
+      "to": "S0014",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0014",
+      "to": "S0015",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0015",
+      "to": "S0016",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0016",
+      "to": "S0017",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0017",
+      "to": "S0018",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0018",
+      "to": "S0019",
+      "action_to_first_change_ms": 521,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0019",
+      "to": "S0020",
+      "action_to_first_change_ms": 585,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0020",
+      "to": "S0021",
+      "action_to_first_change_ms": 1173,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0021",
+      "to": "S0022",
+      "action_to_first_change_ms": 1832,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0022",
+      "to": "S0023",
+      "action_to_first_change_ms": null,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0023",
+      "to": "S0024",
+      "action_to_first_change_ms": 561,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0024",
+      "to": "S0025",
+      "action_to_first_change_ms": 603,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0025",
+      "to": "S0026",
+      "action_to_first_change_ms": 569,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0026",
+      "to": "S0027",
+      "action_to_first_change_ms": 607,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    },
+    {
+      "from": "S0027",
+      "to": "S0028",
+      "action_to_first_change_ms": 590,
+      "action_to_stable_detect_ms": null,
+      "timed_out": true
+    }
+  ],
+  "unknown_states": [],
+  "notes": [
+    "status=observed 只表示原始事实。AI 猜测的 ROI / expected 写入 proposals，不能直接改成 confirmed。"
+  ]
+}
