@@ -1,0 +1,38 @@
+[
+ {
+  "source": "f053_w_500_425.png",
+  "published": "frames/repair_qte_modal_0of3.webp",
+  "pixel_sha256": "97c57ffa7dbf7b34d85ff0787fa722bede730eec0eb4d9e35300a20802698722",
+  "source_sha256": "063a3f1b93440b9291850bb04c628c86db0c8a3d735c95606bc833cd807e663c",
+  "pixel_identical": true,
+  "size": [
+   1280,
+   720
+  ],
+  "captured_local": "2026-10-27 05:12:48"
+ },
+ {
+  "source": "f029_jump4.png",
+  "published": "frames/map_paid_confirm_cloud_cancel.webp",
+  "pixel_sha256": "81929518d1f5f596d10d72395b6a9f290ca88e78d4e95a126a8b7cc3874c968c",
+  "source_sha256": "0f61b6b9e45cf551e6fd58a82c208b6082663bdbaec8944282bb08241a832c50",
+  "pixel_identical": true,
+  "size": [
+   1280,
+   720
+  ],
+  "captured_local": "2026-10-27 05:02:48"
+ },
+ {
+  "source": "qL47_j5.png",
+  "published": "frames/map_heart_requests_outside_free_pool.webp",
+  "pixel_sha256": "fccc4348c2094058e643ecc29864fab058cb6083d355a39ecbd8a07af773562f",
+  "source_sha256": "025d1c70de402817e1d6ba016327ebcf728e4a5f42e92df17b0cdffb41f13a92",
+  "pixel_identical": true,
+  "size": [
+   1280,
+   720
+  ],
+  "captured_local": "2026-10-27 05:38:57"
+ }
+]
