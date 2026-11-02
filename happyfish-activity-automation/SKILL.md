@@ -14,6 +14,8 @@ agent_created: true
 
 **本技能是主技能**：这里管「怎么干」（通用流程 / 环境 / 红线）；具体活动的界面、规则、坐标放在 `activities/<活动>/SKILL.md` 子技能里。
 
+**2026-11-02 执行验收**：先读 [`../docs/activity-execution-contract.md`](../docs/activity-execution-contract.md)。用户规定高于助手自写子技能。日常执行不得修改有效SKILL/用户规则；新发现写 `assets/<slug>/observations/<run-id>.md`，离线核验后再更新技能。下文历史“结束时更新子技能”按此新流程执行。每项活动的入口体力/票、关内材料和当前局状态分别核实；关内材料0不等于入口额度耗尽，暂离不等于结束整轮。收工运行 `tools/activity-guard/guard.mjs check <本轮manifest路径>`，依据receipt报告completed/incomplete/paused，不自行宣布全绿。
+
 ## ★★★ 动手前必读：授权边界 + 活动留档契约（2026-10-11）
 
 **先读 [`references/agent-work-modes-maa-boundary.md`](references/agent-work-modes-maa-boundary.md) 选定日常/探索模式、核对 MAA 归属和兜底授权，再读 [`references/activity-authorization-resource-flow.md`](references/activity-authorization-resource-flow.md) 资源边界、[`references/activity-evidence-contract.md`](references/activity-evidence-contract.md) 取证要求及目标子技能。读不到必要规则就停止该项操作。**

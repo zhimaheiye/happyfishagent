@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-11-02",
+  "authority": "用户已确认要求；执行Agent不得改写。只在用户授权的离线规则维护中更新。",
+  "rules": [
+    {
+      "id": "user-over-agent-skill",
+      "rule": "用户已确认要求优先于Agent自写技能、运行总结和推断；冲突段失效，不能用来减免工作。",
+      "quote": "他还是做出了错误的决策，就是用自己写的错误技能去覆盖我们定下来的正确规定。",
+      "source": "本Codex会话，用户2026-11-02要求调查并随后授权落实修改"
+    },
+    {
+      "id": "finish-round-then-next",
+      "rule": "本轮无安全有价值路径时，核实结束整轮，再使用剩余已授权免费入口额度；暂离不是正常死局收工。",
+      "quote": "如果已经无法推进，那么退出彻底结束这次并继续下次就好",
+      "source": "本Codex会话用户对嘎嘎队接手的纠正；11-02导出末尾用户再次对喵喵屋明确要求",
+      "exceptions": ["当前用户暂停/交接", "真实设备、互斥或存档阻塞", "无安全路径且有具体现场证据"]
+    },
+    {
+      "id": "front-card-free-entry",
+      "rule": "日常任务中，前排新限时活动核实已发放免费体力即纳入；有效期内继续处理已纳入活动，无需逐项再授权。",
+      "quote": "一个活动如果是排在最前面的几张卡，点进去之后还领到体力了，即便我没有明确的说要加入执行清单，这也是他应该做的",
+      "source": "本Codex会话用户持续授权；见AGENTS.md及activity-authorization-resource-flow.md"
+    },
+    {
+      "id": "resource-and-ownership-boundaries",
+      "rule": "不擅花开心宝及别名、人民币、广告或账号长期资产；不代选最终兑换，不接管MAA专属职责。免费入口票和关内免费材料不是最终兑换资产。",
+      "source": "用户已确认边界：happyfish-activity-automation/references/activity-authorization-resource-flow.md与agent-work-modes-maa-boundary.md；不从现场图标相似推导授权"
+    }
+  ]
+}

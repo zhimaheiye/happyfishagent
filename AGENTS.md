@@ -1,5 +1,7 @@
 # 开心水族箱活动执行入口
 
+**执行与归档分离（2026-11-02）**：日常活动遵守 [执行契约](docs/activity-execution-contract.md) 和 `tools/activity-guard/user-policy.json`。子技能不能修改用户目标；冲突段失效。执行期只追加带截图/动作证据的observations，不改有效SKILL或保护规则。收工按本轮manifest运行 `tools/activity-guard/guard.mjs check`；入口资源/关内资源/当前局分开核实，只有receipt的completed才算玩法完成。blocked/paused必须报未完成。离线维护与用户暂停不触发游戏推进。
+
 处理新活动、模拟器玩法或活动经验时，先读 `happyfish-activity-automation/SKILL.md`，再读对应活动子技能及 `references/activity-module-reuse.md`。资源边界和证据契约由主技能路由，不从旧截图推断操作授权。
 
 用户已确定：**以后所有已授权的新活动，从第一步默认使用 Agent 决策 + Maa 功能模块复用 + Recorder 逐步留证**，不等用户再次点名“混合模式”。Maa 指可复用的识别、截图和输入能力；不要求把活动编成 Pipeline 或放入 MFA。
@@ -10,4 +12,4 @@
 
 在用户授权的免费投入范围内持续推进。先利用安全可达的免费收益；本轮已无安全且有价值的路径时，按本活动已确认的结束方式结束整轮，再用剩余额度开下一轮。“暂时离开”只适合用户要求暂停/交接或外部阻塞等情况，不能作为无法推进的常规收尾，也不能无依据地承诺下次继续会解决同一阻塞。机制演示通过不等于玩法目标完成。
 
-结束前将动作/分支表和真实图像归档到受跟踪的 `assets/<slug>/` 与活动子技能；忽略的 sessions 不等于交付。保护仓库已有未提交改动，提交本次范围并同步本机已有技能副本。
+结束前将动作/分支表和真实图像归档到受跟踪的 `assets/<slug>/`；当轮新结论写 `assets/<slug>/observations/<run-id>.md`，核验后在离线维护中更新活动子技能。忽略的 sessions 不等于交付。保护仓库已有未提交改动，提交本次范围并同步本机已有技能副本。
